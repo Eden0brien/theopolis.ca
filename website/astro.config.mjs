@@ -10,6 +10,12 @@ const BUILD_TIME = new Date().toISOString();
 
 export default defineConfig({
   site: 'https://www.theopolis.ca',
+  // Tailwind v4 is delivered through its Vite plugin; without this registered,
+  // the `@import "tailwindcss"` in global.css never compiles and every utility
+  // class is inert (the page renders unstyled).
+  vite: {
+    plugins: [tailwindcss()],
+  },
   integrations: [
     sitemap({
       serialize(item) {
