@@ -7,7 +7,10 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
+    "setup:deploy": "bash scripts/setup-deploy.sh",
+    "prebuild": "bash scripts/setup-deploy.sh",
     "build": "astro build",
+    "postbuild": "bash scripts/post-build.sh",
     "preview": "astro preview",
     "deploy": "bash scripts/publish.sh",
     "astro": "astro"

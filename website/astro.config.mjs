@@ -19,7 +19,9 @@ export default defineConfig({
     }),
     pagefind(),
   ],
-  outDir: './_build',
+  // Build straight into ./dist — a git worktree checked out on the `gh-pages`
+  // branch (see scripts/setup-deploy.sh). Publishing = commit + push from there.
+  outDir: './dist',
   // ── Legacy Wix URLs ──────────────────────────────────────────────
   // Map former public Wix URLs to their new home so search-index entries and
   // external links don't hit 404s. On GitHub Pages these are served as static
