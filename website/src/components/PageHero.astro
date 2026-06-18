@@ -1,0 +1,48 @@
+---
+// Shared hero band for inner pages: eyebrow → title → optional lead/quote,
+// over a soft parchment-to-sand gradient. Keeps every page's top consistent.
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  quote?: string;
+  quoteAttribution?: string;
+  align?: 'center' | 'left';
+}
+const { eyebrow, title, lead, quote, quoteAttribution, align = 'center' } = Astro.props;
+const alignClass = align === 'center' ? 'text-center mx-auto' : 'text-left';
+---
+<section class="page-hero">
+  <div class={`mx-auto max-w-3xl px-6 ${alignClass}`}>
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h1 class="mt-3 text-4xl md:text-5xl font-semibold leading-[1.08] text-[var(--thp-foreground)]">
+      {title}
+    </h1>
+    {align === 'center'
+      ? <div class="gold-flourish"><span>&#9670;</span></div>
+      : <hr class="gold-rule" />}
+    {quote && (
+      <blockquote class={`${align === 'center' ? 'mx-auto' : ''} mt-2 max-w-2xl text-xl md:text-2xl italic leading-snug text-[var(--thp-muted-foreground)]`}>
+        &ldquo;{quote}&rdquo;
+        {quoteAttribution && (
+          <footer class="mt-2 text-base not-italic text-[var(--thp-gold)]">&mdash; {quoteAttribution}</footer>
+        )}
+      </blockquote>
+    )}
+    {lead && (
+      <p class={`${align === 'center' ? 'mx-auto' : ''} mt-5 max-w-2xl text-lg leading-relaxed text-[var(--thp-muted-foreground)]`}>
+        {lead}
+      </p>
+    )}
+  </div>
+</section>
+
+<style>
+  .page-hero {
+    background:
+      radial-gradient(120% 100% at 50% 0%, rgba(176, 140, 79, 0.10), transparent 60%),
+      linear-gradient(to bottom, var(--thp-muted), var(--thp-background));
+    padding-top: 5.5rem;
+    padding-bottom: 3.5rem;
+  }
+</style>

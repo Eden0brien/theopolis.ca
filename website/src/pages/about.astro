@@ -1,0 +1,145 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Figure from '../components/Figure.astro';
+import ContactForm from '../components/ContactForm.astro';
+
+const catholicArt = [
+  'Are original and imaginative',
+  'Offer a new perspective',
+  'Contemplate the transcendentals',
+  'Deal with substance and content',
+  'Engage the complexity of sin and suffering',
+  'Celebrate the dignity of mankind',
+];
+
+const team = [
+  {
+    name: "Eden O'Brien",
+    role: 'President & Co-Founder',
+    image: '/images/about/eden-obrien.png',
+    bio: 'Holds an MLitt in Theological Aesthetics from the University of St Andrews and a B.A. in Philosophy from Our Lady Seat of Wisdom College. Her work explores the intersection of art and truth, with research in 19th- and 20th-century Aestheticism, Religion & Literature, and Tolkien’s poetics. She co-edited a volume for the Edinburgh Journal of Inkling Studies and serves as associate editor for Transpositions. She currently works in Business Development across North America and Europe.',
+    links: [],
+  },
+  {
+    name: 'Monica Sifert',
+    role: 'Co-Founder',
+    image: '/images/about/monica-sifert.png',
+    bio: 'Studied sacred art, fine art, and iconography in Florence, Crete, and Phoenix, and holds a B.A. in Philosophy and Literature from Our Lady Seat of Wisdom College. Inspired by the Italian Masters, the Pre-Raphaelites, and the Arts & Crafts Movement, she is passionate about craftsmanship and works as a Corporate Paralegal.',
+    links: [{ label: 'Iconography & wood-burning studio', url: 'http://www.iconicstudioart.com/' }],
+  },
+];
+---
+<BaseLayout
+  title="About Us"
+  description="Theopolis is equipping a rising generation of Catholic artists and creating a space of encounter between the secular and the sacred."
+  fullWidth
+>
+  <PageHero
+    eyebrow="About Us"
+    title="A space of encounter between the secular and the sacred"
+    quote="Theopolis is equipping a rising generation of Catholic artists and creating a space of encounter between the Secular and Sacred."
+  />
+
+  <!-- Our Story -->
+  <section class="mx-auto max-w-6xl px-6 py-16 lg:py-20">
+    <div class="grid items-center gap-10 lg:grid-cols-2">
+      <div>
+        <p class="eyebrow">Our Story</p>
+        <hr class="gold-rule" />
+        <div class="mt-4 space-y-4 text-lg leading-relaxed text-[var(--thp-muted-foreground)]">
+          <p>
+            Theopolis began in conversations among friends drawn to art, culture, community,
+            and the Catholic tradition. Out of study and reflection across Ontario, the United
+            States, the United Kingdom, Italy, and Greece grew a mission to revive Catholic art
+            within our communities.
+          </p>
+          <p>
+            We take inspiration from <em>Acts 8:26&ndash;40</em> &mdash; Philip and the Ethiopian
+            Eunuch. As Philip met a traveller arrested by something he could not yet understand,
+            so we hope Catholic art might create first encounters between the sacred and the
+            &ldquo;unwitting world,&rdquo; so that a viewer, moved by a beauty seen and heard
+            without yet understanding, might ask, <em>&ldquo;how can I understand unless someone
+            instructs me?&rdquo;</em>
+          </p>
+          <p>Through this vision we aim to share the Catholic artistic tradition widely &mdash;
+            stirring hearts and lifting the gaze heaven-ward.</p>
+        </div>
+      </div>
+      <Figure
+        src="/images/about/philip-baptising-eunuch.jpg"
+        alt="Saint Philip baptising the Ethiopian eunuch, painting by Aelbert Cuyp"
+        credit="Saint Philip Baptising the Ethiopian Eunuch — Aelbert Cuyp (public domain)"
+        class="aspect-[4/3] overflow-hidden rounded-xl shadow-lg"
+      />
+    </div>
+  </section>
+
+  <!-- What is Catholic Art -->
+  <section class="bg-[var(--thp-secondary)]/40">
+    <div class="mx-auto max-w-5xl px-6 py-16 lg:py-20">
+      <div class="text-center">
+        <p class="eyebrow">What is Catholic Art?</p>
+        <div class="gold-flourish"><span>&#9670;</span></div>
+        <p class="mx-auto max-w-3xl text-lg leading-relaxed text-[var(--thp-muted-foreground)]">
+          Catholic art encompasses every creative expression &mdash; painting, sculpture, music,
+          literature, film, photography &mdash; made within the spirit of the Faith. We prize
+          creative excellence and welcome diverse themes, styles, and subjects. The works we
+          value:
+        </p>
+      </div>
+      <ul class="mx-auto mt-8 grid max-w-3xl gap-3 sm:grid-cols-2">
+        {catholicArt.map((item) => (
+          <li class="flex items-start gap-3 rounded-lg border border-[var(--thp-border)] bg-[var(--thp-card)] px-4 py-3">
+            <span class="mt-1 text-[var(--thp-gold)]">&#9670;</span>
+            <span class="text-[var(--thp-foreground)]">{item}</span>
+          </li>
+        ))}
+      </ul>
+      <blockquote class="mx-auto mt-10 max-w-2xl text-center text-2xl italic leading-snug text-[var(--thp-foreground)]">
+        &ldquo;Catholic art, in our reckoning, engages the world through imagination, beauty,
+        and truth.&rdquo;
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- Meet the Team -->
+  <section class="mx-auto max-w-5xl px-6 py-16 lg:py-20">
+    <div class="text-center">
+      <p class="eyebrow">Meet the Team</p>
+      <div class="gold-flourish"><span>&#9670;</span></div>
+    </div>
+    <div class="mt-8 grid gap-10 sm:grid-cols-2">
+      {team.map((member) => (
+        <article class="text-center">
+          <img
+            src={member.image}
+            alt={`Portrait of ${member.name}`}
+            loading="lazy"
+            class="mx-auto h-44 w-44 rounded-full object-cover shadow-md ring-1 ring-[var(--thp-border)]"
+          />
+          <h3 class="mt-5 text-2xl font-semibold text-[var(--thp-primary)]">{member.name}</h3>
+          <p class="text-[var(--thp-gold)]">{member.role}</p>
+          <p class="mt-3 text-left leading-relaxed text-[var(--thp-muted-foreground)]">{member.bio}</p>
+          {member.links.map((link) => (
+            <a href={link.url} target="_blank" rel="noopener"
+              class="mt-3 inline-block text-[var(--thp-primary)] underline underline-offset-4 hover:text-[#5A222A]">
+              {link.label}
+            </a>
+          ))}
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Get in touch -->
+  <section class="bg-[var(--thp-muted)]">
+    <div class="mx-auto max-w-5xl px-6 py-16 lg:py-20">
+      <ContactForm
+        heading="Get in Touch"
+        intro="Have a question about our mission, or want to get involved? We’d love to hear from you."
+        inquiryLabel="Your inquiry"
+      />
+    </div>
+  </section>
+</BaseLayout>

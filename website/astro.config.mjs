@@ -35,5 +35,13 @@ export default defineConfig({
   // Fill in as pages are migrated from the _migrations/ snapshot.
   redirects: {
     '/home': '/',
+    '/about-us': '/about',
+    '/2026-exhibition': '/exhibition',
+    '/exhibition-gallery': '/exhibition/gallery',
+    '/events-2': '/events',
+    '/artist-fraternity': '/artists',
+    '/blog': '/journal',
+    '/english-privacy-policy': '/privacy',
+    '/accessibility-statement': '/accessibility',
   },
 });

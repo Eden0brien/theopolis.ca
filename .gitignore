@@ -1,0 +1,5 @@
+# Local verification screenshots (Chrome MCP) — not site content
+_migrations/_screenshots/
+
+# OS
+.DS_Store

@@ -1,0 +1,86 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+
+const artists = (await getCollection('artists')).sort(
+  (a, b) => (a.data.order ?? 0) - (b.data.order ?? 0),
+);
+const rendered = await Promise.all(
+  artists.map(async (a) => ({ data: a.data, Content: (await render(a)).Content })),
+);
+
+const offerings = [
+  { title: 'Professional Services', body: 'Legal, finance, publishing, social media, marketing & branding, and tech support.' },
+  { title: 'Memberships', body: 'Access to memberships with leading institutions and guilds.' },
+  { title: 'Intellectual & Spiritual Formation', body: 'Retreats, masterclasses, and study-abroad opportunities.' },
+  { title: 'Financial Support', body: 'Grants, awards, and a network of patrons.' },
+];
+---
+<BaseLayout
+  title="Artist Fraternity"
+  description="A vibrant community for Catholic creators — painters, sculptors, photographers, musicians, and writers — offering resources, mentorship, formation, and fellowship."
+  fullWidth
+>
+  <PageHero
+    eyebrow="Artist Fraternity"
+    title="A community for Catholic creators"
+    lead="We bring together painters, sculptors, photographers, musicians, writers, and other artists — offering resources, mentorship, spiritual formation, and fellowship to help you thrive in both craft and faith."
+  />
+
+  <!-- Meet our artists -->
+  <section class="mx-auto max-w-5xl px-6 py-16 lg:py-20">
+    <div class="text-center">
+      <p class="eyebrow">Meet Our Artists</p>
+      <div class="gold-flourish"><span>&#9670;</span></div>
+      <p class="mx-auto max-w-2xl text-[var(--thp-muted-foreground)]">
+        Explore the diverse community of artists shaping the future of Catholic art.
+      </p>
+    </div>
+    <div class="mt-10 space-y-12">
+      {rendered.map(({ data, Content }) => (
+        <article class="grid items-center gap-8 sm:grid-cols-[auto_1fr]">
+          {data.image && (
+            <img src={data.image} alt={`Portrait of ${data.name}`} loading="lazy"
+              class="mx-auto h-44 w-44 rounded-full object-cover shadow-md ring-1 ring-[var(--thp-border)]" />
+          )}
+          <div>
+            <h3 class="text-2xl font-semibold text-[var(--thp-primary)]">{data.name}</h3>
+            {data.role && <p class="text-[var(--thp-gold)]">{data.role}</p>}
+            <div class="mt-3 leading-relaxed text-[var(--thp-muted-foreground)] [&_p]:mt-3">
+              <Content />
+            </div>
+            {data.links && (
+              <div class="mt-4 flex flex-wrap gap-3">
+                {data.links.map((link) => (
+                  <a href={link.url} target="_blank" rel="noopener" class="btn btn-outline !px-5 !py-2 !text-base">{link.label}</a>
+                ))}
+              </div>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- What we offer -->
+  <section class="bg-[var(--thp-primary)] text-white">
+    <div class="mx-auto max-w-5xl px-6 py-16 lg:py-20">
+      <div class="text-center">
+        <p class="eyebrow" style="color: var(--thp-accent);">What We Offer</p>
+        <p class="mx-auto mt-3 max-w-2xl text-white/85">
+          The Artist Fraternity is a one-stop hub for Catholic artists — equipping members with
+          the tools, guidance, and community they need to create with excellence.
+        </p>
+      </div>
+      <div class="mt-10 grid gap-6 sm:grid-cols-2">
+        {offerings.map((o) => (
+          <div class="rounded-xl border border-white/20 bg-white/5 p-6">
+            <h3 class="text-xl font-semibold">{o.title}</h3>
+            <p class="mt-2 text-white/80 leading-relaxed">{o.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

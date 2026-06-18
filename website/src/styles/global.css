@@ -33,6 +33,81 @@ h1, h2, h3, h4, h5, h6 {
   margin: 1.25rem 0;
 }
 
+/* Centered gold rule flanked by a small diamond — a more liturgical divider */
+.gold-flourish {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+  color: var(--thp-gold);
+}
+.gold-flourish::before,
+.gold-flourish::after {
+  content: '';
+  height: 1px;
+  width: 3rem;
+  background: linear-gradient(to var(--_dir, right), transparent, var(--thp-gold));
+}
+.gold-flourish::before { --_dir: left; }
+.gold-flourish span { font-size: 0.7rem; line-height: 1; transform: rotate(45deg); }
+
+/* ── Buttons — shared across every page so CTAs stay consistent ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1;
+  border-radius: 9999px;
+  padding: 0.8rem 1.7rem;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn:focus-visible { outline: 2px solid var(--thp-primary); outline-offset: 3px; }
+.btn-primary { background: var(--thp-primary); color: #fff; box-shadow: 0 6px 18px rgba(110, 43, 52, 0.18); }
+.btn-primary:hover { background: #5A222A; box-shadow: 0 8px 22px rgba(110, 43, 52, 0.26); }
+.btn-outline { border-color: var(--thp-primary); color: var(--thp-primary); background: transparent; }
+.btn-outline:hover { background: var(--thp-accent); }
+.btn-ghost { border-color: var(--thp-border); color: var(--thp-foreground); background: transparent; }
+.btn-ghost:hover { background: var(--thp-muted); }
+.btn-on-dark { background: #fff; color: var(--thp-primary); }
+.btn-on-dark:hover { background: var(--thp-accent); }
+
+@media (prefers-reduced-motion: reduce) {
+  .btn:hover { transform: none; }
+}
+
+/* Photo credit caption beneath images */
+.credit {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-style: italic;
+  color: var(--thp-muted-foreground);
+  margin-top: 0.4rem;
+}
+
+/* Long-form prose tuned to the Sanctuary palette (legal pages, bios) */
+.prose-thp {
+  --tw-prose-body: var(--thp-foreground);
+  --tw-prose-headings: var(--thp-primary);
+  --tw-prose-links: var(--thp-primary);
+  --tw-prose-bold: var(--thp-foreground);
+  --tw-prose-quotes: var(--thp-muted-foreground);
+  --tw-prose-quote-borders: var(--thp-gold);
+  --tw-prose-bullets: var(--thp-gold);
+  --tw-prose-counters: var(--thp-gold);
+  --tw-prose-hr: var(--thp-border);
+  font-size: 1.075rem;
+  line-height: 1.75;
+}
+
 /* ── Skip-to-content link — off-screen until keyboard focus (a11y) ── */
 .skip-link {
   position: absolute;

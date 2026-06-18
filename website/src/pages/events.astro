@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+
+const POPUP_TICKETS = 'https://www.zeffy.com/en-CA/ticketing/theopolis-presents-art-pop-up-shop';
+
+const programs = [
+  {
+    title: 'Annual Lecture Series',
+    tag: 'Coming Soon',
+    body: 'This annual lecture series invites distinguished creative figures to reflect on the role of the Catholic imagination in a world where it is increasingly rare, yet more vital than ever.',
+  },
+  {
+    title: 'Exhibition',
+    body: 'Our annual exhibition showcases the creative activity of our members and opens a space of encounter between secular and Christian audiences, engaging themes at the heart of contemporary Canadian culture through art. Our inaugural exhibition is The Drama of the Soul.',
+    cta: { label: 'Learn more', href: '/exhibition' },
+  },
+  {
+    title: 'Socials',
+    body: 'Our quarterly socials welcome artists and all those who love art and the Catholic tradition. Join us for conversation, collaboration, and fellowship in a vibrant community.',
+  },
+];
+---
+<BaseLayout
+  title="Events"
+  description="Lectures, exhibitions, and quarterly socials from Theopolis — gathering Catholic artists and culture-lovers across Ontario."
+  fullWidth
+>
+  <PageHero eyebrow="Events" title="Gatherings & Programs" />
+
+  <!-- Programs -->
+  <section class="mx-auto max-w-5xl px-6 py-16">
+    <div class="grid gap-6 md:grid-cols-3">
+      {programs.map((p) => (
+        <article class="flex flex-col rounded-xl border border-[var(--thp-border)] bg-[var(--thp-card)] p-6 shadow-sm">
+          {p.tag && <span class="self-start rounded-full bg-[var(--thp-accent)] px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[var(--thp-accent-foreground)]">{p.tag}</span>}
+          <h2 class="mt-2 text-2xl font-semibold text-[var(--thp-primary)]">{p.title}</h2>
+          <p class="mt-3 flex-1 leading-relaxed text-[var(--thp-muted-foreground)]">{p.body}</p>
+          {p.cta && (
+            <a href={p.cta.href} class="mt-4 inline-block font-[family-name:var(--font-sans)] font-semibold text-[var(--thp-primary)] underline underline-offset-4 hover:text-[#5A222A]">
+              {p.cta.label} &rarr;
+            </a>
+          )}
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Upcoming event -->
+  <section class="bg-[var(--thp-secondary)]/40">
+    <div class="mx-auto max-w-6xl px-6 py-16 lg:py-20">
+      <div class="text-center">
+        <p class="eyebrow">Upcoming Event</p>
+        <div class="gold-flourish"><span>&#9670;</span></div>
+      </div>
+      <div class="mt-6 grid items-center gap-10 lg:grid-cols-2">
+        <img src="/images/events/pop-up-shop-kensington-poster.png"
+          alt="Theopolis presents: Pop-Up Shop at Kensington Market" loading="lazy"
+          class="w-full rounded-xl shadow-lg" />
+        <div>
+          <h2 class="text-3xl font-semibold text-[var(--thp-primary)]">Pop-Up Shop &amp; Art Social</h2>
+          <p class="mt-2 text-lg font-semibold text-[var(--thp-foreground)]">
+            Friday, June 19 &middot; 6&ndash;10 PM
+          </p>
+          <p class="text-[var(--thp-muted-foreground)]">The Arch Café/Bar, 293 Augusta Ave, Toronto, ON M5T 2M2</p>
+          <p class="mt-4 leading-relaxed text-[var(--thp-muted-foreground)]">
+            Join us in Kensington Market for an evening of art, music, drinks, and community.
+            Theopolis is hosting a pop-up shop featuring art prints by our artists, including
+            special-edition prints from our inaugural exhibition, <em>The Drama of the Soul</em>.
+            Come meet our artists, connect with fellow culture-lovers, and support the work of
+            our creative community.
+          </p>
+          <a href={POPUP_TICKETS} target="_blank" rel="noopener" class="btn btn-primary mt-6">Get Tickets</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

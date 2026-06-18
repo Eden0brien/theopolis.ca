@@ -1,0 +1,25 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+
+// Renders entries from the `pages` collection (currently the legal pages:
+// /privacy and /accessibility). Only collection slugs get built, so this never
+// shadows the bespoke .astro routes like /about or /support.
+export async function getStaticPaths() {
+  const pages = await getCollection('pages');
+  return pages.map((page) => ({
+    params: { slug: page.id },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props;
+const { Content } = await render(page);
+---
+<BaseLayout title={page.data.title} description={page.data.description} fullWidth>
+  <PageHero eyebrow={page.data.eyebrow} title={page.data.title} />
+  <article class="mx-auto max-w-2xl px-6 py-14 prose prose-thp">
+    <Content />
+  </article>
+</BaseLayout>

@@ -1,0 +1,79 @@
+---
+// Contact / "Get in Touch" form, used on Home, About, and Support.
+//
+// Static sites can't run Wix Forms, so this posts to Formspree (the common
+// static-host choice). Set the real endpoint below before going live — until
+// then the form validates in-browser but submission won't be delivered.
+// See _memory/session-state.md ("Contact form backend").
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/REPLACE_WITH_FORM_ID';
+
+interface Props {
+  heading?: string;
+  intro?: string;
+  /** Label for the free-text context field. */
+  inquiryLabel?: string;
+}
+const {
+  heading = 'Get in Touch',
+  intro,
+  inquiryLabel = 'How can we help?',
+} = Astro.props;
+---
+<div class="mx-auto max-w-2xl">
+  {heading && <h2 class="text-3xl font-semibold text-[var(--thp-primary)] text-center">{heading}</h2>}
+  {intro && <p class="mt-3 text-center text-[var(--thp-muted-foreground)] leading-relaxed">{intro}</p>}
+
+  <form action={FORMSPREE_ENDPOINT} method="POST" class="contact-form mt-8 grid gap-5">
+    <div class="grid gap-5 sm:grid-cols-2">
+      <label class="field">
+        <span>First name <em>*</em></span>
+        <input type="text" name="first_name" required autocomplete="given-name" />
+      </label>
+      <label class="field">
+        <span>Last name <em>*</em></span>
+        <input type="text" name="last_name" required autocomplete="family-name" />
+      </label>
+    </div>
+    <label class="field">
+      <span>Email <em>*</em></span>
+      <input type="email" name="email" required autocomplete="email" />
+    </label>
+    <label class="field">
+      <span>{inquiryLabel}</span>
+      <textarea name="inquiry" rows="4"></textarea>
+    </label>
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </form>
+</div>
+
+<style>
+  .field { display: flex; flex-direction: column; gap: 0.4rem; }
+  .field > span {
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: var(--thp-foreground);
+  }
+  .field em { color: var(--thp-primary); font-style: normal; }
+  .field input,
+  .field textarea {
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    color: var(--thp-foreground);
+    background: var(--thp-card);
+    border: 1px solid var(--thp-border);
+    border-radius: 0.6rem;
+    padding: 0.7rem 0.85rem;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+  }
+  .field textarea { resize: vertical; }
+  .field input:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: var(--thp-primary);
+    box-shadow: 0 0 0 3px rgba(110, 43, 52, 0.12);
+  }
+</style>

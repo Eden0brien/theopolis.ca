@@ -1,0 +1,98 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+
+const TICKETS_URL = 'https://www.eventbrite.ca/e/the-drama-of-the-soul-tickets-1985215103816';
+
+const dates = ['2–3 May 2026', '9–10 May 2026', '16–17 May 2026'];
+
+const sponsors = [
+  { name: 'The Tallowed Truth', url: 'https://thetallowedtruth.com/', logo: '/images/logos/sponsor-tallowed-truth.png' },
+  { name: 'St Joseph Realty', url: 'http://www.stjosephrealty.ca', logo: '/images/logos/sponsor-st-joseph-realty.png' },
+  { name: 'Valley Autoglass', url: 'https://valleyauto.ca/', logo: '/images/logos/sponsor-valley-autoglass.png' },
+];
+---
+<BaseLayout
+  title="2026 Exhibition — The Drama of the Soul"
+  description="The Drama of the Soul: a group exhibition by Theopolis exploring the existence, nature, and problems of the Soul. Toronto, May 2026."
+  ogImage="/images/exhibition/drama-of-the-soul-banner.png"
+  fullWidth
+>
+  <PageHero
+    eyebrow="2026 Exhibition"
+    title="The Drama of the Soul"
+    quote="Before me were no things created except eternal ones, and I endure eternal."
+    quoteAttribution="Dante, The Inferno, Canto III"
+  />
+
+  <!-- Banner -->
+  <section class="mx-auto max-w-6xl px-6">
+    <img
+      src="/images/exhibition/drama-of-the-soul-banner.png"
+      alt="The Drama of the Soul — exhibition banner"
+      class="w-full rounded-xl shadow-lg"
+      loading="eager"
+    />
+  </section>
+
+  <!-- Description -->
+  <section class="mx-auto max-w-3xl px-6 py-16 lg:py-20">
+    <div class="space-y-5 text-lg leading-relaxed text-[var(--thp-muted-foreground)]">
+      <p>
+        The Soul has long been depicted in art and literature as the protagonist of a drama
+        that stretches beyond life, death, and time.
+      </p>
+      <p>
+        In the introduction to her 1949 translation of <em>The Divine Comedy</em>, Dorothy L.
+        Sayers writes that Dante’s masterwork is &ldquo;precisely the drama of the soul’s
+        choice.&rdquo; It is not a fairy story but a great Christian allegory, deriving its
+        power from the terror and splendour of the Christian revelation. Creative explorations
+        such as Dante’s reveal that this drama of eternal consequence lies at the heart of
+        life’s greatest questions &mdash; good and evil, love, suffering, and faith. Yet in an
+        age marked by materialism, consumerism, and omnipresent technology, the reality of the
+        Soul is easy to overlook, or to forget entirely.
+      </p>
+      <p>
+        <strong class="text-[var(--thp-foreground)]">The Drama of the Soul</strong> is a group
+        exhibition organized by Theopolis, a collective of Catholic artists. It invites works
+        that reflect on the existence, nature, and problems of the Soul. While informed by the
+        Catholic intellectual and artistic tradition, submissions need not be explicitly
+        religious. Artists are invited to engage the theme with seriousness and depth, attentive
+        to the gravity of the subject matter.
+      </p>
+    </div>
+  </section>
+
+  <!-- Visit details -->
+  <section class="bg-[var(--thp-primary)] text-white">
+    <div class="mx-auto max-w-4xl px-6 py-16 text-center">
+      <p class="eyebrow" style="color: var(--thp-accent);">Join us for The Drama of the Soul</p>
+      <div class="mt-6 flex flex-wrap items-stretch justify-center gap-4">
+        {dates.map((d) => (
+          <div class="rounded-xl border border-white/25 px-6 py-4">
+            <span class="text-xl font-semibold">{d}</span>
+            <span class="block text-sm text-white/70">Sat &amp; Sun</span>
+          </div>
+        ))}
+      </div>
+      <p class="mt-6 text-lg text-white/85">183 Queen St E, Toronto, ON M5A 1S2</p>
+      <a href={TICKETS_URL} target="_blank" rel="noopener" class="btn btn-on-dark mt-8">
+        Get Tickets Now
+      </a>
+    </div>
+  </section>
+
+  <!-- Sponsors -->
+  <section class="mx-auto max-w-5xl px-6 py-16 text-center">
+    <p class="eyebrow">Our Sponsors</p>
+    <div class="gold-flourish"><span>&#9670;</span></div>
+    <div class="mt-6 flex flex-wrap items-center justify-center gap-x-12 gap-y-8">
+      {sponsors.map((s) => (
+        <a href={s.url} target="_blank" rel="noopener" class="block" aria-label={s.name} title={s.name}>
+          <img src={s.logo} alt={s.name} loading="lazy"
+            class="h-20 w-auto object-contain opacity-80 transition hover:opacity-100" />
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

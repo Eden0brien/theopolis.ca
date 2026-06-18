@@ -1,95 +1,166 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/ContactForm.astro';
 
 const DONATE_URL = 'https://www.zeffy.com/en-CA/donation-form/donate-to-theopolis-project';
+const HUGH_SPOTIFY = 'https://open.spotify.com/album/3eaOphrE4xx8aRXTAxlZRP';
 
 const whatWeDo = [
-  { title: 'Community', body: 'Connect with creative professionals across multiple disciplines.' },
-  { title: 'Support', body: 'Access professional services, mentorship, and financial support.' },
-  { title: 'Formation', body: 'Receive spiritual retreats, professional training, and cultural immersion.' },
-  { title: 'Events', body: 'Attend lectures, exhibitions, and quarterly socials.' },
+  { title: 'Community', body: 'Connect with creative professionals across multiple disciplines.', image: '/images/home/community.jpeg' },
+  { title: 'Support', body: 'Access professional services, mentorship, and financial support.', image: '/images/home/support.jpeg' },
+  { title: 'Formation', body: 'Receive spiritual retreats, professional training, and cultural immersion.', image: '/images/home/formation.jpg' },
+  { title: 'Events', body: 'Attend lectures, exhibitions, and quarterly socials.', image: '/images/home/events.jpeg' },
 ];
 ---
-
 <BaseLayout
   title="Theopolis — Empowering Catholic Artists. Renewing Faith and Culture."
   description="Theopolis is a Canadian foundation empowering Catholic artists and renewing faith and culture through beauty, based in Toronto, Ontario."
   fullWidth
 >
   <!-- Hero -->
-  <section class="mx-auto max-w-5xl px-6 pt-20 pb-16 text-center">
-    <p class="eyebrow">A Revival of Faith &amp; Culture in Ontario</p>
-    <h1 class="mt-4 text-5xl md:text-6xl font-semibold leading-[1.05] text-[var(--thp-foreground)]">
-      Empowering Catholic Artists.<br />Renewing Faith and Culture.
-    </h1>
-    <hr class="gold-rule mx-auto" />
-    <blockquote class="mx-auto mt-6 max-w-2xl text-xl italic text-[var(--thp-muted-foreground)]">
-      “Theopolis is a cause of rejoicing, a vision of restoration of Catholic culture.”
-      <footer class="mt-2 text-base not-italic text-[var(--thp-gold)]">— Michael D. O’Brien, Painter &amp; Novelist</footer>
-    </blockquote>
-    <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
-      <a href={DONATE_URL} target="_blank" rel="noopener"
-        class="rounded-full bg-[var(--thp-primary)] px-7 py-3 font-[family-name:var(--font-sans)] text-lg font-semibold text-white no-underline transition hover:bg-[#5A222A]">
-        Donate
-      </a>
-      <a href="/artists"
-        class="rounded-full border border-[var(--thp-primary)] px-7 py-3 font-[family-name:var(--font-sans)] text-lg font-semibold text-[var(--thp-primary)] no-underline transition hover:bg-[var(--thp-accent)]">
-        Meet our Artists
-      </a>
-      <a href="/support"
-        class="rounded-full border border-[var(--thp-border)] px-7 py-3 font-[family-name:var(--font-sans)] text-lg font-semibold text-[var(--thp-foreground)] no-underline transition hover:bg-[var(--thp-muted)]">
-        Support our Mission
-      </a>
+  <section class="hero-bg">
+    <div class="mx-auto grid max-w-6xl items-center gap-10 px-6 pt-20 pb-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14 lg:pt-24 lg:pb-20">
+      <div>
+        <p class="eyebrow">A Revival of Faith &amp; Culture in Ontario</p>
+        <h1 class="mt-4 text-5xl md:text-6xl font-semibold leading-[1.05] text-[var(--thp-foreground)]">
+          Empowering Catholic Artists.
+          <span class="text-[var(--thp-primary)]">Renewing Faith and Culture.</span>
+        </h1>
+        <hr class="gold-rule" />
+        <blockquote class="max-w-xl text-xl italic leading-snug text-[var(--thp-muted-foreground)]">
+          &ldquo;Theopolis is a cause of rejoicing, a vision of restoration of Catholic culture.&rdquo;
+          <footer class="mt-2 text-base not-italic text-[var(--thp-gold)]">&mdash; Michael D. O&rsquo;Brien, Painter &amp; Novelist</footer>
+        </blockquote>
+        <div class="mt-9 flex flex-wrap items-center gap-4">
+          <a href={DONATE_URL} target="_blank" rel="noopener" class="btn btn-primary">Donate</a>
+          <a href="/artists" class="btn btn-outline">Meet our Artists</a>
+          <a href="/support" class="btn btn-ghost">Support our Mission</a>
+        </div>
+      </div>
+      <div class="hero-frame">
+        <img src="/images/home/the-annunciation.jpg"
+          alt="The Annunciation" loading="eager" decoding="async"
+          class="w-full rounded-xl object-cover shadow-xl" />
+        <figcaption class="credit">The Annunciation (public domain)</figcaption>
+      </div>
     </div>
   </section>
 
   <!-- What We Do -->
   <section class="bg-[var(--thp-secondary)]/40">
-    <div class="mx-auto max-w-5xl px-6 py-16">
+    <div class="mx-auto max-w-6xl px-6 py-16 lg:py-20">
       <div class="text-center">
         <p class="eyebrow">What We Do</p>
-        <hr class="gold-rule mx-auto" />
+        <div class="gold-flourish"><span>&#9670;</span></div>
       </div>
       <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {whatWeDo.map((item) => (
-          <div class="rounded-lg border border-[var(--thp-border)] bg-[var(--thp-card)] p-6 text-center">
-            <h3 class="text-2xl font-semibold text-[var(--thp-primary)]">{item.title}</h3>
-            <p class="mt-3 text-[var(--thp-muted-foreground)] leading-relaxed">{item.body}</p>
-          </div>
+          <article class="overflow-hidden rounded-xl border border-[var(--thp-border)] bg-[var(--thp-card)] shadow-sm transition hover:shadow-md">
+            <img src={item.image} alt="" aria-hidden="true" loading="lazy"
+              class="aspect-[16/10] w-full object-cover" />
+            <div class="p-5">
+              <h3 class="text-2xl font-semibold text-[var(--thp-primary)]">{item.title}</h3>
+              <p class="mt-2 leading-relaxed text-[var(--thp-muted-foreground)]">{item.body}</p>
+            </div>
+          </article>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- Why It Matters -->
-  <section class="mx-auto max-w-3xl px-6 py-20 text-center">
-    <p class="eyebrow">Why It Matters</p>
-    <blockquote class="mt-4 text-4xl md:text-5xl font-semibold italic leading-tight text-[var(--thp-foreground)]">
-      “Beauty will save the world.”
-    </blockquote>
-    <p class="mt-2 text-[var(--thp-gold)]">— Fyodor Dostoevsky, 1869</p>
-    <p class="mt-8 text-lg leading-relaxed text-[var(--thp-muted-foreground)]">
-      Art shapes how we understand the world. Beauty opens a space for encounter with the Holy Spirit.
-      Catholic art enters into dialogue with contemporary Canadian culture, keeping the Catholic
-      imagination alive in public life.
-    </p>
-    <a href="/about"
-      class="mt-8 inline-block rounded-full border border-[var(--thp-primary)] px-7 py-3 font-[family-name:var(--font-sans)] text-lg font-semibold text-[var(--thp-primary)] no-underline transition hover:bg-[var(--thp-accent)]">
-      Learn More
-    </a>
+  <!-- Why It Matters — full-bleed image band -->
+  <section class="why-band">
+    <div class="why-overlay">
+      <div class="mx-auto max-w-3xl px-6 py-24 text-center text-white">
+        <p class="eyebrow" style="color: var(--thp-accent);">Why It Matters</p>
+        <blockquote class="mt-4 text-4xl md:text-5xl font-semibold italic leading-tight">
+          &ldquo;Beauty will save the world.&rdquo;
+        </blockquote>
+        <p class="mt-2 text-white/70">&mdash; Fyodor Dostoevsky, 1869</p>
+        <p class="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-white/90">
+          Art shapes how we understand the world. Beauty opens a space for encounter with the
+          Holy Spirit. Catholic art enters into dialogue with contemporary Canadian culture,
+          keeping the Catholic imagination alive in public life.
+        </p>
+        <a href="/about" class="btn btn-on-dark mt-8">Learn More</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Creative Pulse: Artist of the Month -->
+  <section class="mx-auto max-w-6xl px-6 py-16 lg:py-20">
+    <div class="text-center">
+      <p class="eyebrow">Creative Pulse &middot; Artist of the Month</p>
+      <div class="gold-flourish"><span>&#9670;</span></div>
+    </div>
+    <div class="mt-6 grid items-center gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-14">
+      <img src="/images/home/hugh-album-cover.png"
+        alt="Judah — album cover art by Hugh Beresford" loading="lazy"
+        class="mx-auto w-full max-w-sm rounded-xl shadow-lg" />
+      <div>
+        <h2 class="text-3xl font-semibold text-[var(--thp-primary)]">Hugh Beresford</h2>
+        <p class="text-[var(--thp-gold)]">Singer / Songwriter</p>
+        <p class="mt-4 text-lg leading-relaxed text-[var(--thp-muted-foreground)]">
+          A Catholic singer-songwriter based in Ontario with a passion for music, art, and
+          writing. His work seeks to reveal God&rsquo;s goodness through the good, the true, and
+          the beautiful &mdash; rather than through explicit religious themes.
+        </p>
+        <div class="mt-6 flex flex-wrap gap-4">
+          <a href={HUGH_SPOTIFY} target="_blank" rel="noopener" class="btn btn-primary">Listen on Spotify</a>
+          <a href="/artists" class="btn btn-outline">Read Hugh&rsquo;s Bio</a>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- Join the Movement -->
   <section class="bg-[var(--thp-primary)] text-white">
     <div class="mx-auto max-w-3xl px-6 py-16 text-center">
       <h2 class="text-4xl font-semibold">Join the Movement</h2>
-      <p class="mt-4 text-lg text-white/85 leading-relaxed">
+      <p class="mt-4 text-lg leading-relaxed text-white/85">
         Support art that restores culture and lifts the gaze heaven-ward.
       </p>
-      <a href="/support"
-        class="mt-8 inline-block rounded-full bg-white px-7 py-3 font-[family-name:var(--font-sans)] text-lg font-semibold text-[var(--thp-primary)] no-underline transition hover:bg-[var(--thp-accent)]">
-        Get Involved
-      </a>
+      <a href="/support" class="btn btn-on-dark mt-8">Get Involved</a>
+    </div>
+  </section>
+
+  <!-- Get in touch -->
+  <section class="bg-[var(--thp-muted)]">
+    <div class="mx-auto max-w-5xl px-6 py-16 lg:py-20">
+      <ContactForm
+        heading="Get in Touch"
+        intro="Questions, ideas, or want to get involved? Send us a note and we’ll be in touch."
+        inquiryLabel="Your inquiry"
+      />
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .hero-bg {
+    background:
+      radial-gradient(90% 70% at 80% 0%, rgba(176, 140, 79, 0.12), transparent 55%),
+      linear-gradient(to bottom, var(--thp-muted), var(--thp-background));
+  }
+  .hero-frame { position: relative; }
+  .hero-frame::before {
+    content: '';
+    position: absolute;
+    inset: -0.75rem -0.75rem auto auto;
+    width: 60%;
+    height: 60%;
+    border-top: 2px solid var(--thp-gold);
+    border-right: 2px solid var(--thp-gold);
+    border-top-right-radius: 0.75rem;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+  .why-band {
+    background-image: url('/images/home/philip-and-the-eunuch.jpg');
+    background-size: cover;
+    background-position: center 30%;
+  }
+  .why-overlay {
+    background: linear-gradient(rgba(33, 28, 24, 0.72), rgba(110, 43, 52, 0.78));
+  }
+</style>

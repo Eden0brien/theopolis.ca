@@ -1,0 +1,22 @@
+---
+// Image with a credit caption beneath it. Project rule: every photo is credited.
+interface Props {
+  src: string;
+  alt: string;
+  credit?: string;
+  rounded?: boolean;
+  class?: string;
+  loading?: 'lazy' | 'eager';
+}
+const { src, alt, credit, rounded = true, class: klass = '', loading = 'lazy' } = Astro.props;
+---
+<figure class={klass}>
+  <img
+    src={src}
+    alt={alt}
+    loading={loading}
+    decoding="async"
+    class={`w-full h-full object-cover ${rounded ? 'rounded-xl' : ''}`}
+  />
+  {credit && <figcaption class="credit">{credit}</figcaption>}
+</figure>

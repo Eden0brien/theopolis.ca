@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import ContactForm from '../components/ContactForm.astro';
+
+const DONATE_URL = 'https://www.zeffy.com/en-CA/donation-form/donate-to-theopolis-project';
+
+const ways = [
+  'Professional services, mentorship, and formation for artists',
+  'Public lectures, events, and community gatherings',
+  'Grants, awards, and direct support for artistic work',
+  'The ongoing development of Theopolis’ mission and initiatives',
+];
+---
+<BaseLayout
+  title="Support Theopolis"
+  description="Help renew faith and culture through beauty. Your support equips Catholic artists and brings sacred art back into the public square."
+  fullWidth
+>
+  <PageHero
+    eyebrow="Support"
+    title="Help Renew Faith & Culture Through Beauty"
+    quote="The renewal of culture has never been the work of artists alone. Catholic art has flourished through the support of patrons who understood the evangelical power of beauty and chose to invest in it."
+  />
+
+  <!-- Mission + donate -->
+  <section class="mx-auto max-w-6xl px-6 py-16 lg:py-20">
+    <div class="grid items-center gap-10 lg:grid-cols-2">
+      <div>
+        <p class="text-lg leading-relaxed text-[var(--thp-muted-foreground)]">
+          Theopolis exists to restore Catholic art to the public square in Ontario by equipping
+          artists to create work that awakens wonder, invites contemplation, and renews faith.
+          Your support makes this work possible. Donations are processed securely through Zeffy.
+        </p>
+        <a href={DONATE_URL} target="_blank" rel="noopener" class="btn btn-primary mt-8">Donate</a>
+      </div>
+      <figure class="overflow-hidden rounded-xl shadow-lg">
+        <img src="/images/support/tribute-money-masaccio.png"
+          alt="The Tribute Money, fresco by Masaccio" loading="lazy"
+          class="w-full object-cover" />
+        <figcaption class="credit px-1">The Tribute Money — Masaccio, Brancacci Chapel (public domain)</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Ways to support -->
+  <section class="bg-[var(--thp-secondary)]/40">
+    <div class="mx-auto max-w-4xl px-6 py-16 lg:py-20">
+      <div class="text-center">
+        <p class="eyebrow">Ways to Support</p>
+        <div class="gold-flourish"><span>&#9670;</span></div>
+        <p class="mx-auto max-w-2xl text-[var(--thp-muted-foreground)]">
+          Support for Theopolis helps sustain our artists and programs, including:
+        </p>
+      </div>
+      <ul class="mx-auto mt-8 grid max-w-2xl gap-3 sm:grid-cols-2">
+        {ways.map((w) => (
+          <li class="flex items-start gap-3 rounded-lg border border-[var(--thp-border)] bg-[var(--thp-card)] px-4 py-3">
+            <span class="mt-1 text-[var(--thp-gold)]">&#9670;</span>
+            <span class="text-[var(--thp-foreground)]">{w}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Become a patron / form -->
+  <section class="mx-auto max-w-5xl px-6 py-16 lg:py-20">
+    <ContactForm
+      heading="Become a Patron"
+      intro="If you would like to make a financial contribution, explore patronage, or learn more about supporting Theopolis, leave your name and email and a member of our team will be in touch shortly."
+      inquiryLabel="What is your inquiry regarding?"
+    />
+  </section>
+</BaseLayout>

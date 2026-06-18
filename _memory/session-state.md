@@ -48,10 +48,39 @@ no history rewrite). Keep working on `work/perki`; confirm before any further wr
   `npm run build` self-heals even from a fully deleted dist/. Run `npm run setup:deploy` to
   (re)create it by hand.
 
-## ⏭ Next steps (in order)
-1. **Finalize the scrape with Chrome MCP** (the `.mcp.json` here configures `chrome-devtools`;
-   it was NOT connected last session). Resolve the open items below, and visually compare the
-   rebuild to the live site.
+## ✅ Done (2026-06-18, session 2) — full page migration + modernization
+- **Fixed Tailwind:** `@tailwindcss/vite` was imported but never registered, so the whole site
+  rendered unstyled. Now wired in `astro.config.mjs` (`vite.plugins`). This was the big one.
+- **All 9 missing pages built** and verified on desktop + mobile via Chrome MCP:
+  `/about`, `/exhibition`, `/exhibition/gallery` (23 artworks), `/support`, `/events`,
+  `/artists`, `/journal` (empty-state), `/privacy` + `/accessibility` (rewritten from scratch).
+- **Architecture:** content collections drive the data — `artworks/*.md` (×23), `artists/*.md`
+  (Hugh), `pages/*.md` (privacy, accessibility, via `src/pages/[slug].astro`). Marketing pages
+  (about/exhibition/support/events/artists) are bespoke `.astro` routes. Shared components:
+  `PageHero`, `ContactForm`, `Figure`; shared `.btn*` / `.gold-flourish` / `.prose-thp` classes.
+- **Homepage modernized:** split hero w/ The Annunciation, illustrated What-We-Do cards,
+  full-bleed "Beauty will save the world" image band, restored Artist-of-the-Month (Hugh),
+  contact form. Was previously text-only.
+- **Legacy Wix redirects wired** in `astro.config.mjs` (`/about-us`→`/about`, etc. — all 8).
+- **Images renamed by content** (e.g. the two "Theopolis logo" files were actually Masaccio's
+  *Tribute Money* and a Bellini *Madonna and Child*). Full credits in
+  `_migrations/image-credits.md`. **There is no real Theopolis logo** in the assets — header
+  uses the wordmark (correct).
+
+## ⚠ Must resolve before publishing
+1. **Contact form has no backend.** `ContactForm.astro` posts to a Formspree placeholder
+   (`FORMSPREE_ENDPOINT = '...REPLACE_WITH_FORM_ID'`). Pick a backend + real endpoint, or it
+   won't deliver. On Home, About, Support.
+2. **Image rights:** `artists/baptism-fresco.jpg` came from **iStock** — verify licence or
+   replace before publish (see `_migrations/image-credits.md`).
+3. **Two artwork buy-links omitted on purpose** (#4 You Did It To Me — truncated PayPal; #5 The
+   Suffering Christ — was a Stripe `test_` link). They show an "Enquire" button instead.
+   Recapture the real links (still need Chrome MCP / artist confirmation).
+4. **Oskirko #15/#16** image-vs-title may be swapped — verify (notes in the two .md files).
+
+## ⏭ Older next steps (still relevant)
+1. **Finalize the scrape with Chrome MCP** — Chrome MCP now connects; used it this session.
+   Still worth a side-by-side vs the live Wix site for copy fidelity + the 4 items above.
 2. ~~**Download full-res images**~~ ✅ DONE — see "Images downloaded" above.
 3. **Migrate remaining pages** to content collections + routes (now wire in the images above):
    - `/about`, `/exhibition`, `/exhibition/gallery` (23 artworks), `/support`, `/events`,
