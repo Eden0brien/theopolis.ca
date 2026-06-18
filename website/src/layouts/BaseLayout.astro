@@ -1,0 +1,144 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  fullWidth?: boolean;
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  /** Optional page-specific JSON-LD. */
+  jsonLd?: Record<string, unknown>;
+}
+
+const { title, description, fullWidth = false, ogImage, ogType = 'website', jsonLd } = Astro.props;
+
+const siteUrl = (Astro.site ?? new URL('https://www.theopolis.ca')).origin;
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
+const usingDefaultOgImage = !ogImage;
+const ogImageUrl = ogImage ? new URL(ogImage, siteUrl).href : `${siteUrl}/og-image.png`;
+
+const defaultDescription =
+  'Theopolis is a Canadian foundation empowering Catholic artists and renewing faith and culture through beauty — based in Toronto, Ontario.';
+
+// Always end the browser/search title with the brand, without duplicating it.
+const BRAND = 'Theopolis';
+const fullTitle = title.includes(BRAND) ? title : `${title} — ${BRAND}`;
+
+// Site-wide organisation identity for search engines and AI/answer engines.
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'NGO',
+  name: BRAND,
+  url: siteUrl,
+  logo: `${siteUrl}/favicon-512x512.png`,
+  description: defaultDescription,
+  knowsLanguage: ['en'],
+  foundingLocation: 'Toronto, Ontario, Canada',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Toronto',
+    addressRegion: 'ON',
+    addressCountry: 'CA',
+  },
+  areaServed: 'Canada',
+  knowsAbout: [
+    'Catholic art',
+    'sacred art',
+    'Christian art',
+    'theological aesthetics',
+    'the Catholic imagination',
+    'iconography',
+    'arts patronage',
+    'faith and culture',
+  ],
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="512x512" href="/favicon-512x512.png" />
+    <!-- Warm up the Google Fonts connections before the stylesheet requests them -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+    />
+    <!-- Security meta (GitHub Pages can't set HTTP headers) -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+    <title>{fullTitle}</title>
+    <meta name="description" content={description ?? defaultDescription} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content="Theopolis" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description ?? defaultDescription} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:alt" content={fullTitle} />
+    {usingDefaultOgImage && (
+      <>
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:type" content="image/png" />
+      </>
+    )}
+    <meta property="og:locale" content="en_CA" />
+
+    <!-- Twitter / X card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description ?? defaultDescription} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <!-- Structured data: organisation identity + optional page schema -->
+    <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  </head>
+  <body class="bg-[var(--thp-background)] text-[var(--thp-foreground)]">
+    <a href="#main" class="skip-link">Skip to content</a>
+    <Header />
+    {fullWidth ? (
+      <main id="main" tabindex="-1">
+        <slot />
+      </main>
+    ) : (
+      <main id="main" tabindex="-1" class="mx-auto max-w-5xl px-6 py-12">
+        <slot />
+      </main>
+    )}
+    <Footer />
+
+    <!-- Back-to-top: appears after scrolling, for long pages -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="12" y1="19" x2="12" y2="5" />
+        <polyline points="5 12 12 5 19 12" />
+      </svg>
+    </button>
+    <script>
+      const btn = document.getElementById('back-to-top');
+      if (btn) {
+        const onScroll = () => btn.classList.toggle('visible', window.scrollY > 600);
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        btn.addEventListener('click', () =>
+          window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' })
+        );
+      }
+    </script>
+  </body>
+</html>

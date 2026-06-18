@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const DONATE_URL = 'https://www.zeffy.com/en-CA/donation-form/donate-to-theopolis-project';
+
+const whatWeDo = [
+  { title: 'Community', body: 'Connect with creative professionals across multiple disciplines.' },
+  { title: 'Support', body: 'Access professional services, mentorship, and financial support.' },
+  { title: 'Formation', body: 'Receive spiritual retreats, professional training, and cultural immersion.' },
+  { title: 'Events', body: 'Attend lectures, exhibitions, and quarterly socials.' },
+];
+---
+
+<BaseLayout
+  title="Theopolis — Empowering Catholic Artists. Renewing Faith and Culture."
+  description="Theopolis is a Canadian foundation empowering Catholic artists and renewing faith and culture through beauty, based in Toronto, Ontario."
+  fullWidth
+>
+  <!-- Hero -->
+  <section class="mx-auto max-w-5xl px-6 pt-20 pb-16 text-center">
+    <p class="eyebrow">A Revival of Faith &amp; Culture in Ontario</p>
+    <h1 class="mt-4 text-5xl md:text-6xl font-semibold leading-[1.05] text-[var(--thp-foreground)]">
+      Empowering Catholic Artists.<br />Renewing Faith and Culture.
+    </h1>
+    <hr class="gold-rule mx-auto" />
+    <blockquote class="mx-auto mt-6 max-w-2xl text-xl italic text-[var(--thp-muted-foreground)]">
+      “Theopolis is a cause of rejoicing, a vision of restoration of Catholic culture.”
+      <footer class="mt-2 text-base not-italic text-[var(--thp-gold)]">— Michael D. O’Brien, Painter &amp; Novelist</footer>
+    </blockquote>
+    <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+      <a href={DONATE_URL} target="_blank" rel="noopener"
+        class="rounded-full bg-[var(--thp-primary)] px-7 py-3 font-[family-name:var(--font-sans)] text-lg font-semibold text-white no-underline transition hover:bg-[#5A222A]">
+        Donate
+      </a>
+      <a href="/artists"
+        class="rounded-full border border-[var(--thp-primary)] px-7 py-3 font-[family-name:var(--font-sans)] text-lg font-semibold text-[var(--thp-primary)] no-underline transition hover:bg-[var(--thp-accent)]">
+        Meet our Artists
+      </a>
+      <a href="/support"
+        class="rounded-full border border-[var(--thp-border)] px-7 py-3 font-[family-name:var(--font-sans)] text-lg font-semibold text-[var(--thp-foreground)] no-underline transition hover:bg-[var(--thp-muted)]">
+        Support our Mission
+      </a>
+    </div>
+  </section>
+
+  <!-- What We Do -->
+  <section class="bg-[var(--thp-secondary)]/40">
+    <div class="mx-auto max-w-5xl px-6 py-16">
+      <div class="text-center">
+        <p class="eyebrow">What We Do</p>
+        <hr class="gold-rule mx-auto" />
+      </div>
+      <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {whatWeDo.map((item) => (
+          <div class="rounded-lg border border-[var(--thp-border)] bg-[var(--thp-card)] p-6 text-center">
+            <h3 class="text-2xl font-semibold text-[var(--thp-primary)]">{item.title}</h3>
+            <p class="mt-3 text-[var(--thp-muted-foreground)] leading-relaxed">{item.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Why It Matters -->
+  <section class="mx-auto max-w-3xl px-6 py-20 text-center">
+    <p class="eyebrow">Why It Matters</p>
+    <blockquote class="mt-4 text-4xl md:text-5xl font-semibold italic leading-tight text-[var(--thp-foreground)]">
+      “Beauty will save the world.”
+    </blockquote>
+    <p class="mt-2 text-[var(--thp-gold)]">— Fyodor Dostoevsky, 1869</p>
+    <p class="mt-8 text-lg leading-relaxed text-[var(--thp-muted-foreground)]">
+      Art shapes how we understand the world. Beauty opens a space for encounter with the Holy Spirit.
+      Catholic art enters into dialogue with contemporary Canadian culture, keeping the Catholic
+      imagination alive in public life.
+    </p>
+    <a href="/about"
+      class="mt-8 inline-block rounded-full border border-[var(--thp-primary)] px-7 py-3 font-[family-name:var(--font-sans)] text-lg font-semibold text-[var(--thp-primary)] no-underline transition hover:bg-[var(--thp-accent)]">
+      Learn More
+    </a>
+  </section>
+
+  <!-- Join the Movement -->
+  <section class="bg-[var(--thp-primary)] text-white">
+    <div class="mx-auto max-w-3xl px-6 py-16 text-center">
+      <h2 class="text-4xl font-semibold">Join the Movement</h2>
+      <p class="mt-4 text-lg text-white/85 leading-relaxed">
+        Support art that restores culture and lifts the gaze heaven-ward.
+      </p>
+      <a href="/support"
+        class="mt-8 inline-block rounded-full bg-white px-7 py-3 font-[family-name:var(--font-sans)] text-lg font-semibold text-[var(--thp-primary)] no-underline transition hover:bg-[var(--thp-accent)]">
+        Get Involved
+      </a>
+    </div>
+  </section>
+</BaseLayout>

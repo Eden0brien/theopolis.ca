@@ -1,0 +1,92 @@
+@import "tailwindcss";
+@import "./theme.css";
+@import "./palette.css";
+
+/* ── Base typography ────────────────────────────────────────────
+   Body in EB Garamond, headings in Cormorant Garamond (set via font-sans).
+   Cormorant runs small, so display headings get a touch more size/weight. */
+body {
+  font-family: var(--font-body);
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: 0.005em;
+}
+
+/* Small-caps eyebrow/label helper — used for section kickers */
+.eyebrow {
+  font-family: var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--thp-gold);
+}
+
+/* Decorative thin gold rule */
+.gold-rule {
+  width: 4rem;
+  height: 1px;
+  background: var(--thp-gold);
+  border: none;
+  margin: 1.25rem 0;
+}
+
+/* ── Skip-to-content link — off-screen until keyboard focus (a11y) ── */
+.skip-link {
+  position: absolute;
+  left: 0.5rem;
+  top: -4rem;
+  z-index: 100;
+  background: var(--thp-primary);
+  color: #fff;
+  padding: 0.6rem 1rem;
+  border-radius: 0 0 0.5rem 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+.skip-link:focus { top: 0; }
+#main:focus { outline: none; }
+
+/* ── Back-to-top button — hidden until scrolled, bottom-right ── */
+.back-to-top {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: none;
+  border-radius: 9999px;
+  background: var(--thp-primary);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(110, 43, 52, 0.3);
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease, background 0.15s ease;
+}
+.back-to-top.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.back-to-top:hover { background: #5A222A; }
+.back-to-top:focus-visible { outline: 2px solid var(--thp-primary); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) {
+  .back-to-top { transition: opacity 0.25s ease; transform: none; }
+  .back-to-top.visible { transform: none; }
+}
+
+/* Global anchor offset — accounts for the sticky navbar */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
+}

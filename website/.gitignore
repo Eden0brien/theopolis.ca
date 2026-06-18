@@ -1,0 +1,24 @@
+# gh-pages worktree (managed by Claude on publish)
+dist/
+
+# Build output (configured via outDir)
+_build/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Pagefind index (generated at build)
+public/pagefind/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+.astro/

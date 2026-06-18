@@ -1,0 +1,25 @@
+{
+  "name": "theopolis-website",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "theopolis.ca — public website. Astro 5 + Tailwind v4 + theopolis-style design system.",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "deploy": "bash scripts/publish.sh",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.0",
+    "@tailwindcss/typography": "^0.5.16",
+    "astro": "^5.7.0",
+    "astro-pagefind": "^2.0.0",
+    "tailwindcss": "^4.1.0"
+  },
+  "devDependencies": {
+    "@astrojs/sitemap": "^3.7.3"
+  }
+}

@@ -1,0 +1,48 @@
+/*
+ * Theopolis Theme — shared Tailwind configuration
+ *
+ * Forked from the hds-style design system and adapted for theopolis.ca:
+ * an elegant, gallery / liturgical aesthetic for a Catholic-arts foundation.
+ *
+ * Import this in global.css AFTER `@import "tailwindcss"`:
+ *   @import "./theme.css";
+ *   @import "./palette.css";
+ *
+ * Fonts are loaded via a <link> tag in BaseLayout's <head>:
+ *   Cormorant Garamond (display / headings) + EB Garamond (body).
+ *
+ * Provides:
+ *   - Tailwind @theme: font families, default weight
+ *   - Tailwind typography plugin
+ *   - A primary color scale derived from --thp-primary via color-mix()
+ */
+
+@plugin "@tailwindcss/typography";
+
+@theme {
+  /* Body: classic readable serif. Display: high-contrast elegant serif. */
+  --font-body:
+    "EB Garamond", Georgia, Cambria, "Times New Roman", serif;
+  --font-sans:
+    "Cormorant Garamond", "EB Garamond", Georgia, "Times New Roman", serif;
+  /* CSS generic keywords MUST stay unquoted (quoting breaks the font-mono fallback). */
+  --font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  --font-weight: 400;
+
+  /* Primary color scale — derived from --thp-primary via color-mix().
+   * Enables palette-aware Tailwind classes: bg-primary-500, text-primary-700, etc.
+   * The base color (500) comes from the active palette in palette.css. */
+  --color-primary-50: color-mix(in oklch, var(--thp-primary) 5%, white);
+  --color-primary-100: color-mix(in oklch, var(--thp-primary) 10%, white);
+  --color-primary-200: color-mix(in oklch, var(--thp-primary) 25%, white);
+  --color-primary-300: color-mix(in oklch, var(--thp-primary) 40%, white);
+  --color-primary-400: color-mix(in oklch, var(--thp-primary) 60%, white);
+  --color-primary-500: var(--thp-primary);
+  --color-primary-600: color-mix(in oklch, var(--thp-primary) 85%, black);
+  --color-primary-700: color-mix(in oklch, var(--thp-primary) 70%, black);
+  --color-primary-800: color-mix(in oklch, var(--thp-primary) 50%, black);
+  --color-primary-900: color-mix(in oklch, var(--thp-primary) 35%, black);
+  --color-primary-950: color-mix(in oklch, var(--thp-primary) 20%, black);
+}

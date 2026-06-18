@@ -1,0 +1,273 @@
+---
+// Primary navigation. "Donate" links out to Zeffy and renders as a pill.
+const DONATE_URL = 'https://www.zeffy.com/en-CA/donation-form/donate-to-theopolis-project';
+
+const items = [
+  { href: '/about', label: 'About' },
+  { href: '/exhibition', label: '2026 Exhibition' },
+  { href: '/exhibition/gallery', label: 'Buy Art' },
+  { href: '/events', label: 'Events' },
+  { href: '/artists', label: 'Artist Fraternity' },
+  { href: '/support', label: 'Support' },
+  { href: DONATE_URL, label: 'Donate', external: true },
+];
+---
+
+<style>
+  #site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    transition: background 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease, padding 0.3s ease;
+    background: transparent;
+    border-bottom: 1px solid transparent;
+  }
+  #site-header.scrolled {
+    background: rgba(251, 248, 241, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom-color: rgba(176, 140, 79, 0.25);
+    box-shadow: 0 1px 32px rgba(110, 43, 52, 0.06);
+  }
+  #site-header.scrolled .header-inner {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+  .header-inner {
+    transition: padding 0.3s ease;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+  .logo-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    color: var(--thp-foreground);
+  }
+  .logo-wrap img {
+    height: 2.75rem;
+    width: auto;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+  .logo-wrap:hover img { transform: scale(1.04); opacity: 0.9; }
+  .logo-word {
+    font-family: var(--font-sans);
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  /* Desktop nav links */
+  .nav-link {
+    position: relative;
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--thp-foreground);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    padding-bottom: 2px;
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1.5px;
+    background: var(--thp-gold);
+    transition: width 0.25s ease;
+    border-radius: 2px;
+  }
+  .nav-link:hover { color: var(--thp-primary); }
+  .nav-link:hover::after,
+  .nav-link.active::after { width: 100%; }
+  .nav-link.active { color: var(--thp-primary); }
+
+  /* Donate pill */
+  .nav-link-donate {
+    background: var(--thp-primary);
+    color: white !important;
+    padding: 0.4rem 1rem;
+    border-radius: 9999px;
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    transition: background 0.2s ease, transform 0.2s ease;
+    text-decoration: none;
+  }
+  .nav-link-donate:hover { background: #5A222A; transform: translateY(-1px); }
+  .nav-link-donate::after { display: none; }
+
+  /* Hamburger, mobile only */
+  #hamburger-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: var(--thp-foreground);
+    border-radius: 0.5rem;
+    transition: background 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  @media (max-width: 900px) { #hamburger-btn { display: flex; } }
+  #hamburger-btn:hover { background: rgba(110, 43, 52, 0.08); }
+
+  /* Mobile menu overlay */
+  #mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 49;
+    display: flex;
+    flex-direction: column;
+    background: rgba(251, 248, 241, 0.99);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    overflow-y: auto;
+  }
+  #mobile-menu.open { opacity: 1; pointer-events: auto; }
+  .mobile-menu-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+    padding: 6rem 2rem 3rem;
+  }
+  .mobile-nav-link {
+    font-family: var(--font-sans);
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--thp-foreground);
+    text-decoration: none;
+    padding: 0.6rem 1.5rem;
+    border-radius: 0.75rem;
+    width: 100%;
+    text-align: center;
+    transition: color 0.2s ease, background 0.2s ease;
+  }
+  .mobile-nav-link:hover,
+  .mobile-nav-link.active { color: var(--thp-primary); background: rgba(176, 140, 79, 0.08); }
+  .mobile-nav-donate {
+    background: var(--thp-primary);
+    color: white !important;
+    font-family: var(--font-sans);
+    font-size: 1.4rem;
+    font-weight: 600;
+    padding: 0.85rem 2.5rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    margin-top: 1.25rem;
+  }
+
+  /* Hamburger lines animation */
+  .ham-line {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: currentColor;
+    border-radius: 2px;
+    transition: transform 0.25s ease, opacity 0.2s ease;
+    transform-origin: center;
+  }
+  .ham-lines { display: flex; flex-direction: column; gap: 5px; }
+  #hamburger-btn.open .ham-line:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  #hamburger-btn.open .ham-line:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  #hamburger-btn.open .ham-line:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* Focus rings (keyboard a11y) */
+  .logo-wrap:focus-visible,
+  .nav-link:focus-visible,
+  .nav-link-donate:focus-visible,
+  #hamburger-btn:focus-visible,
+  .mobile-nav-link:focus-visible {
+    outline: 2px solid var(--thp-primary);
+    outline-offset: 4px;
+    border-radius: 2px;
+  }
+</style>
+
+<header id="site-header">
+  <div class="header-inner mx-auto max-w-6xl px-6 flex items-center justify-between gap-6">
+
+    <!-- Logo -->
+    <a href="/" class="logo-wrap" aria-label="Theopolis, Home">
+      <img src="/images/theopolis-logo.svg" alt="" aria-hidden="true" onerror="this.style.display='none'" />
+      <span class="logo-word">Theopolis</span>
+    </a>
+
+    <!-- Desktop Nav -->
+    <nav class="hidden min-[901px]:flex items-center gap-6" aria-label="Primary">
+      {items.map((item) => (
+        item.label === 'Donate'
+          ? <a href={item.href} class="nav-link-donate" target="_blank" rel="noopener">{item.label}</a>
+          : <a href={item.href} class="nav-link">{item.label}</a>
+      ))}
+    </nav>
+
+    <!-- Hamburger, mobile only -->
+    <button id="hamburger-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+      <span class="ham-lines" aria-hidden="true">
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+      </span>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile menu overlay -->
+<div id="mobile-menu" role="dialog" aria-label="Navigation" aria-modal="true">
+  <div class="mobile-menu-inner">
+    {items.map((item) => (
+      item.label === 'Donate'
+        ? <a href={item.href} class="mobile-nav-donate" target="_blank" rel="noopener">{item.label}</a>
+        : <a href={item.href} class="mobile-nav-link">{item.label}</a>
+    ))}
+  </div>
+</div>
+
+<script>
+  const header = document.getElementById('site-header');
+  const onScroll = () => header?.classList.toggle('scrolled', window.scrollY > 20);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Active nav link, normalise trailing slashes before comparing
+  const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
+  document.querySelectorAll('.nav-link, .mobile-nav-link').forEach((link) => {
+    const href = (link.getAttribute('href') ?? '').replace(/\/$/, '');
+    if (href && href.startsWith('/') && (currentPath === href || (href !== '' && currentPath.startsWith(href + '/')))) {
+      link.classList.add('active');
+      link.setAttribute('aria-current', 'page');
+    }
+  });
+
+  // Mobile menu toggle
+  const btn = document.getElementById('hamburger-btn');
+  const menu = document.getElementById('mobile-menu');
+  const openMenu = () => {
+    menu?.classList.add('open');
+    btn?.classList.add('open');
+    btn?.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  };
+  const closeMenu = () => {
+    menu?.classList.remove('open');
+    btn?.classList.remove('open');
+    btn?.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  };
+  btn?.addEventListener('click', () => (menu?.classList.contains('open') ? closeMenu() : openMenu()));
+  menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+</script>

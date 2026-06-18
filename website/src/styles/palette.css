@@ -1,0 +1,52 @@
+/*
+ * Theopolis Palette — "Sanctuary"
+ *
+ * A single, warm, gallery / liturgical scheme for a Catholic-arts foundation:
+ * parchment background, deep warm ink text, oxblood-burgundy primary, antique-gold accent.
+ *
+ * Forked from hds-style/palettes.css. We keep the same custom-property contract
+ * (--thp-background, --thp-foreground, --thp-primary, …) so components read tokens,
+ * never hard-coded colours. English-only single brand → one palette on :root.
+ *
+ * Usage in Tailwind classes:
+ *   bg-[var(--thp-background)]  text-[var(--thp-foreground)]
+ *   bg-[var(--thp-primary)]     text-[var(--thp-primary-foreground)]
+ */
+
+:root {
+  color-scheme: light;
+
+  /* Surfaces & text */
+  --thp-background: #FBF8F1;      /* warm parchment */
+  --thp-foreground: #211C18;      /* deep warm ink */
+
+  --thp-card: #FFFDF8;
+  --thp-card-foreground: #211C18;
+
+  /* Primary — liturgical oxblood / burgundy */
+  --thp-primary: #6E2B34;
+  --thp-primary-foreground: #FFFFFF;
+
+  /* Antique gold — accent used sparingly for rules, flourishes, hovers */
+  --thp-gold: #B08C4F;
+  --thp-gold-foreground: #3B2E14;
+
+  /* Secondary — soft gold-sand block */
+  --thp-secondary: #EFE6D2;
+  --thp-secondary-foreground: #5A4B2E;
+
+  /* Muted — low-emphasis surfaces & secondary text */
+  --thp-muted: #F1EADD;
+  --thp-muted-foreground: #6B5F4F;   /* AA on parchment & on white */
+
+  /* Accent — gold-tinted hover/active surface */
+  --thp-accent: #F3E7CE;
+  --thp-accent-foreground: #8A6A2F;
+
+  --thp-destructive: #B3261E;
+  --thp-destructive-foreground: #FFFFFF;
+
+  --thp-border: #E4D9C4;
+  --thp-input: #E4D9C4;
+  --thp-ring: #6E2B34;
+}
