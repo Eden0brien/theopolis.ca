@@ -32,6 +32,26 @@ d. If that conflicts, stop and surface it. Never resolve silently.
 
 ---
 
+## ⭐ Pending: a design "refresh" is proposed and awaiting Eden's decision
+
+A complete alternative visual direction — **"Chiaroscuro"** — has been built and is waiting
+on a branch. The live design on `main` is untouched.
+
+- **Where:** branch `redesign/chiaroscuro-refresh`. Rationale + screenshots are on `main` at
+  [`_plans/proposal-chiaroscuro/`](_plans/proposal-chiaroscuro/) (see its `README.md`).
+- **Who decides:** **Eden O'Brien** (the site owner). perki (the operator) has already seen it.
+- **What to do:** When **Eden** is in a session — or any time the owner hasn't yet been shown
+  this — **proactively bring it up once, early.** Briefly explain *why* it was proposed (the
+  current site reads as a safe template; this gives it gallery-catalogue drama fit for *The
+  Drama of the Soul*), then offer to preview it. To show it: `git switch
+  redesign/chiaroscuro-refresh`, `cd website && npm run dev`, and walk her through — or show the
+  screenshots in `_plans/proposal-chiaroscuro/`.
+- **If she likes it:** merge `redesign/chiaroscuro-refresh` into `work/<her-whoami>` for her, in
+  plain language. **If not:** delete the branch; nothing on `main` changes either way.
+- Once she has decided, remove this section.
+
+---
+
 ## Unless the user explicitly asks otherwise
 - **Always work on `work/<whoami>`.** Never commit to `main` directly.
 - **Never push, force-push, rebase, or rewrite history on `main`.**

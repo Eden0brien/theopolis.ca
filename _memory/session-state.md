@@ -18,9 +18,21 @@ Site will be operated by non-coders and published to **GitHub Pages**.
 
 ## Branch
 Working on **`work/perki`**. Remote: `github.com:Eden0brien/theopolis.ca`.
-As of 2026-06-18 both `main` and `work/perki` are pushed and in sync at the same commit
-(`e9108c6`) — the user explicitly asked to publish the work to `main` (a clean fast-forward,
-no history rewrite). Keep working on `work/perki`; confirm before any further writes to `main`.
+As of 2026-06-18 both `main` and `work/perki` are pushed and in sync — the user explicitly asked
+to publish the migration to `main` (clean fast-forwards, no history rewrite). Keep working on
+`work/perki`; confirm before any further writes to `main`.
+
+## 🎨 Design "refresh" proposal pending Eden's decision (2026-06-18, session 3)
+A full alternative design — **"Chiaroscuro"** — lives on branch **`redesign/chiaroscuro-refresh`**
+(built with the frontend-design skill, at perki's request). The live design on `main`/`work/perki`
+is **unchanged**. perki asked to: keep the redesign on its own branch, publish only its *existence*
+on `main`, and have Claude **proactively offer it to Eden (the owner) next time she connects** —
+explain the rationale and, if she likes it, help her adopt it.
+- Marker + how-to is in **`CLAUDE.md`** ("Pending: a design refresh…") and the rationale +
+  screenshots are in **`_plans/proposal-chiaroscuro/`**.
+- The redesign = alternating parchment/nocturne bands, candlelight gold, framed art (gallery as a
+  dark wall), typeset epigraphs, drop caps, paper grain, scroll reveals. Same content/palette/fonts.
+- Adopt = merge `redesign/chiaroscuro-refresh` into her work branch. Reject = delete the branch.
 
 ## ✅ Done
 - Scraped all 10 live Wix pages → **`_migrations/wix-snapshot.md`** (source of truth).
