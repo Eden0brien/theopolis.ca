@@ -1,52 +1,69 @@
 /*
- * Theopolis Palette — "Sanctuary"
+ * Theopolis Palette — "Pilgrimage" (brand-kit aligned)
  *
- * A single, warm, gallery / liturgical scheme for a Catholic-arts foundation:
- * parchment background, deep warm ink text, oxblood-burgundy primary, antique-gold accent.
+ * Built from the official Theopolis Brand Kit, not the old "Sanctuary" scheme:
+ *   - Lead colour is a DUSTY STEEL BLUE (the wordmark + shell colour).
+ *   - Warm browns + cream carry the neutrals.
+ *   - Marigold, sage, red and deep maroon are sparing accents.
  *
- * Forked from hds-style/palettes.css. We keep the same custom-property contract
- * (--thp-background, --thp-foreground, --thp-primary, …) so components read tokens,
- * never hard-coded colours. English-only single brand → one palette on :root.
+ * The custom-property contract (--thp-background, --thp-foreground, --thp-primary, …)
+ * is unchanged, so every component keeps reading tokens — never hard-coded colours.
+ * English-only single brand → one palette on :root.
  *
- * Usage in Tailwind classes:
- *   bg-[var(--thp-background)]  text-[var(--thp-foreground)]
- *   bg-[var(--thp-primary)]     text-[var(--thp-primary-foreground)]
+ * Brand source values (sampled from the kit):
+ *   creams   #F9F4E9 #DBD4C2     browns #665040 #604A3B
+ *   blues    #5C80A2 #466578 #0F3752
+ *   accents  marigold #F2C13E · sage #4A8065 · red #A2000E · maroon #6B0D14
  */
 
 :root {
   color-scheme: light;
 
   /* Surfaces & text */
-  --thp-background: #FBF8F1;      /* warm parchment */
-  --thp-foreground: #211C18;      /* deep warm ink */
+  --thp-background: #F9F5EC;      /* warm cream */
+  --thp-foreground: #2A2620;      /* deep warm brown-ink */
 
-  --thp-card: #FFFDF8;
-  --thp-card-foreground: #211C18;
+  --thp-card: #FFFDF7;
+  --thp-card-foreground: #2A2620;
 
-  /* Primary — liturgical oxblood / burgundy */
-  --thp-primary: #6E2B34;
+  /* Primary — dusty steel blue (the brand lead; AA with white text) */
+  --thp-primary: #3C5E73;
   --thp-primary-foreground: #FFFFFF;
 
-  /* Antique gold — accent used sparingly for rules, flourishes, hovers */
-  --thp-gold: #B08C4F;
-  --thp-gold-foreground: #3B2E14;
+  /* Deeper navy + softer blue — for dark bands and light accents */
+  --thp-navy: #0F3752;
+  --thp-blue-soft: #5C80A2;
 
-  /* Secondary — soft gold-sand block */
-  --thp-secondary: #EFE6D2;
-  --thp-secondary-foreground: #5A4B2E;
+  /* Marigold accent — used sparingly for rules, flourishes, eyebrows.
+     --thp-gold keeps its name (components reference it) but is now ochre-marigold;
+     --thp-marigold is the brighter fill tone from the kit. */
+  --thp-gold: #C68A1F;
+  --thp-gold-foreground: #3A2A10;
+  --thp-marigold: #F2C13E;
+
+  /* Warm browns */
+  --thp-brown: #604A3B;
+  --thp-brown-soft: #8A6F58;
+
+  /* Secondary — soft sand block */
+  --thp-secondary: #E7DEC9;
+  --thp-secondary-foreground: #4A3D27;
 
   /* Muted — low-emphasis surfaces & secondary text */
-  --thp-muted: #F1EADD;
-  --thp-muted-foreground: #6B5F4F;   /* AA on parchment & on white */
+  --thp-muted: #EFE8D8;
+  --thp-muted-foreground: #6A5E4C;   /* AA on cream & on white */
 
-  /* Accent — gold-tinted hover/active surface */
-  --thp-accent: #F3E7CE;
-  --thp-accent-foreground: #8A6A2F;
+  /* Accent — soft blue-tinted hover/active surface */
+  --thp-accent: #E2EAEF;
+  --thp-accent-foreground: #2A4658;
 
-  --thp-destructive: #B3261E;
+  /* Liturgical accents from the kit */
+  --thp-sage: #4A8065;
+  --thp-maroon: #6B0D14;
+  --thp-destructive: #A2000E;
   --thp-destructive-foreground: #FFFFFF;
 
-  --thp-border: #E4D9C4;
-  --thp-input: #E4D9C4;
-  --thp-ring: #6E2B34;
+  --thp-border: #E0D7C3;
+  --thp-input: #E0D7C3;
+  --thp-ring: #3C5E73;
 }

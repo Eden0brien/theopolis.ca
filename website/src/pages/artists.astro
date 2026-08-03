@@ -1,20 +1,80 @@
 ---
-import { getCollection, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHero from '../components/PageHero.astro';
 
-const artists = (await getCollection('artists')).sort(
-  (a, b) => (a.data.order ?? 0) - (b.data.order ?? 0),
-);
-const rendered = await Promise.all(
-  artists.map(async (a) => ({ data: a.data, Content: (await render(a)).Content })),
-);
+// Artist profiles — same card + hover-bio format as the About team.
+const artistMembers = [
+  {
+    name: 'Hugh Edmund',
+    role: 'Musician',
+    image: '/images/artists/hugh-beresford-portrait.jpg',
+    artwork: '/images/home/hugh-album-cover.png',
+    bio: `Hugh Edmund is a Catholic singer-songwriter living and working in Ontario. He has a passion for music, art, and writing and was introduced to the liberal arts during his teenage years. Inspired by the idea of sharing the faith through the good, the true, and the beautiful, Hugh has since taught, performed, and written music as a Catholic artist. Although his work is not always explicitly religious, it seeks to reveal the goodness of God within the world.`,
+    link: { label: 'Listen to Hugh’s latest album on Spotify', url: 'https://open.spotify.com/album/3eaOphrE4xx8aRXTAxlZRP' },
+  },
+  {
+    name: 'Julia Krikorian',
+    role: 'Photographer and Visual Artist',
+    image: '/images/artists/julia-krikorian-portrait.jpg',
+    artwork: '/images/gallery/09-midway.jpg',
+    bio: `Julia Krikorian studied Media and Communications at Our Lady Seat of Wisdom College and Redeemer University. She is a photographer and visual artist whose work has taken her across Europe and North America. Based in Toronto, Julia works with clients and collaborators worldwide.`,
+    link: { label: 'Visit Julia’s portfolio', url: 'https://www.juliakrikorianvisuals.com' },
+  },
+  {
+    name: 'Sonia Laposi',
+    role: 'Writer and Visual Artist',
+    image: '/images/artists/sonia-laposi-portrait.jpg',
+    artwork: '/images/gallery/10-i-see-you.png',
+    artPos: 'center 18%',
+    bio: `Sonia Laposi studied English Literature and Drama at the University of Waterloo, followed by Rhetoric and Experimental Digital Media. She also holds an MLitt in Playwriting and Screenwriting from the University of St Andrews. Sonia is a writer, songwriter, and visual artist. She recently wrote and directed a vampire musical and is currently working on her first EP.`,
+    link: { label: 'Follow Sonia on Instagram', url: 'https://www.instagram.com/toto_spunj' },
+  },
+  {
+    name: 'Hannah O’Brien',
+    role: 'Visual Artist',
+    image: '/images/artists/hannah-obrien-portrait.jpg',
+    artwork: '/images/gallery/14-the-temptation-of-adam.jpg',
+    bio: `Hannah O’Brien is a visual artist working primarily in watercolour and oil paint. She is also a novice violinist. After studying at Our Lady Seat of Wisdom College, she pursued classical sacred art at the Sacred Art School of Florence. Her interests include art history, curation, and the preservation of sacred art.`,
+    link: { label: 'Follow Hannah on Instagram', url: 'https://www.instagram.com/7hannahobrien_art' },
+  },
+  {
+    name: 'Joseph Ferrant',
+    role: 'Illustrator and Painter',
+    image: '/images/artists/joseph-ferrant-portrait.jpg',
+    artwork: '/images/gallery/06-act-and-god-will-act.jpg',
+    bio: `Joseph Ferrant is a freelance illustrator and painter with more than fifteen years of experience in commissioned work. He attended Our Lady Seat of Wisdom College before earning a bachelor’s degree in English and Theatre from Redeemer University in 2015. He later studied at the Academy of Realist Art in Toronto. His work includes religious commissions, short-film storyboards, and book illustrations. Although he primarily works in oils, he also uses watercolour, acrylic, graphite, pen and ink, pastel, and digital media. Joseph lives in the Madawaska Valley, Ontario.`,
+    link: null,
+  },
+  {
+    name: 'Nicholas De Castro',
+    role: 'Visual Artist',
+    image: '/images/artists/nicholas-de-castro-portrait.jpg',
+    artwork: '/images/gallery/04-you-did-it-to-me.jpg',
+    bio: `Nicholas De Castro is a Catholic visual artist, youth minister, and singer-songwriter based in North York, Toronto. He is completing a Bachelor of Fine Arts and Education at York University while serving in parish and chaplaincy ministry. A profound encounter with Christ in the Eucharist during a high school retreat shaped his understanding of beauty as not merely an idea, but a person: Jesus Christ. Rooted in prayer and his experience in ministry, Nicholas’s artwork reflects the movements of his heart and the ways he encounters God at work in his life. Although trained as a painter, he has recently developed a strong interest in printmaking. Through his art, Nicholas seeks to glorify God and draw others toward heaven.`,
+    link: null,
+  },
+  {
+    name: 'Ikranrin (IJ) Makan',
+    role: 'Iconographer',
+    image: '/images/artists/ikranrin-makan-portrait.jpg',
+    artwork: '/images/gallery/12-the-anastasis.jpg',
+    bio: `Ikranrin (IJ) Makan is a Catholic iconographer based in Ottawa. He creates oil paintings on canvas and wood panels for private devotion and religious communities. He holds a master’s degree in Philosophy and a bachelor’s degree in Philosophy, Biblical Studies, and Theology. A convert to Catholicism, IJ was drawn to the Church in part through icons, in which he encountered philosophy, theology, and art united as a single vocation. He began painting icons in 2024 and is largely self-taught, having immersed himself in the history, theology, and techniques of the tradition. His work reflects the mystery of the Incarnation and explores the icon as a threshold between the visible and the invisible.`,
+    link: null,
+  },
+  {
+    name: 'Joshua Terpstra',
+    role: 'Visual Artist',
+    image: '/images/artists/joshua-terpstra-portrait.jpg',
+    artwork: '/images/gallery/21-briar-rose.jpg',
+    bio: `Joshua Terpstra is a Catholic visual artist and teacher based in Ottawa. Inspired by the traditions of iconography and Art Nouveau, his work explores the beauty of Christ and the saints, sacred symbolism, and, more recently, narrative scenes drawn from popular stories. Although he works primarily in digital media, Joshua also enjoys pastels and other traditional media.`,
+    link: { label: 'Follow Joshua on Instagram', url: 'https://www.instagram.com/arssacra_' },
+  },
+];
 
 const offerings = [
-  { title: 'Professional Services', body: 'Legal, finance, publishing, social media, marketing & branding, and tech support.' },
-  { title: 'Memberships', body: 'Access to memberships with leading institutions and guilds.' },
-  { title: 'Intellectual & Spiritual Formation', body: 'Retreats, masterclasses, and study-abroad opportunities.' },
-  { title: 'Financial Support', body: 'Grants, awards, and a network of patrons.' },
+  { title: 'Professional Services', body: 'Legal, finance, publishing, social media, marketing & branding, and tech support.', image: '/images/artists/offer-professional-services.jpg' },
+  { title: 'Memberships', body: 'Access to memberships with leading institutions and guilds.', image: '/images/artists/offer-memberships.jpg' },
+  { title: 'Intellectual & Spiritual Formation', body: 'Retreats, masterclasses, and study-abroad opportunities.', image: '/images/artists/offer-formation.jpg' },
+  { title: 'Financial Support', body: 'Grants, awards, and a network of patrons.', image: '/images/artists/offer-financial-support.jpg' },
 ];
 ---
 <BaseLayout
@@ -22,65 +82,457 @@ const offerings = [
   description="A vibrant community for Catholic creators — painters, sculptors, photographers, musicians, and writers — offering resources, mentorship, formation, and fellowship."
   fullWidth
 >
-  <PageHero
-    eyebrow="Artist Fraternity"
-    title="A community for Catholic creators"
-    lead="We bring together painters, sculptors, photographers, musicians, writers, and other artists — offering resources, mentorship, spiritual formation, and fellowship to help you thrive in both craft and faith."
-  />
-
-  <!-- Meet our artists -->
-  <section class="mx-auto max-w-5xl px-6 py-16 lg:py-20">
-    <div class="text-center">
-      <p class="eyebrow">Meet Our Artists</p>
-      <div class="gold-flourish"><span>&#9670;</span></div>
-      <p class="mx-auto max-w-2xl text-[var(--thp-muted-foreground)]">
-        Explore the diverse community of artists shaping the future of Catholic art.
-      </p>
+  <!-- Hero banner — Madonna & Child with Saints (formatted like the About hero) -->
+  <section class="af-hero">
+    <img
+      class="af-hero-img"
+      src="/images/artists/renoir-banner.jpg"
+      alt=""
+      aria-hidden="true"
+      loading="eager"
+      decoding="async"
+      fetchpriority="high"
+    />
+    <div class="af-hero-veil"></div>
+    <div class="af-hero-inner mx-auto max-w-6xl px-6">
+      <div class="af-hero-content">
+        <p class="label section-kicker af-hero-kicker">Artist Fraternity</p>
+        <h1 class="af-hero-title">A community for Catholic creators</h1>
+        <p class="af-hero-lead">
+          We bring together painters, sculptors, photographers, musicians, writers, and other
+          artists &mdash; offering resources, mentorship, spiritual formation, and fellowship to
+          help you thrive in both craft and faith.
+        </p>
+      </div>
     </div>
-    <div class="mt-10 space-y-12">
-      {rendered.map(({ data, Content }) => (
-        <article class="grid items-center gap-8 sm:grid-cols-[auto_1fr]">
-          {data.image && (
-            <img src={data.image} alt={`Portrait of ${data.name}`} loading="lazy"
-              class="mx-auto h-44 w-44 rounded-full object-cover shadow-md ring-1 ring-[var(--thp-border)]" />
-          )}
-          <div>
-            <h3 class="text-2xl font-semibold text-[var(--thp-primary)]">{data.name}</h3>
-            {data.role && <p class="text-[var(--thp-gold)]">{data.role}</p>}
-            <div class="mt-3 leading-relaxed text-[var(--thp-muted-foreground)] [&_p]:mt-3">
-              <Content />
-            </div>
-            {data.links && (
-              <div class="mt-4 flex flex-wrap gap-3">
-                {data.links.map((link) => (
-                  <a href={link.url} target="_blank" rel="noopener" class="btn btn-outline !px-5 !py-2 !text-base">{link.label}</a>
-                ))}
-              </div>
-            )}
+    <p class="af-hero-credit">Pierre-Auguste Renoir, <em>Bal du moulin de la Galette</em> (public domain).</p>
+  </section>
+
+  <!-- What we offer — image tiles, matching the home "What we do" -->
+  <section class="mx-auto max-w-6xl px-6 py-12 lg:py-16">
+    <p class="label section-kicker">What we offer</p>
+    <hr class="rule mt-4" />
+    <div class="offer-grid">
+      {offerings.map((o) => (
+        <div class="offer-card" tabindex="0" aria-label={o.title}>
+          <img class="offer-img" src={o.image} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+          <div class="offer-base">
+            <h3 class="offer-title--light">{o.title}</h3>
           </div>
-        </article>
+          <div class="offer-reveal">
+            <h3 class="offer-back-title">{o.title}</h3>
+            <hr class="offer-back-divider" />
+            <p class="offer-back-body">{o.body}</p>
+          </div>
+        </div>
       ))}
     </div>
   </section>
 
-  <!-- What we offer -->
-  <section class="bg-[var(--thp-primary)] text-white">
-    <div class="mx-auto max-w-5xl px-6 py-16 lg:py-20">
-      <div class="text-center">
-        <p class="eyebrow" style="color: var(--thp-accent);">What We Offer</p>
-        <p class="mx-auto mt-3 max-w-2xl text-white/85">
-          The Artist Fraternity is a one-stop hub for Catholic artists — equipping members with
-          the tools, guidance, and community they need to create with excellence.
-        </p>
+  <!-- Meet our artists -->
+  <section class="mx-auto max-w-6xl px-6 py-16 lg:py-24">
+    <p class="label section-kicker">Meet Our Artists</p>
+    <hr class="rule mt-4" />
+
+    <div class="af-slideshow" data-af-slideshow aria-roledescription="carousel">
+      <button type="button" class="af-nav af-prev" aria-label="Previous artist">&lsaquo;</button>
+
+      <div class="af-viewport">
+        <div class="af-track">
+          {artistMembers.map((m, i) => {
+            const initials = m.name.replace(/\(.*?\)/g, '').trim().split(/\s+/).map((w) => w[0]).slice(0, 2).join('');
+            return (
+              <article
+                class="af-slide"
+                data-idx={i}
+                aria-roledescription="slide"
+                aria-label={`${i + 1} of ${artistMembers.length}: ${m.name}`}
+              >
+                <div class="af-card">
+                  <div class="af-photo-wrap">
+                    {m.image
+                      ? <img class="af-photo" src={m.image} alt={`Portrait of ${m.name}`} loading={i === 0 ? 'eager' : 'lazy'} />
+                      : <div class="af-photo af-photo--ph" aria-hidden="true">{initials}</div>}
+                  </div>
+                  <div class:list={['af-bio', { 'has-art': !!m.artwork }]}>
+                    {m.artwork && (
+                      <div class="af-bio-art" style={`background-image:url('${m.artwork}');background-position:${m.artPos || 'center'}`} aria-hidden="true"></div>
+                    )}
+                    <div class="af-bio-inner">
+                      <p class="af-bio-text">{m.bio}</p>
+                      <hr class="af-bio-divider" />
+                      <p class="af-bio-name">{m.name}<span class="af-bio-role">, {m.role}</span></p>
+                      {m.link && (
+                        <a class="af-bio-btn" href={m.link.url} target="_blank" rel="noopener">{m.link.label}</a>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
       </div>
-      <div class="mt-10 grid gap-6 sm:grid-cols-2">
-        {offerings.map((o) => (
-          <div class="rounded-xl border border-white/20 bg-white/5 p-6">
-            <h3 class="text-xl font-semibold">{o.title}</h3>
-            <p class="mt-2 text-white/80 leading-relaxed">{o.body}</p>
-          </div>
+
+      <button type="button" class="af-nav af-next" aria-label="Next artist">&rsaquo;</button>
+
+      <div class="af-dots" role="tablist" aria-label="Choose artist">
+        {artistMembers.map((m, i) => (
+          <button
+            type="button"
+            class:list={['af-dot', { 'is-active': i === 0 }]}
+            data-idx={i}
+            role="tab"
+            aria-label={m.name}
+            aria-selected={i === 0}
+          ></button>
         ))}
       </div>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  /* Artist Fraternity hero — full-screen painting banner, same treatment as About/Events. */
+  .af-hero {
+    position: relative;
+    width: 100%;
+    height: 100svh;
+    min-height: 600px;
+    overflow: hidden;
+    background: var(--thp-muted);
+  }
+  .af-hero-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+  }
+  /* Strong cream veil on the left so the title reads over the painting */
+  .af-hero-veil {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to right,
+      rgba(249, 245, 236, 0.92),
+      rgba(249, 245, 236, 0.6) 42%,
+      rgba(249, 245, 236, 0.08) 80%
+    );
+  }
+  @media (max-width: 640px) {
+    .af-hero-veil { background: rgba(249, 245, 236, 0.82); }
+  }
+  .af-hero-inner {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+  .af-hero-content { max-width: 42rem; }
+  .af-hero-kicker { margin-bottom: 1.25rem; }
+  .af-hero-title {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    font-size: clamp(2.75rem, 7vw, 5.5rem);
+    color: var(--thp-foreground);
+  }
+  .af-hero-lead {
+    margin-top: 1.5rem;
+    max-width: 40ch;
+    font-family: var(--font-body);
+    font-size: clamp(1.15rem, 1.7vw, 1.4rem);
+    line-height: 1.55;
+    color: var(--thp-foreground);
+  }
+  .af-hero-credit {
+    position: absolute;
+    right: clamp(1rem, 4vw, 2.5rem);
+    bottom: 0.7rem;
+    z-index: 3;
+    font-family: var(--font-body);
+    font-size: 0.58rem;
+    letter-spacing: 0.02em;
+    color: var(--thp-muted-foreground);
+  }
+
+  /* ── Artist slideshow (rectangular cards, horizontal swipe) ────── */
+  .af-slideshow { position: relative; margin-top: 3rem; }
+  .af-viewport { overflow: hidden; border-radius: 2px; }
+  .af-track {
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+  .af-slide { flex: 0 0 100%; min-width: 0; }
+
+  .af-card {
+    display: grid;
+    grid-template-columns: 1fr;
+    height: 100%;
+    background: transparent;
+    border: 1px solid rgba(224, 215, 195, 0.7);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  @media (min-width: 820px) {
+    .af-card { grid-template-columns: minmax(0, 38%) minmax(0, 1fr); align-items: stretch; }
+  }
+
+  .af-photo-wrap { background: var(--thp-muted); aspect-ratio: 4 / 5; }
+  @media (min-width: 820px) {
+    .af-photo-wrap { aspect-ratio: auto; height: 100%; min-height: 25rem; }
+  }
+  .af-photo { width: 100%; height: 100%; object-fit: cover; object-position: center 18%; display: block; }
+  .af-photo--ph {
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-sans); font-size: clamp(3rem, 9vw, 5.5rem);
+    letter-spacing: 0.06em; color: var(--thp-muted-foreground);
+    background: var(--thp-secondary);
+  }
+
+  .af-bio {
+    position: relative;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: clamp(1.75rem, 3.5vw, 3.25rem);
+  }
+  /* Artist's own artwork, faint behind the bio */
+  .af-bio-art {
+    position: absolute; inset: 0; z-index: 0;
+    background-size: cover; background-position: center;
+  }
+  .af-bio-art::after {
+    content: ''; position: absolute; inset: 0;
+    background: rgba(249, 245, 236, 0.82);
+  }
+  .af-bio-inner { position: relative; z-index: 1; }
+  .af-bio-text {
+    font-family: var(--font-body);
+    font-size: clamp(1.02rem, 1.05vw, 1.18rem);
+    line-height: 1.75;
+    color: var(--thp-foreground);
+  }
+  .af-bio-divider { width: 2.75rem; height: 1px; margin: 1.75rem 0 0; border: 0; background: var(--thp-gold); }
+  .af-bio-name {
+    margin-top: 1.1rem;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 1.5rem;
+    line-height: 1.2;
+    color: var(--thp-foreground);
+  }
+  .af-bio-role { font-weight: 400; color: var(--thp-primary); }
+  .af-bio-btn {
+    display: inline-block;
+    margin-top: 1.85rem;
+    font-family: var(--font-sans);
+    font-size: 1.08rem;
+    letter-spacing: 0.01em;
+    color: var(--thp-foreground);
+    border: 1px solid var(--thp-foreground);
+    border-radius: 4px;
+    padding: 0.8rem 1.6rem;
+    text-decoration: none;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  }
+  .af-bio-btn:hover { background: var(--thp-navy); border-color: var(--thp-navy); color: #fff; }
+
+  /* Arrows — bare minimal chevrons */
+  .af-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+    padding: 0.5rem;
+    border: 0;
+    background: none;
+    color: var(--thp-primary);
+    font-size: 2.2rem; line-height: 1;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.2s ease;
+  }
+  .af-prev { left: -0.5rem; }
+  .af-next { right: -0.5rem; }
+  .af-nav:hover { opacity: 1; }
+  .af-nav:focus-visible { outline: 2px solid var(--thp-primary); outline-offset: 3px; border-radius: 4px; }
+  @media (min-width: 1180px) {
+    .af-prev { left: -2.5rem; }
+    .af-next { right: -2.5rem; }
+  }
+
+  /* Dots */
+  .af-dots { display: flex; justify-content: center; gap: 0.65rem; margin-top: 2.75rem; }
+  .af-dot {
+    width: 9px; height: 9px; padding: 0;
+    border: 0; border-radius: 9999px;
+    background: var(--thp-border);
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .af-dot:hover { background: var(--thp-muted-foreground); }
+  .af-dot.is-active { background: var(--thp-primary); transform: scale(1.3); }
+  .af-dot:focus-visible { outline: 2px solid var(--thp-primary); outline-offset: 2px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .af-track { transition: none; }
+  }
+
+  /* ── What we offer — 2×2 flip cards (title on front, description on back) ── */
+  .offer-grid {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  @media (min-width: 860px) {
+    .offer-grid { grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+  }
+  .offer-card {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    border-radius: 3px;
+    cursor: pointer;
+    box-shadow: 0 16px 38px -22px rgba(15, 55, 82, 0.5);
+  }
+  .offer-card:focus-visible { outline: 2px solid var(--thp-primary); outline-offset: 4px; }
+  .offer-img {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .offer-card:hover .offer-img,
+  .offer-card:focus-within .offer-img { transform: scale(1.04); }
+
+  /* Resting state: title over a bottom gradient */
+  .offer-base {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.5rem;
+    background: linear-gradient(to top, rgba(15, 55, 82, 0.85), rgba(15, 55, 82, 0.12) 55%, transparent);
+    transition: opacity 0.45s ease;
+  }
+  .offer-card:hover .offer-base,
+  .offer-card:focus-within .offer-base { opacity: 0; }
+  .offer-title--light {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: clamp(1rem, 1.4vw, 1.2rem);
+    line-height: 1.15;
+    color: #f9f4e9;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.35);
+  }
+
+  /* Hover/focus state: full description fades in */
+  .offer-reveal {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(1.6rem, 3vw, 2.25rem);
+    background: rgba(15, 55, 82, 0.92);
+    color: #f9f4e9;
+    opacity: 0;
+    transition: opacity 0.45s ease;
+  }
+  .offer-card:hover .offer-reveal,
+  .offer-card:focus-within .offer-reveal { opacity: 1; }
+  .offer-reveal > * {
+    transform: translateY(8px);
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .offer-card:hover .offer-reveal > *,
+  .offer-card:focus-within .offer-reveal > * { transform: none; }
+  .offer-back-title {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+    line-height: 1.15;
+    color: #f9f4e9;
+  }
+  .offer-back-divider { width: 2.25rem; height: 1px; border: 0; background: var(--thp-marigold); margin: 0.75rem 0; }
+  .offer-back-body {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: rgba(249, 244, 233, 0.88);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .offer-img, .offer-base, .offer-reveal, .offer-reveal > * { transition: opacity 0.2s ease; transform: none; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll('[data-af-slideshow]').forEach((root) => {
+    const track = root.querySelector('.af-track');
+    const slides = Array.from(root.querySelectorAll('.af-slide'));
+    const dots = Array.from(root.querySelectorAll('.af-dot'));
+    if (!track || !slides.length) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let i = 0;
+    let timer = null;
+
+    const show = (n) => {
+      i = (n + slides.length) % slides.length;
+      track.style.transform = `translateX(${-i * 100}%)`;
+      slides.forEach((s, k) => s.setAttribute('aria-hidden', String(k !== i)));
+      dots.forEach((d, k) => {
+        const active = k === i;
+        d.classList.toggle('is-active', active);
+        d.setAttribute('aria-selected', String(active));
+      });
+    };
+    const next = () => show(i + 1);
+    const prev = () => show(i - 1);
+
+    // Dwell scales with bio length — a few seconds for short bios, longer for the wordy ones.
+    const dwell = () => {
+      const txt = slides[i].querySelector('.af-bio-text')?.textContent || '';
+      return Math.min(13000, Math.max(6500, 3500 + txt.length * 13));
+    };
+    const stop = () => { if (timer) { clearTimeout(timer); timer = null; } };
+    const start = () => { if (reduce) return; stop(); timer = window.setTimeout(() => { next(); start(); }, dwell()); };
+    const restart = () => { stop(); start(); };
+
+    root.querySelector('.af-next')?.addEventListener('click', () => { next(); restart(); });
+    root.querySelector('.af-prev')?.addEventListener('click', () => { prev(); restart(); });
+    dots.forEach((d, k) => d.addEventListener('click', () => { show(k); restart(); }));
+
+    root.addEventListener('mouseenter', stop);
+    root.addEventListener('mouseleave', start);
+    root.addEventListener('focusin', stop);
+    root.addEventListener('focusout', start);
+
+    // Touch swipe
+    let x0 = null;
+    root.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+    root.addEventListener('touchend', (e) => {
+      if (x0 === null) return;
+      const dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > 45) { dx < 0 ? next() : prev(); restart(); }
+      x0 = null;
+    }, { passive: true });
+
+    show(0);
+    start();
+  });
+</script>

@@ -1,10 +1,16 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHero from '../components/PageHero.astro';
 
-const TICKETS_URL = 'https://www.eventbrite.ca/e/the-drama-of-the-soul-tickets-1985215103816';
+const artworks = (await getCollection('artworks')).sort(
+  (a, b) => (a.data.order ?? 0) - (b.data.order ?? 0),
+);
 
-const dates = ['2–3 May 2026', '9–10 May 2026', '16–17 May 2026'];
+// Hero slideshow — a spread of up to 8 works across the collection.
+const withImages = artworks.filter((a) => a.data.image);
+const HERO_MAX = 8;
+const heroStep = Math.max(1, Math.floor(withImages.length / HERO_MAX));
+const heroSlides = withImages.filter((_, i) => i % heroStep === 0).slice(0, HERO_MAX);
 
 const sponsors = [
   { name: 'The Tallowed Truth', url: 'https://thetallowedtruth.com/', logo: '/images/logos/sponsor-tallowed-truth.png' },
@@ -14,30 +20,46 @@ const sponsors = [
 ---
 <BaseLayout
   title="2026 Exhibition — The Drama of the Soul"
-  description="The Drama of the Soul: a group exhibition by Theopolis exploring the existence, nature, and problems of the Soul. Toronto, May 2026."
+  description="The Drama of the Soul: a group exhibition by Theopolis exploring the existence, nature, and problems of the Soul, held in Toronto in May 2026. Explore the full archive of works."
   ogImage="/images/exhibition/drama-of-the-soul-banner.png"
   fullWidth
 >
-  <PageHero
-    eyebrow="2026 Exhibition"
-    title="The Drama of the Soul"
-    quote="Before me were no things created except eternal ones, and I endure eternal."
-    quoteAttribution="Dante, The Inferno, Canto III"
-  />
-
-  <!-- Banner -->
-  <section class="mx-auto max-w-6xl px-6">
-    <img
-      src="/images/exhibition/drama-of-the-soul-banner.png"
-      alt="The Drama of the Soul — exhibition banner"
-      class="w-full rounded-xl shadow-lg"
-      loading="eager"
-    />
+  <!-- ── Full-screen gallery hero — a slideshow of the exhibition works ── -->
+  <section class="ex-hero" aria-label="The Drama of the Soul — 2026 exhibition">
+    <div class="ex-slides" id="ex-slides" aria-hidden="true">
+      {heroSlides.map((art, i) => (
+        <img
+          class:list={['ex-slide', { 'is-active': i === 0 }]}
+          src={art.data.image}
+          alt=""
+          loading={i === 0 ? 'eager' : 'lazy'}
+          decoding="async"
+          fetchpriority={i === 0 ? 'high' : 'auto'}
+        />
+      ))}
+    </div>
+    <div class="ex-hero-scrim"></div>
+    <div class="ex-hero-overlay">
+      <p class="ex-hero-eyebrow">2026 Exhibition</p>
+      <h1 class="ex-hero-title">The Drama of the Soul</h1>
+      <p class="ex-hero-sub">A group exhibition of Catholic art &middot; Toronto, May 2026</p>
+      <a href="/archive" class="ex-hero-cue">Explore the archive <span aria-hidden="true">&rarr;</span></a>
+    </div>
   </section>
 
-  <!-- Description -->
-  <section class="mx-auto max-w-3xl px-6 py-16 lg:py-20">
-    <div class="space-y-5 text-lg leading-relaxed text-[var(--thp-muted-foreground)]">
+  <!-- Intro: Dante epigraph + the record of when it was shown -->
+  <section class="mx-auto max-w-3xl px-6 pt-16 lg:pt-20 pb-2 text-center">
+    <blockquote class="mx-auto max-w-2xl text-xl md:text-2xl italic leading-snug text-[var(--thp-muted-foreground)]">
+      &ldquo;Before me were no things created except eternal ones, and I endure eternal.&rdquo;
+      <footer class="mt-2 text-base not-italic text-[var(--thp-gold)]">&mdash; Dante, <em>The Inferno</em>, Canto III</footer>
+    </blockquote>
+    <div class="gold-flourish"><span>&#9670;</span></div>
+    <p class="text-[var(--thp-muted-foreground)]">Presented May 2026 &middot; 183 Queen St E, Toronto</p>
+  </section>
+
+  <!-- Theme / concept — standard body measure (max-w-4xl), matches home -->
+  <section class="mx-auto max-w-4xl px-6 pt-10 pb-16 lg:pb-20">
+    <div class="space-y-5 text-[1.2rem] leading-[1.7] text-[var(--thp-muted-foreground)]">
       <p>
         The Soul has long been depicted in art and literature as the protagonist of a drama
         that stretches beyond life, death, and time.
@@ -53,46 +75,151 @@ const sponsors = [
         Soul is easy to overlook, or to forget entirely.
       </p>
       <p>
-        <strong class="text-[var(--thp-foreground)]">The Drama of the Soul</strong> is a group
-        exhibition organized by Theopolis, a collective of Catholic artists. It invites works
+        <strong class="text-[var(--thp-foreground)]">The Drama of the Soul</strong> was a group
+        exhibition organized by Theopolis, a collective of Catholic artists. It invited works
         that reflect on the existence, nature, and problems of the Soul. While informed by the
-        Catholic intellectual and artistic tradition, submissions need not be explicitly
-        religious. Artists are invited to engage the theme with seriousness and depth, attentive
-        to the gravity of the subject matter.
+        Catholic intellectual and artistic tradition, the works need not be explicitly
+        religious &mdash; each engages the theme with seriousness and depth, attentive to the
+        gravity of the subject matter.
       </p>
     </div>
   </section>
 
-  <!-- Visit details -->
-  <section class="bg-[var(--thp-primary)] text-white">
-    <div class="mx-auto max-w-4xl px-6 py-16 text-center">
-      <p class="eyebrow" style="color: var(--thp-accent);">Join us for The Drama of the Soul</p>
-      <div class="mt-6 flex flex-wrap items-stretch justify-center gap-4">
-        {dates.map((d) => (
-          <div class="rounded-xl border border-white/25 px-6 py-4">
-            <span class="text-xl font-semibold">{d}</span>
-            <span class="block text-sm text-white/70">Sat &amp; Sun</span>
-          </div>
-        ))}
-      </div>
-      <p class="mt-6 text-lg text-white/85">183 Queen St E, Toronto, ON M5A 1S2</p>
-      <a href={TICKETS_URL} target="_blank" rel="noopener" class="btn btn-on-dark mt-8">
-        Get Tickets Now
-      </a>
-    </div>
-  </section>
-
   <!-- Sponsors -->
-  <section class="mx-auto max-w-5xl px-6 py-16 text-center">
+  <section class="mx-auto max-w-5xl px-6 pb-20 text-center">
     <p class="eyebrow">Our Sponsors</p>
     <div class="gold-flourish"><span>&#9670;</span></div>
-    <div class="mt-6 flex flex-wrap items-center justify-center gap-x-12 gap-y-8">
+    <div class="sponsors mt-8">
       {sponsors.map((s) => (
-        <a href={s.url} target="_blank" rel="noopener" class="block" aria-label={s.name} title={s.name}>
-          <img src={s.logo} alt={s.name} loading="lazy"
-            class="h-20 w-auto object-contain opacity-80 transition hover:opacity-100" />
+        <a href={s.url} target="_blank" rel="noopener" class="sponsor-cell" aria-label={s.name} title={s.name}>
+          <img src={s.logo} alt={s.name} loading="lazy" class="sponsor-logo" />
         </a>
       ))}
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  /* ── Full-screen gallery hero ─────────────────────────────────────
+     A crossfading slideshow of the exhibition works fills the viewport,
+     darkened by a navy scrim, with the title + "explore" cue laid over it. */
+  .ex-hero {
+    position: relative;
+    width: 100%;
+    height: 100svh;
+    min-height: 600px;
+    overflow: hidden;
+    background: var(--thp-navy);
+  }
+  .ex-slides { position: absolute; inset: 0; }
+  .ex-slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+  }
+  .ex-slide.is-active { opacity: 1; }
+  .ex-hero-scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(15, 55, 82, 0.55), rgba(15, 55, 82, 0.68));
+  }
+  .ex-hero-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    color: #f9f4e9;
+  }
+  .ex-hero-eyebrow {
+    font-family: var(--font-body);
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--thp-marigold);
+    margin-bottom: 1.1rem;
+  }
+  .ex-hero-title {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    font-size: clamp(2.75rem, 7vw, 6rem);
+    color: #f9f4e9;
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.35);
+  }
+  .ex-hero-sub {
+    margin-top: 1.35rem;
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    letter-spacing: 0.01em;
+    color: rgba(249, 244, 233, 0.85);
+  }
+  .ex-hero-cue {
+    margin-top: 2.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: var(--font-body);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 0.76rem;
+    color: #f9f4e9;
+    text-decoration: none;
+    border: 1px solid rgba(249, 244, 233, 0.5);
+    border-radius: 9999px;
+    padding: 0.75rem 1.5rem;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .ex-hero-cue:hover { background: rgba(249, 244, 233, 0.12); border-color: #f9f4e9; }
+  .ex-hero-cue span { transition: transform 0.2s ease; }
+  .ex-hero-cue:hover span { transform: translateX(3px); }
+
+  /* Sponsor logos — equal columns so the middle logo centres under the heading. */
+  .sponsors {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem 2rem;
+    align-items: center;
+    justify-items: center;
+  }
+  @media (min-width: 640px) { .sponsors { grid-template-columns: repeat(3, 1fr); } }
+  .sponsor-cell { display: flex; align-items: center; justify-content: center; }
+  .sponsor-logo {
+    height: 6.5rem;
+    width: auto;
+    object-fit: contain;
+    opacity: 0.85;
+    transition: opacity 0.2s ease;
+  }
+  @media (min-width: 640px) { .sponsor-logo { height: 7.5rem; } }
+  .sponsor-logo:hover { opacity: 1; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ex-slide { transition: none; }
+  }
+</style>
+
+<script>
+  // Auto-advancing crossfade for the hero gallery.
+  const slides = Array.from(document.querySelectorAll('#ex-slides .ex-slide'));
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (slides.length > 1 && !reduce) {
+    let idx = 0;
+    window.setInterval(() => {
+      slides[idx].classList.remove('is-active');
+      idx = (idx + 1) % slides.length;
+      slides[idx].classList.add('is-active');
+    }, 3400);
+  }
+</script>

@@ -1,0 +1,464 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const TICKETS_URL = 'https://www.zeffy.com/en-CA/ticketing/the-christian-imagination-and-the-question-of-autonomous-art';
+const SPONSORSHIP_PDF = '/documents/gaudi-lecture-sponsorship-package.pdf';
+const MAPS_URL = 'https://www.google.com/maps/search/?api=1&query=' +
+  encodeURIComponent("Northrop Frye Hall, 73 Queen's Park Crescent East, Toronto, ON");
+const EVENT_ISO = '2026-10-24T14:00:00-04:00';
+---
+<BaseLayout
+  title="The Inaugural Gaudí Lecture — Jonathan Pageau"
+  description="The Inaugural Gaudí Lecture: The Christian Imagination and the Question of Autonomous Art, featuring Jonathan Pageau — Saturday, October 24, 2026, Northrop Frye Hall, Toronto."
+  fullWidth
+>
+  <!-- ── Full-screen hero — Sagrada Família + black scrim, poster-style ── -->
+  <section class="gl-hero" aria-label="The Inaugural Gaudí Lecture">
+    <img
+      class="gl-hero-img"
+      src="/images/gaudi-lecture/sagrada-familia.jpg"
+      alt=""
+      aria-hidden="true"
+      loading="eager"
+      decoding="async"
+      fetchpriority="high"
+    />
+    <div class="gl-hero-scrim"></div>
+    <div class="gl-hero-inner mx-auto max-w-4xl px-6 text-center">
+      <p class="gl-hero-kicker">Theopolis Presents</p>
+      <p class="gl-hero-kicker gl-hero-kicker--sub">The Inaugural Gaudí Lecture &middot; 2026</p>
+      <h1 class="gl-hero-title">The Christian Imagination and the Question of Autonomous Art</h1>
+      <p class="gl-hero-name">Featuring Jonathan Pageau</p>
+      <a href={TICKETS_URL} target="_blank" rel="noopener" class="gl-hero-cue">Get Tickets <span aria-hidden="true">&rarr;</span></a>
+    </div>
+    <p class="gl-hero-credit">Sagrada Família, Barcelona &mdash; photo by Karolina Grabowska.</p>
+  </section>
+
+  <div class="gl-dark">
+  <!-- Logistics strip — date/countdown, location, tickets -->
+  <section class="gl-strip">
+    <div class="mx-auto max-w-5xl px-6">
+      <div class="gl-strip-grid">
+        <div class="gl-strip-item">
+          <p class="gl-strip-label">When</p>
+          <p class="gl-strip-value">Saturday, October 24, 2026<br />2&ndash;4 PM</p>
+          <div class="gl-countdown" data-gl-countdown={EVENT_ISO}>
+            <div class="gl-countdown-unit">
+              <span class="gl-countdown-num" data-unit="d">&ndash;</span>
+              <span class="gl-countdown-label">Days</span>
+            </div>
+            <div class="gl-countdown-unit">
+              <span class="gl-countdown-num" data-unit="h">&ndash;</span>
+              <span class="gl-countdown-label">Hrs</span>
+            </div>
+            <div class="gl-countdown-unit">
+              <span class="gl-countdown-num" data-unit="m">&ndash;</span>
+              <span class="gl-countdown-label">Min</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="gl-strip-item">
+          <p class="gl-strip-label">Where</p>
+          <a class="gl-strip-value gl-strip-link" href={MAPS_URL} target="_blank" rel="noopener">
+            Northrop Frye Hall<br />University of Toronto
+          </a>
+          <p class="gl-strip-sub">Room NF003 &middot; 73 Queen&rsquo;s Park Cres. E</p>
+        </div>
+
+        <div class="gl-strip-item">
+          <p class="gl-strip-label">Tickets</p>
+          <div class="gl-ticket-tiers">
+            <div class="gl-ticket-tier">
+              <span class="gl-ticket-name">Early Bird</span>
+              <span class="gl-ticket-price">$33.75</span>
+            </div>
+            <div class="gl-ticket-tier">
+              <span class="gl-ticket-name">Regular</span>
+              <span class="gl-ticket-price">$45</span>
+            </div>
+          </div>
+          <p class="gl-strip-sub">Early bird ends Sept. 15 &middot; limited quantity</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About the lecture — Pageau's headshot floats right, text wraps around it -->
+  <section class="mx-auto max-w-4xl px-6 pt-14 lg:pt-16">
+    <p class="label section-kicker">About the Lecture</p>
+    <hr class="rule mt-4" />
+    <div class="gl-prose mt-8">
+      <img
+        class="gl-lecture-portrait"
+        src="/images/gaudi-lecture/jonathan-pageau.jpg"
+        alt="Jonathan Pageau"
+        loading="lazy"
+        decoding="async"
+      />
+      <p>
+        Theopolis is excited to present the inaugural Gaudí Lecture, featuring renowned
+        liturgical artist, writer, and speaker Jonathan Pageau.
+      </p>
+      <p>
+        The notion of &ldquo;art for art&rsquo;s sake&rdquo; continues to pervade contemporary
+        thinking and practice in the arts. Art is understood as autonomous, liberated from its
+        connection to worship, culture, morality, truth, or beauty, or reduced to a commodity
+        valued primarily for its price and prestige. In either case, art risks becoming detached
+        from the larger human story.
+      </p>
+      <p>
+        In this lecture, Pageau will argue that the response of the Christian imagination is not
+        simply to reunite art with religious content by depicting biblical scenes or communicating
+        moral messages. Rather, liturgy and sacramentality must be recovered as the internal and
+        coherent driving force of the arts themselves, shaping their forms and their application
+        within the Body of Christ.
+      </p>
+    </div>
+  </section>
+
+  <!-- The speaker -->
+  <section class="mx-auto max-w-4xl px-6 pt-14 lg:pt-16">
+    <p class="label section-kicker">About Jonathan Pageau</p>
+    <hr class="rule mt-4" />
+    <div class="gl-prose mt-8">
+      <p>
+        Jonathan Pageau is a renowned liturgical artist, writer, and public speaker whose work
+        explores symbolism, religion, art, literature, and culture.
+      </p>
+      <p>
+        Through his carvings, writing, lectures, and <em>The Symbolic World</em>, Pageau has
+        helped a wide audience recover a symbolic vision of the world, one in which spiritual
+        meaning is revealed through images, stories, rituals, and the patterns of everyday life.
+        Drawing deeply from the Christian tradition, his work offers a compelling way of engaging
+        many of the central questions facing contemporary culture.
+      </p>
+      <p>
+        Theopolis is honoured to welcome Jonathan Pageau to Toronto to deliver the inaugural
+        Gaudí Lecture.
+      </p>
+    </div>
+  </section>
+
+  <!-- About the Gaudí Lecture -->
+  <section class="mx-auto max-w-4xl px-6 pt-14 lg:pt-16">
+    <p class="label section-kicker">About the Gaudí Lecture</p>
+    <hr class="rule mt-4" />
+    <div class="gl-prose mt-8">
+      <p>
+        The Gaudí Lecture is an annual public lecture exploring the importance, influence, and
+        enduring relevance of the Christian imagination. Each year, Theopolis will invite a
+        distinguished creative figure to reflect on the role of the Christian imagination in
+        shaping culture, artistic practice, and daily life.
+      </p>
+      <p>
+        The lecture is named for Venerable Antoni Gaudí, whose architecture reflects an
+        imagination formed by faith, nature, craftsmanship, and a profound sense of the sacred.
+        His work reveals how artistic practice can become a form of contemplation and how beauty
+        can prepare the soul for faith.
+      </p>
+      <p>
+        Through this series, Theopolis hopes to create a lasting forum for serious and accessible
+        public conversation, bringing artists, students, professionals, clergy, patrons,
+        academics, and members of the wider community into a shared exploration of art, faith,
+        and culture.
+      </p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="mx-auto max-w-3xl px-6 py-16 lg:py-20 text-center">
+    <p class="gl-cta-text">
+      Interested in sponsoring or supporting the inaugural lecture?
+    </p>
+    <div class="mt-8 flex flex-wrap justify-center gap-4">
+      <a href={TICKETS_URL} target="_blank" rel="noopener" class="btn btn-primary">Get Tickets</a>
+      <a href={SPONSORSHIP_PDF} target="_blank" rel="noopener" class="btn btn-ghost">Support the lecture</a>
+      <a href="/events" class="btn btn-ghost">Back to events</a>
+    </div>
+  </section>
+  </div>
+</BaseLayout>
+
+<style>
+  /* ── Full-screen hero — Sagrada Família + black scrim, matching the event poster ── */
+  .gl-hero {
+    position: relative;
+    width: 100%;
+    height: 100svh;
+    min-height: 640px;
+    overflow: hidden;
+    background: #111;
+  }
+  .gl-hero-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  .gl-hero-scrim {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+  }
+  .gl-hero-inner {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #f9f4e9;
+    padding-top: 5rem;
+    padding-bottom: 3rem;
+  }
+  .gl-hero-kicker {
+    font-family: var(--font-body);
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--thp-marigold);
+  }
+  .gl-hero-kicker--sub {
+    margin-top: 0.4rem;
+    color: rgba(249, 244, 233, 0.8);
+    letter-spacing: 0.2em;
+  }
+  .gl-hero-title {
+    margin-top: 1.5rem;
+    max-width: 22ch;
+    font-family: var(--font-sans);
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    color: #f9f4e9;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+  }
+  .gl-hero-name {
+    margin-top: 1.75rem;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.4rem;
+    color: var(--thp-marigold);
+  }
+  .gl-hero-cue {
+    margin-top: 2rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: var(--font-body);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 0.76rem;
+    color: #f9f4e9;
+    text-decoration: none;
+    border: 1px solid rgba(249, 244, 233, 0.5);
+    border-radius: 9999px;
+    padding: 0.75rem 1.5rem;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .gl-hero-cue:hover { background: rgba(249, 244, 233, 0.12); border-color: #f9f4e9; }
+  .gl-hero-cue span { transition: transform 0.2s ease; }
+  .gl-hero-cue:hover span { transform: translateX(3px); }
+  .gl-hero-credit {
+    position: absolute;
+    right: clamp(1rem, 4vw, 2.5rem);
+    bottom: 0.7rem;
+    z-index: 3;
+    font-family: var(--font-body);
+    font-size: 0.58rem;
+    letter-spacing: 0.02em;
+    color: rgba(249, 244, 233, 0.7);
+  }
+
+  /* ── Dark theme for everything below the hero ── */
+  .gl-dark {
+    background: #081b29;
+    color: #f9f4e9;
+  }
+  .gl-dark .label.section-kicker { color: var(--thp-marigold); }
+  .gl-dark .rule { background: rgba(249, 244, 233, 0.18); }
+  .gl-dark .gl-prose p { color: rgba(249, 244, 233, 0.82); }
+  .gl-dark .gl-prose strong { color: #f9f4e9 !important; }
+  .gl-dark .gl-cta-text { color: #f9f4e9; }
+  .gl-dark .btn-ghost {
+    border-color: rgba(249, 244, 233, 0.4);
+    color: #f9f4e9;
+  }
+  .gl-dark .btn-ghost:hover { background: rgba(249, 244, 233, 0.1); }
+  .gl-dark .btn-primary {
+    background: var(--thp-marigold);
+    color: #081b29;
+    box-shadow: none;
+  }
+  .gl-dark .btn-primary:hover { background: #f2c13e; }
+
+  /* ── Logistics strip — When / Where / Tickets, evenly weighted ── */
+  .gl-strip {
+    padding: 3.5rem 0;
+    border-bottom: 1px solid rgba(249, 244, 233, 0.12);
+  }
+  .gl-strip-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.75rem;
+    text-align: center;
+  }
+  @media (min-width: 800px) {
+    .gl-strip-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      text-align: left;
+    }
+  }
+  .gl-strip-item {
+    padding: 0 1.5rem;
+    position: relative;
+  }
+  @media (min-width: 800px) {
+    .gl-strip-item + .gl-strip-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.15rem;
+      bottom: 0.15rem;
+      width: 1px;
+      background: rgba(249, 244, 233, 0.14);
+    }
+  }
+  .gl-strip-label {
+    font-family: var(--font-body);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--thp-marigold);
+  }
+  .gl-strip-value {
+    margin-top: 0.6rem;
+    font-family: var(--font-sans);
+    font-size: 1.3rem;
+    line-height: 1.3;
+    color: #f9f4e9;
+  }
+  .gl-strip-link { text-decoration: none; border-bottom: 1px solid rgba(249, 244, 233, 0.35); transition: border-color 0.2s ease; }
+  .gl-strip-link:hover { border-color: #f9f4e9; }
+  .gl-strip-sub {
+    margin-top: 0.6rem;
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    color: rgba(249, 244, 233, 0.6);
+  }
+
+  .gl-countdown {
+    margin-top: 1.1rem;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+  @media (min-width: 800px) { .gl-countdown { justify-content: flex-start; } }
+  .gl-countdown-unit { display: flex; flex-direction: column; align-items: center; }
+  .gl-countdown-num {
+    font-family: var(--font-sans);
+    font-variant-numeric: tabular-nums;
+    font-size: 1.7rem;
+    line-height: 1;
+    color: var(--thp-marigold);
+  }
+  .gl-countdown-label {
+    margin-top: 0.3rem;
+    font-family: var(--font-body);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.62rem;
+    color: rgba(249, 244, 233, 0.55);
+  }
+
+  .gl-ticket-tiers {
+    margin-top: 0.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .gl-ticket-tier {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.6rem;
+  }
+  @media (min-width: 800px) { .gl-ticket-tier { justify-content: flex-start; } }
+  .gl-ticket-name {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: rgba(249, 244, 233, 0.75);
+  }
+  .gl-ticket-price {
+    font-family: var(--font-sans);
+    font-size: 1.3rem;
+    color: #f9f4e9;
+  }
+
+  .gl-prose p {
+    font-family: var(--font-body);
+    font-size: 1.12rem;
+    line-height: 1.75;
+    color: var(--thp-muted-foreground);
+  }
+  .gl-prose p + p { margin-top: 1.1rem; }
+
+  /* Pageau's headshot floats right in "About the Lecture" — text wraps around it */
+  .gl-lecture-portrait {
+    display: block;
+    width: 13.5rem;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 6px;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 14px 32px -16px rgba(0, 0, 0, 0.5);
+  }
+  @media (min-width: 640px) {
+    .gl-lecture-portrait {
+      float: right;
+      margin: 0.25rem 0 1.25rem 2rem;
+    }
+  }
+
+  .gl-cta-text {
+    max-width: 46ch;
+    margin: 0 auto;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    color: var(--thp-primary);
+  }
+</style>
+
+<script>
+  // Live countdown to the lecture start time.
+  const el = document.querySelector('[data-gl-countdown]');
+  if (el) {
+    const target = new Date(el.getAttribute('data-gl-countdown')).getTime();
+    const dayEl = el.querySelector('[data-unit="d"]');
+    const hourEl = el.querySelector('[data-unit="h"]');
+    const minEl = el.querySelector('[data-unit="m"]');
+
+    const tick = () => {
+      const diff = Math.max(0, target - Date.now());
+      const days = Math.floor(diff / 86400000);
+      const hours = Math.floor((diff % 86400000) / 3600000);
+      const mins = Math.floor((diff % 3600000) / 60000);
+      if (dayEl) dayEl.textContent = String(days);
+      if (hourEl) hourEl.textContent = String(hours).padStart(2, '0');
+      if (minEl) minEl.textContent = String(mins).padStart(2, '0');
+    };
+
+    tick();
+    setInterval(tick, 30000);
+  }
+</script>

@@ -10,6 +10,9 @@ const BUILD_TIME = new Date().toISOString();
 
 export default defineConfig({
   site: 'https://www.theopolis.ca',
+  // Honour the PORT env var when present (e.g. a preview proxy assigns one),
+  // otherwise fall back to Astro's default 4321.
+  server: { port: process.env.PORT ? Number(process.env.PORT) : 4321 },
   // Tailwind v4 is delivered through its Vite plugin; without this registered,
   // the `@import "tailwindcss"` in global.css never compiles and every utility
   // class is inert (the page renders unstyled).
@@ -37,10 +40,13 @@ export default defineConfig({
     '/home': '/',
     '/about-us': '/about',
     '/2026-exhibition': '/exhibition',
-    '/exhibition-gallery': '/exhibition/gallery',
+    // The exhibition catalogue now lives on its own Archive page.
+    '/exhibition-gallery': '/archive',
+    '/exhibition/gallery': '/archive',
     '/events-2': '/events',
     '/artist-fraternity': '/artists',
-    '/blog': '/journal',
+    // Journal ("The Tempest") is not published yet — send legacy blog links home.
+    '/blog': '/',
     '/english-privacy-policy': '/privacy',
     '/accessibility-statement': '/accessibility',
   },
