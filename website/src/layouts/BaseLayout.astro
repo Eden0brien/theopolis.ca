@@ -62,15 +62,17 @@ const orgSchema = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="512x512" href="/favicon-512x512.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512x512.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <!-- Warm up the Google Fonts connections before the stylesheet requests them -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Brand fonts: Libre Caslon (display + text serif — free, faithful to the brand's
+         Adobe Caslon) + Inter (body/UI, stands in for Alliance No.2) + Caveat (handwritten). -->
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Caveat:wght@400;500;600;700&display=swap"
     />
     <!-- Security meta (GitHub Pages can't set HTTP headers) -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
@@ -106,6 +108,9 @@ const orgSchema = {
     <!-- Structured data: organisation identity + optional page schema -->
     <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+
+    <!-- No-JS / no-observer fallback: never leave .reveal content hidden. -->
+    <noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
   </head>
   <body class="bg-[var(--thp-background)] text-[var(--thp-foreground)]">
     <a href="#main" class="skip-link">Skip to content</a>
@@ -138,6 +143,27 @@ const orgSchema = {
         btn.addEventListener('click', () =>
           window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' })
         );
+      }
+    </script>
+    <!-- Editorial scroll reveal: add .is-visible as .reveal elements enter view. -->
+    <script>
+      const reveals = document.querySelectorAll('.reveal');
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!('IntersectionObserver' in window) || reduce) {
+        reveals.forEach((el) => el.classList.add('is-visible'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add('is-visible');
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { rootMargin: '0px 0px -10% 0px', threshold: 0.12 }
+        );
+        reveals.forEach((el) => io.observe(el));
       }
     </script>
   </body>

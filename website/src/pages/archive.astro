@@ -1,0 +1,112 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+
+const artworks = (await getCollection('artworks')).sort(
+  (a, b) => (a.data.order ?? 0) - (b.data.order ?? 0),
+);
+
+// Catalogue numerals — the works are recorded I, II, III … like an exhibition catalogue.
+const ROMAN: [number, string][] = [
+  [10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I'],
+];
+const toRoman = (n: number) => {
+  let out = '';
+  for (const [v, s] of ROMAN) while (n >= v) { out += s; n -= v; }
+  return out;
+};
+---
+<BaseLayout
+  title="Exhibition Archive — The Drama of the Soul"
+  description="A digital archive of The Drama of the Soul — the works shown at Theopolis' 2026 exhibition of Catholic art. Each piece remains the property of the artist who made it."
+  fullWidth
+>
+  <PageHero
+    eyebrow="The Drama of the Soul &middot; 2026"
+    title="Exhibition Archive"
+    lead="A lasting record of the works our member artists brought together for the 2026 exhibition. Each piece remains the property of the artist who made it."
+  />
+
+  <!-- ── The catalogue — every work shown whole, framed, no cropping ── -->
+  <section class="mx-auto max-w-6xl px-6 pb-24">
+    <div class="gallery">
+      {artworks.map((art, i) => {
+        const { title, artist, image } = art.data;
+        return (
+          <figure class="art reveal">
+            <div class="art-img">
+              {image && (
+                <img src={image} alt={`${title} by ${artist}`} loading="lazy" decoding="async" />
+              )}
+            </div>
+            <figcaption class="art-cap">
+              <span class="index-num">{toRoman(i + 1)}</span>
+              <h2 class="art-title">{title}</h2>
+              <p class="art-artist">{artist}</p>
+            </figcaption>
+          </figure>
+        );
+      })}
+    </div>
+
+    <div class="mt-20 text-center">
+      <a href="/exhibition" class="link-arrow"><span aria-hidden="true">&larr;</span> Back to the exhibition</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Catalogue — uniform tiles, aligned rows, every work shown WHOLE.
+     Each piece sits contained on a soft mat (a framed, gallery-wall look),
+     so nothing is cropped while the tiles stay the same size. */
+  .gallery {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem 2.5rem;
+  }
+  @media (min-width: 640px) { .gallery { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1024px) { .gallery { grid-template-columns: repeat(3, 1fr); } }
+
+  .art { margin: 0; }
+  .art-img {
+    aspect-ratio: 4 / 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .art-img img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .art:hover .art-img img { transform: scale(1.03); }
+
+  .art-cap { padding-top: 1.1rem; }
+  .index-num { display: block; }
+  .art-title {
+    margin-top: 0.5rem;
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: 1.7rem;
+    line-height: 1.1;
+    color: var(--thp-foreground);
+  }
+  .art-artist {
+    margin-top: 0.3rem;
+    font-family: var(--font-body);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.74rem;
+    font-weight: 500;
+    color: var(--thp-primary);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .art-img img { transition: none; }
+  }
+</style>

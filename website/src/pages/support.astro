@@ -1,7 +1,5 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHero from '../components/PageHero.astro';
-import ContactForm from '../components/ContactForm.astro';
 
 const DONATE_URL = 'https://www.zeffy.com/en-CA/donation-form/donate-to-theopolis-project';
 
@@ -11,65 +9,199 @@ const ways = [
   'Grants, awards, and direct support for artistic work',
   'The ongoing development of Theopolis’ mission and initiatives',
 ];
+
+// Event photos — an auto-scrolling gallery of what supporters make possible.
+// Rows are hand-shuffled so the two ribbons mix orientations and don't run in sequence.
+const galleryImg = (n) => `/images/support/gallery/event-${String(n).padStart(2, '0')}.jpg`;
+const galleryRowA = [8, 1, 12, 7, 4, 10, 14].map(galleryImg);
+const galleryRowB = [3, 6, 9, 13, 5, 2, 11].map(galleryImg);
 ---
 <BaseLayout
   title="Support Theopolis"
   description="Help renew faith and culture through beauty. Your support equips Catholic artists and brings sacred art back into the public square."
   fullWidth
 >
-  <PageHero
-    eyebrow="Support"
-    title="Help Renew Faith & Culture Through Beauty"
-    quote="The renewal of culture has never been the work of artists alone. Catholic art has flourished through the support of patrons who understood the evangelical power of beauty and chose to invest in it."
-  />
-
-  <!-- Mission + donate -->
-  <section class="mx-auto max-w-6xl px-6 py-16 lg:py-20">
-    <div class="grid items-center gap-10 lg:grid-cols-2">
-      <div>
-        <p class="text-lg leading-relaxed text-[var(--thp-muted-foreground)]">
-          Theopolis exists to restore Catholic art to the public square in Ontario by equipping
-          artists to create work that awakens wonder, invites contemplation, and renews faith.
-          Your support makes this work possible. Donations are processed securely through Zeffy.
+  <!-- ── Full-screen hero — Giotto banner, same treatment as About/Events/Artists ── -->
+  <section class="sp-hero" aria-label="Support Theopolis">
+    <img
+      class="sp-hero-img"
+      src="/images/support/giotto.jpg"
+      alt=""
+      aria-hidden="true"
+      loading="eager"
+      decoding="async"
+      fetchpriority="high"
+    />
+    <div class="sp-hero-veil"></div>
+    <div class="sp-hero-inner mx-auto max-w-6xl px-6">
+      <div class="sp-hero-content">
+        <p class="label section-kicker sp-hero-kicker">Support</p>
+        <h1 class="sp-hero-title">Help Renew Faith &amp; Culture Through Beauty</h1>
+        <p class="sp-hero-lead">
+          The renewal of culture has never been the work of artists alone. Throughout history,
+          Catholic art has flourished through the support of patrons who understood the
+          evangelical power of beauty and chose to invest in it.
         </p>
-        <a href={DONATE_URL} target="_blank" rel="noopener" class="btn btn-primary mt-8">Donate</a>
       </div>
-      <figure class="overflow-hidden rounded-xl shadow-lg">
-        <img src="/images/support/tribute-money-masaccio.png"
-          alt="The Tribute Money, fresco by Masaccio" loading="lazy"
-          class="w-full object-cover" />
-        <figcaption class="credit px-1">The Tribute Money — Masaccio, Brancacci Chapel (public domain)</figcaption>
-      </figure>
     </div>
+    <p class="sp-hero-credit">Masaccio, <em>The Tribute Money</em>, Brancacci Chapel (public domain).</p>
   </section>
 
-  <!-- Ways to support -->
-  <section class="bg-[var(--thp-secondary)]/40">
-    <div class="mx-auto max-w-4xl px-6 py-16 lg:py-20">
-      <div class="text-center">
-        <p class="eyebrow">Ways to Support</p>
-        <div class="gold-flourish"><span>&#9670;</span></div>
-        <p class="mx-auto max-w-2xl text-[var(--thp-muted-foreground)]">
+  <!-- Why your support matters -->
+  <section class="mx-auto max-w-6xl px-6 py-12 lg:py-14">
+    <p class="label section-kicker">Why Your Support Matters</p>
+    <hr class="rule mt-4" />
+    <div class="mt-10 grid items-start gap-8 md:grid-cols-2 md:gap-14 lg:gap-20">
+      <div>
+        <p class="text-[1.2rem] leading-[1.75] text-[var(--thp-muted-foreground)]">
+          Theopolis exists to restore Catholic art to the public square in Ontario by equipping
+          artists to create work that awakens wonder, invites contemplation, and renews faith. Your
+          support makes this work possible.
+        </p>
+        <p class="mt-8 text-[var(--thp-muted-foreground)]">
+          Donations are done through Zeffy. Click the button below to donate.
+        </p>
+        <div class="mt-5 text-center">
+          <a href={DONATE_URL} target="_blank" rel="noopener" class="btn btn-primary">Donate</a>
+        </div>
+      </div>
+      <div>
+        <p class="text-[var(--thp-muted-foreground)]">
           Support for Theopolis helps sustain our artists and programs, including:
         </p>
+        <ul class="mt-5 grid gap-4">
+          {ways.map((w) => (
+            <li class="flex items-start gap-3">
+              <span class="mt-[0.35rem] text-[0.7rem] text-[var(--thp-gold)]">&#9670;</span>
+              <span class="text-[var(--thp-foreground)]">{w}</span>
+            </li>
+          ))}
+        </ul>
       </div>
-      <ul class="mx-auto mt-8 grid max-w-2xl gap-3 sm:grid-cols-2">
-        {ways.map((w) => (
-          <li class="flex items-start gap-3 rounded-lg border border-[var(--thp-border)] bg-[var(--thp-card)] px-4 py-3">
-            <span class="mt-1 text-[var(--thp-gold)]">&#9670;</span>
-            <span class="text-[var(--thp-foreground)]">{w}</span>
-          </li>
-        ))}
-      </ul>
     </div>
   </section>
 
-  <!-- Become a patron / form -->
-  <section class="mx-auto max-w-5xl px-6 py-16 lg:py-20">
-    <ContactForm
-      heading="Become a Patron"
-      intro="If you would like to make a financial contribution, explore patronage, or learn more about supporting Theopolis, leave your name and email and a member of our team will be in touch shortly."
-      inquiryLabel="What is your inquiry regarding?"
-    />
+  <!-- Event gallery — auto-scrolling ribbon of what supporters make possible (last) -->
+  <section class="sp-gallery" aria-label="Scenes from Theopolis events">
+    <div class="mq" aria-hidden="true">
+      <div class="mq-viewport">
+        <div class="mq-row">
+          {galleryRowA.concat(galleryRowA).map((src) => (
+            <div class="mq-item"><img src={src} alt="" loading="lazy" decoding="async" /></div>
+          ))}
+        </div>
+      </div>
+      <div class="mq-viewport">
+        <div class="mq-row mq-row--rev">
+          {galleryRowB.concat(galleryRowB).map((src) => (
+            <div class="mq-item"><img src={src} alt="" loading="lazy" decoding="async" /></div>
+          ))}
+        </div>
+      </div>
+    </div>
   </section>
 </BaseLayout>
+
+<style>
+  /* Support hero — full-screen fresco banner with a cream veil, matching About/Events/Artists. */
+  .sp-hero {
+    position: relative;
+    width: 100%;
+    height: 100svh;
+    min-height: 600px;
+    overflow: hidden;
+    background: var(--thp-muted);
+  }
+  .sp-hero-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  /* Strong cream veil on the left so the title reads over the fresco */
+  .sp-hero-veil {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to right,
+      rgba(249, 245, 236, 0.92),
+      rgba(249, 245, 236, 0.6) 42%,
+      rgba(249, 245, 236, 0.08) 80%
+    );
+  }
+  @media (max-width: 640px) {
+    .sp-hero-veil { background: rgba(249, 245, 236, 0.82); }
+  }
+  .sp-hero-inner {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+  .sp-hero-content { max-width: 42rem; }
+  .sp-hero-kicker { margin-bottom: 1.25rem; }
+  .sp-hero-title {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    font-size: clamp(2.75rem, 7vw, 5.5rem);
+    color: var(--thp-foreground);
+  }
+  .sp-hero-lead {
+    margin-top: 1.5rem;
+    max-width: 46ch;
+    font-family: var(--font-body);
+    font-size: clamp(1.15rem, 1.7vw, 1.4rem);
+    line-height: 1.6;
+    color: var(--thp-foreground);
+  }
+  .sp-hero-credit {
+    position: absolute;
+    right: clamp(1rem, 4vw, 2.5rem);
+    bottom: 0.7rem;
+    z-index: 3;
+    font-family: var(--font-body);
+    font-size: 0.58rem;
+    letter-spacing: 0.02em;
+    color: var(--thp-muted-foreground);
+  }
+
+  /* ── Event gallery — two auto-scrolling rows (opposite directions) ── */
+  .sp-gallery { padding: 0.5rem 0 3rem; overflow: hidden; }
+  .mq { display: flex; flex-direction: column; gap: 1rem; }
+  .mq-viewport { overflow: hidden; }
+  .mq-row {
+    display: flex;
+    gap: 1rem;
+    width: max-content;
+    animation: mq-scroll-left 60s linear infinite;
+  }
+  .mq-row--rev { animation: mq-scroll-right 72s linear infinite; }
+  .mq:hover .mq-row { animation-play-state: paused; }
+  .mq-item {
+    flex: 0 0 auto;
+    height: 15rem;
+    border-radius: 3px;
+    overflow: hidden;
+    background: var(--thp-muted);
+    box-shadow: 0 12px 30px -20px rgba(15, 55, 82, 0.5);
+  }
+  @media (max-width: 640px) { .mq-item { height: 10.5rem; } }
+  .mq-item img { height: 100%; width: auto; display: block; object-fit: cover; }
+  @keyframes mq-scroll-left {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes mq-scroll-right {
+    from { transform: translateX(-50%); }
+    to { transform: translateX(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mq-row { animation: none; }
+    .mq-viewport { overflow-x: auto; }
+  }
+</style>

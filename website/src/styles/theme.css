@@ -20,11 +20,27 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  /* Body: classic readable serif. Display: high-contrast elegant serif. */
+  /* Brand fonts: Inter for body & UI (clean modern sans), Cardo for display
+     headings (classical serif), Caveat as a handwritten accent.
+     NOTE: --font-sans is the legacy token name the components read for DISPLAY
+     headings — it now points at the Cardo serif. Caveat stands in for the
+     kit's "Biro Script Plus" (a paid font) until the licensed file is added. */
   --font-body:
-    "EB Garamond", Georgia, Cambria, "Times New Roman", serif;
+    "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  /* Display: Libre Caslon Display — a free, faithful Caslon that honours the
+     brand's real display face (Adobe Caslon Semibold on the live Wix site).
+     --font-sans is the legacy token components read for DISPLAY headings. */
   --font-sans:
-    "Cormorant Garamond", "EB Garamond", Georgia, "Times New Roman", serif;
+    "Libre Caslon Display", "Libre Caslon Text", Georgia, Cambria, "Times New Roman", serif;
+  /* Libre Caslon Text — readable Caslon for italic pull-quotes and long-form. */
+  --font-serif:
+    "Libre Caslon Text", Georgia, Cambria, "Times New Roman", serif;
+  --font-hand:
+    "Caveat", "Segoe Script", cursive;
+  /* Typewriter-mono for tiny curatorial labels, indices and Roman numerals —
+     the "catalogue" voice (echoes the reference site's PT/Martian Mono labels). */
+  --font-label:
+    "Martian Mono", ui-monospace, "PT Mono", SFMono-Regular, Menlo, monospace;
   /* CSS generic keywords MUST stay unquoted (quoting breaks the font-mono fallback). */
   --font-mono:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,

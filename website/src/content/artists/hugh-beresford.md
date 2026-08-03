@@ -1,5 +1,5 @@
 ---
-name: "Hugh Beresford"
+name: "Hugh Edmund"
 role: "Singer / Songwriter"
 image: "/images/artists/hugh-beresford-headshot.png"
 order: 1

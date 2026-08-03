@@ -30,7 +30,7 @@ information is handled under **their** privacy policies, not ours:
 - **Donations & ticketing** — handled by Zeffy and Eventbrite.
 - **Art purchases** — handled by Stripe, Square, and PayPal via individual checkout links.
 - **Fonts** — typefaces are served by Google Fonts, which may log the request.
-- **Music** — links to Hugh Beresford's album open on Spotify.
+- **Music** — links to Hugh Edmund's album open on Spotify.
 
 We never sell, rent, or trade your personal information.
 

@@ -4,9 +4,16 @@ const DONATE_URL = 'https://www.zeffy.com/en-CA/donation-form/donate-to-theopoli
 
 const items = [
   { href: '/about', label: 'About' },
-  { href: '/exhibition', label: '2026 Exhibition' },
-  { href: '/exhibition/gallery', label: 'Buy Art' },
+  {
+    href: '/exhibition',
+    label: '2026 Exhibition',
+    children: [
+      { href: '/exhibition', label: 'The Exhibition' },
+      { href: '/archive', label: 'Exhibition Archive' },
+    ],
+  },
   { href: '/events', label: 'Events' },
+  { href: '/gaudi-lecture', label: 'Gaudí Lecture' },
   { href: '/artists', label: 'Artist Fraternity' },
   { href: '/support', label: 'Support' },
   { href: DONATE_URL, label: 'Donate', external: true },
@@ -19,16 +26,31 @@ const items = [
     top: 0;
     z-index: 50;
     transition: background 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease, padding 0.3s ease;
-    background: transparent;
+    background: var(--thp-navy);            /* solid navy banner at the top of the page */
     border-bottom: 1px solid transparent;
   }
-  #site-header.scrolled {
-    background: rgba(251, 248, 241, 0.85);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-bottom-color: rgba(176, 140, 79, 0.25);
-    box-shadow: 0 1px 32px rgba(110, 43, 52, 0.06);
+  #site-header.scrolled {                    /* frosted light band once you scroll, so nav text
+                                                 stays readable over images/dark sections below it */
+    background: rgba(249, 245, 236, 0.4);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border-bottom-color: transparent;
+    box-shadow: none;
   }
+  /* Cream wordmark + nav on the navy banner; dark ink once transparent over the cream page. */
+  #site-header .logo-word,
+  #site-header .nav-link { color: #f9f4e9; }
+  #site-header.scrolled .logo-word { color: var(--thp-primary); }
+  #site-header.scrolled .nav-link { color: var(--thp-foreground); }
+  #site-header.scrolled .nav-link:hover,
+  #site-header.scrolled .nav-link.active { color: var(--thp-primary); }
+  #site-header #hamburger-btn { color: #f9f4e9; }
+  #site-header.scrolled #hamburger-btn { color: var(--thp-foreground); }
+  /* Wordmark logo image — cream on the navy banner, navy once scrolled/transparent. */
+  #site-header .logo-img { height: 1.4rem; width: auto; display: block; }
+  #site-header .logo-img--dark { display: none; }
+  #site-header.scrolled .logo-img--light { display: none; }
+  #site-header.scrolled .logo-img--dark { display: block; }
   #site-header.scrolled .header-inner {
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
@@ -46,23 +68,24 @@ const items = [
     color: var(--thp-foreground);
   }
   .logo-wrap img {
-    height: 2.75rem;
+    height: 2.5rem;
     width: auto;
     transition: transform 0.25s ease, opacity 0.25s ease;
   }
   .logo-wrap:hover img { transform: scale(1.04); opacity: 0.9; }
   .logo-word {
     font-family: var(--font-sans);
-    font-size: 1.6rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
+    font-size: 1.7rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    color: var(--thp-primary);
   }
 
-  /* Desktop nav links */
+  /* Desktop nav links — Inter, the brand's UI sans */
   .nav-link {
     position: relative;
-    font-family: var(--font-sans);
-    font-size: 1.0625rem;
+    font-family: var(--font-body);
+    font-size: 0.98rem;
     font-weight: 500;
     letter-spacing: 0.02em;
     color: var(--thp-foreground);
@@ -86,19 +109,63 @@ const items = [
   .nav-link.active::after { width: 100%; }
   .nav-link.active { color: var(--thp-primary); }
 
+  /* Dropdown ("2026 Exhibition" → Archive) */
+  .nav-dd { position: relative; display: flex; align-items: center; }
+  .nav-dd-toggle { display: inline-flex; align-items: center; gap: 0.3rem; }
+  .nav-caret { font-size: 0.62em; line-height: 1; transition: transform 0.2s ease; }
+  .nav-dd:hover .nav-caret,
+  .nav-dd:focus-within .nav-caret { transform: rotate(180deg); }
+  .nav-dd-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 0.6rem;
+    min-width: 12.5rem;
+    background: var(--thp-background);
+    border: 1px solid var(--thp-border);
+    border-radius: 0.6rem;
+    box-shadow: 0 14px 34px -14px rgba(15, 55, 82, 0.4);
+    padding: 0.4rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+    z-index: 60;
+  }
+  .nav-dd:hover .nav-dd-menu,
+  .nav-dd:focus-within .nav-dd-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+  .nav-dd-link {
+    display: block;
+    padding: 0.55rem 0.8rem;
+    border-radius: 0.4rem;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--thp-foreground);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .nav-dd-link:hover,
+  .nav-dd-link.active { background: var(--thp-muted); color: var(--thp-primary); }
+
   /* Donate pill */
   .nav-link-donate {
     background: var(--thp-primary);
     color: white !important;
     padding: 0.4rem 1rem;
     border-radius: 9999px;
-    font-family: var(--font-sans);
-    font-size: 1.0625rem;
-    font-weight: 600;
+    font-family: var(--font-body);
+    font-size: 0.98rem;
+    font-weight: 500;
     transition: background 0.2s ease, transform 0.2s ease;
     text-decoration: none;
   }
-  .nav-link-donate:hover { background: #5A222A; transform: translateY(-1px); }
+  .nav-link-donate:hover { background: var(--thp-navy); transform: translateY(-1px); }
   .nav-link-donate::after { display: none; }
 
   /* Hamburger, mobile only */
@@ -117,7 +184,7 @@ const items = [
     -webkit-tap-highlight-color: transparent;
   }
   @media (max-width: 900px) { #hamburger-btn { display: flex; } }
-  #hamburger-btn:hover { background: rgba(110, 43, 52, 0.08); }
+  #hamburger-btn:hover { background: rgba(60, 94, 115, 0.08); }
 
   /* Mobile menu overlay */
   #mobile-menu {
@@ -126,7 +193,7 @@ const items = [
     z-index: 49;
     display: flex;
     flex-direction: column;
-    background: rgba(251, 248, 241, 0.99);
+    background: rgba(249, 245, 236, 0.99);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     opacity: 0;
@@ -145,8 +212,8 @@ const items = [
   }
   .mobile-nav-link {
     font-family: var(--font-sans);
-    font-size: 1.6rem;
-    font-weight: 600;
+    font-size: 1.7rem;
+    font-weight: 700;
     color: var(--thp-foreground);
     text-decoration: none;
     padding: 0.6rem 1.5rem;
@@ -156,13 +223,19 @@ const items = [
     transition: color 0.2s ease, background 0.2s ease;
   }
   .mobile-nav-link:hover,
-  .mobile-nav-link.active { color: var(--thp-primary); background: rgba(176, 140, 79, 0.08); }
+  .mobile-nav-link.active { color: var(--thp-primary); background: rgba(60, 94, 115, 0.08); }
+  /* Sub-item (e.g. Archive under 2026 Exhibition) — smaller, quieter */
+  .mobile-nav-sub {
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: var(--thp-muted-foreground);
+  }
   .mobile-nav-donate {
     background: var(--thp-primary);
     color: white !important;
-    font-family: var(--font-sans);
-    font-size: 1.4rem;
-    font-weight: 600;
+    font-family: var(--font-body);
+    font-size: 1.2rem;
+    font-weight: 500;
     padding: 0.85rem 2.5rem;
     border-radius: 9999px;
     text-decoration: none;
@@ -201,8 +274,8 @@ const items = [
 
     <!-- Logo -->
     <a href="/" class="logo-wrap" aria-label="Theopolis, Home">
-      <img src="/images/theopolis-logo.svg" alt="" aria-hidden="true" onerror="this.style.display='none'" />
-      <span class="logo-word">Theopolis</span>
+      <img class="logo-img logo-img--light" src="/images/logos/theopolis-wordmark.png" alt="Theopolis" width="1030" height="131" />
+      <img class="logo-img logo-img--dark" src="/images/logos/theopolis-wordmark-navy.png" alt="" aria-hidden="true" width="1030" height="131" />
     </a>
 
     <!-- Desktop Nav -->
@@ -210,7 +283,20 @@ const items = [
       {items.map((item) => (
         item.label === 'Donate'
           ? <a href={item.href} class="nav-link-donate" target="_blank" rel="noopener">{item.label}</a>
-          : <a href={item.href} class="nav-link">{item.label}</a>
+          : item.children
+            ? (
+              <div class="nav-dd">
+                <a href={item.href} class="nav-link nav-dd-toggle" aria-haspopup="true">
+                  {item.label}<span class="nav-caret" aria-hidden="true">&#9662;</span>
+                </a>
+                <div class="nav-dd-menu">
+                  {item.children.map((c) => (
+                    <a href={c.href} class="nav-dd-link">{c.label}</a>
+                  ))}
+                </div>
+              </div>
+            )
+            : <a href={item.href} class="nav-link">{item.label}</a>
       ))}
     </nav>
 
@@ -231,7 +317,16 @@ const items = [
     {items.map((item) => (
       item.label === 'Donate'
         ? <a href={item.href} class="mobile-nav-donate" target="_blank" rel="noopener">{item.label}</a>
-        : <a href={item.href} class="mobile-nav-link">{item.label}</a>
+        : item.children
+          ? (
+            <Fragment>
+              <a href={item.href} class="mobile-nav-link">{item.label}</a>
+              {item.children.map((c) => (
+                <a href={c.href} class="mobile-nav-link mobile-nav-sub">{c.label}</a>
+              ))}
+            </Fragment>
+          )
+          : <a href={item.href} class="mobile-nav-link">{item.label}</a>
     ))}
   </div>
 </div>

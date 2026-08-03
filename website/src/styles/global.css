@@ -3,25 +3,34 @@
 @import "./palette.css";
 
 /* ── Base typography ────────────────────────────────────────────
-   Body in EB Garamond, headings in Cormorant Garamond (set via font-sans).
-   Cormorant runs small, so display headings get a touch more size/weight. */
+   Body & UI in Inter (clean modern sans), display headings in Cardo
+   (classical serif, set via --font-sans). Cardo ships 400/700 only. */
 body {
   font-family: var(--font-body);
 }
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-sans);
-  font-weight: 600;
-  letter-spacing: 0.005em;
+  font-weight: 400;
+  letter-spacing: -0.005em;
 }
 
-/* Small-caps eyebrow/label helper — used for section kickers */
+/* Small-caps eyebrow/label helper — used for section kickers.
+   Editorial sans kicker with wide tracking, in the marigold accent. */
 .eyebrow {
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
   text-transform: uppercase;
-  letter-spacing: 0.18em;
-  font-size: 0.8125rem;
-  font-weight: 600;
+  letter-spacing: 0.2em;
+  font-size: 0.78rem;
+  font-weight: 500;
   color: var(--thp-gold);
+}
+
+/* Handwritten accent — sparingly, for human/warm touches (kit's Biro Script).
+   Caveat is the free stand-in until the licensed font is supplied. */
+.handwritten {
+  font-family: var(--font-hand);
+  font-weight: 600;
+  letter-spacing: 0.01em;
 }
 
 /* Decorative thin gold rule */
@@ -58,9 +67,10 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  font-family: var(--font-sans);
-  font-size: 1.0625rem;
-  font-weight: 600;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
   line-height: 1;
   border-radius: 9999px;
   padding: 0.8rem 1.7rem;
@@ -71,8 +81,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 .btn:hover { transform: translateY(-1px); }
 .btn:focus-visible { outline: 2px solid var(--thp-primary); outline-offset: 3px; }
-.btn-primary { background: var(--thp-primary); color: #fff; box-shadow: 0 6px 18px rgba(110, 43, 52, 0.18); }
-.btn-primary:hover { background: #5A222A; box-shadow: 0 8px 22px rgba(110, 43, 52, 0.26); }
+.btn-primary { background: #141414; color: #fff; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18); }
+.btn-primary:hover { background: #000; box-shadow: 0 8px 22px rgba(0, 0, 0, 0.26); }
 .btn-outline { border-color: var(--thp-primary); color: var(--thp-primary); background: transparent; }
 .btn-outline:hover { background: var(--thp-accent); }
 .btn-ghost { border-color: var(--thp-border); color: var(--thp-foreground); background: transparent; }
@@ -142,7 +152,7 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--thp-primary);
   color: #fff;
   cursor: pointer;
-  box-shadow: 0 4px 16px rgba(110, 43, 52, 0.3);
+  box-shadow: 0 4px 16px rgba(15, 55, 82, 0.3);
   opacity: 0;
   transform: translateY(12px);
   pointer-events: none;
@@ -153,7 +163,7 @@ h1, h2, h3, h4, h5, h6 {
   transform: translateY(0);
   pointer-events: auto;
 }
-.back-to-top:hover { background: #5A222A; }
+.back-to-top:hover { background: var(--thp-navy); }
 .back-to-top:focus-visible { outline: 2px solid var(--thp-primary); outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) {
   .back-to-top { transition: opacity 0.25s ease; transform: none; }
@@ -164,4 +174,89 @@ h1, h2, h3, h4, h5, h6 {
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 90px;
+}
+
+/* ── Editorial system ───────────────────────────────────────────
+   Layout-led design helpers: oversized display type, index numerals,
+   small letter-spaced labels, thin rules, and a restrained scroll reveal. */
+
+/* Fluid display type — set big, scales with viewport. */
+.display {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  font-size: clamp(2.75rem, 7vw, 6.5rem);
+}
+.display-sm {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  font-size: clamp(2rem, 4.2vw, 3.5rem);
+}
+
+/* Small uppercase editorial label / kicker. */
+.label {
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--thp-muted-foreground);
+}
+
+/* Section kicker — a bit larger than the default label (matches the home
+   "What we do" heading). Global so every page's sections read the same. */
+.section-kicker { font-size: 1rem; letter-spacing: 0.2em; }
+
+/* Section index numeral, e.g. "01". */
+.index-num {
+  font-family: var(--font-body);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  color: var(--thp-gold);
+}
+
+/* Hairline rule used to open/close editorial blocks. */
+.rule {
+  height: 1px;
+  background: var(--thp-border);
+  border: 0;
+  margin: 0;
+}
+
+/* Text link with a trailing arrow — replaces button clutter in editorial flow. */
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+  color: var(--thp-foreground);
+  text-decoration: none;
+  border-bottom: 1px solid var(--thp-foreground);
+  padding-bottom: 2px;
+  transition: color 0.2s ease, border-color 0.2s ease, gap 0.2s ease;
+}
+.link-arrow span { transition: transform 0.2s ease; }
+.link-arrow:hover { color: var(--thp-primary); border-color: var(--thp-primary); gap: 0.7rem; }
+.link-arrow.on-dark { color: #fff; border-color: rgba(255,255,255,0.6); }
+.link-arrow.on-dark:hover { color: #fff; border-color: #fff; }
+
+/* Restrained scroll reveal — fade + small rise as elements enter view.
+   Honours reduced-motion (and shows everything if JS never runs). */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.is-visible { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
 }

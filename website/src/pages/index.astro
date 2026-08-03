@@ -6,129 +6,197 @@ const DONATE_URL = 'https://www.zeffy.com/en-CA/donation-form/donate-to-theopoli
 const HUGH_SPOTIFY = 'https://open.spotify.com/album/3eaOphrE4xx8aRXTAxlZRP';
 
 const whatWeDo = [
-  { title: 'Community', body: 'Connect with creative professionals across multiple disciplines.', image: '/images/home/community.jpeg' },
-  { title: 'Support', body: 'Access professional services, mentorship, and financial support.', image: '/images/home/support.jpeg' },
-  { title: 'Formation', body: 'Receive spiritual retreats, professional training, and cultural immersion.', image: '/images/home/formation.jpg' },
-  { title: 'Events', body: 'Attend lectures, exhibitions, and quarterly socials.', image: '/images/home/events.jpeg' },
+  { title: 'Community', body: 'Connect with creative professionals across a broad range of disciplines.', image: '/images/home/community.jpeg', href: '/artists' },
+  { title: 'Support', body: 'Access professional services, mentorship, and financial support.', image: '/images/home/support.jpeg', href: '/support' },
+  { title: 'Formation', body: 'Receive formation through spiritual retreats, professional training, and cultural immersion programs.', image: '/images/home/formation.jpg', href: '/about' },
+  { title: 'Events', body: 'Attend lectures, exhibitions, and quarterly socials.', image: '/images/home/events.jpeg', href: '/events' },
 ];
+
+// Testimonials — auto-scrolling carousel under the hero.
+// Transcribed verbatim from the live Wix site's testimonial carousel.
+const testimonials = [
+  {
+    quote: `The face of our faith needs to be seen in this world. It is refreshing to know that Theopolis exists, bringing a much needed seat to the cultural table in our world.`,
+    name: 'Timothy Schmalz',
+    title: 'Canadian sculptor',
+  },
+  {
+    quote: `Theopolis is a cause of rejoicing, a vision of the restoration of Catholic culture and also of our culture at large. For more than fifty years, I have yearned to see such an initiative, one that has been strongly encouraged by the Church but has yet to come into being. Now, at last, it is being born, and in its comprehensive, articulate vision it promises to be a work of God that will bear immense good fruit for eternity. Maximum bravo!`,
+    name: "Michael D. O'Brien",
+    title: 'Painter and Novelist',
+  },
+  {
+    quote: `For too long the Catholic arts in Canada have been in need of support and revitalization, and the Church, which is historically both the spiritual source and patron of the arts, is ready for a renaissance. Finally, we have an exciting and meticulous vision to encourage, network and sustain existing and emerging artists, and the Catholic Artist Society [Theopolis] initiative may well be a vehicle that brings about that renewal. I look forward to supporting the project in whatever way I can, and encourage others to get behind it as it emerges and grows as “something beautiful for God” and the artists he calls.`,
+    name: "Fr. John O'Brien S.J.",
+    title: "Director of Martyrs' Shrine",
+  },
+  {
+    quote: `Pope John Paul II reminds us that artists are called to be leaven within culture, placing their gifts at the service of the common good. Theopolis offers a compelling and resourceful response to that call. With a mission that is both aspirational and practical, a rare and much-needed combination, it affirms that beauty is not a luxury but something essential to the flourishing of persons and of Canadian culture as a whole. At the same time, it provides concrete opportunities for artists to gather in meaningful solidarity, cultivating the support and friendship they so deeply need in order to place their art at the service of others.`,
+    name: 'Dr. Rebekah Lamb Varela',
+    title: 'Lecturer in Theology, Imagination & the Arts, University of St. Andrews',
+  },
+];
+
+// One short quote is featured statically under the intro (trust-building);
+// the remaining, longer quotes auto-scroll in a band near the foot of the page.
+const featuredTestimonial = testimonials[0];        // Timothy Schmalz
+const rotatingTestimonials = testimonials.slice(1);  // the rest
 ---
 <BaseLayout
   title="Theopolis — Empowering Catholic Artists. Renewing Faith and Culture."
   description="Theopolis is a Canadian foundation empowering Catholic artists and renewing faith and culture through beauty, based in Toronto, Ontario."
   fullWidth
 >
-  <!-- Hero -->
-  <section class="hero-bg">
-    <div class="mx-auto grid max-w-6xl items-center gap-10 px-6 pt-20 pb-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14 lg:pt-24 lg:pb-20">
-      <div>
-        <p class="eyebrow">A Revival of Faith &amp; Culture in Ontario</p>
-        <h1 class="mt-4 text-5xl md:text-6xl font-semibold leading-[1.05] text-[var(--thp-foreground)]">
-          Empowering Catholic Artists.
-          <span class="text-[var(--thp-primary)]">Renewing Faith and Culture.</span>
-        </h1>
-        <hr class="gold-rule" />
-        <blockquote class="max-w-xl text-xl italic leading-snug text-[var(--thp-muted-foreground)]">
-          &ldquo;Theopolis is a cause of rejoicing, a vision of restoration of Catholic culture.&rdquo;
-          <footer class="mt-2 text-base not-italic text-[var(--thp-gold)]">&mdash; Michael D. O&rsquo;Brien, Painter &amp; Novelist</footer>
-        </blockquote>
-        <div class="mt-9 flex flex-wrap items-center gap-4">
-          <a href={DONATE_URL} target="_blank" rel="noopener" class="btn btn-primary">Donate</a>
-          <a href="/artists" class="btn btn-outline">Meet our Artists</a>
-          <a href="/support" class="btn btn-ghost">Support our Mission</a>
-        </div>
-      </div>
-      <div class="hero-frame">
-        <img src="/images/home/the-annunciation.jpg"
-          alt="The Annunciation" loading="eager" decoding="async"
-          class="w-full rounded-xl object-cover shadow-xl" />
-        <figcaption class="credit">The Annunciation (public domain)</figcaption>
-      </div>
+  <!-- ── Full-bleed hero: artwork fills the screen, type laid over it ── -->
+  <section class="hero">
+    <img class="hero-img" src="/images/home/philip-and-the-eunuch.jpg"
+      alt="Philip and the Ethiopian Eunuch" loading="eager" decoding="async" fetchpriority="high" />
+    <div class="hero-scrim"></div>
+    <div class="hero-overlay">
+      <img class="hero-wordmark-img" src="/images/logos/theopolis-wordmark.png" alt="Theopolis" width="1030" height="131" />
+      <p class="hero-tagline">Empowering Catholic Artists. Renewing Faith &amp; Culture</p>
     </div>
+    <figcaption class="hero-credit">Herbert Boeckl, <em>Philip and the Ethiopian Eunuch</em>, Angel&rsquo;s Chapel, Seckau Abbey, Styria, Austria, 1952&ndash;60.</figcaption>
   </section>
 
-  <!-- What We Do -->
-  <section class="bg-[var(--thp-secondary)]/40">
-    <div class="mx-auto max-w-6xl px-6 py-16 lg:py-20">
-      <div class="text-center">
-        <p class="eyebrow">What We Do</p>
-        <div class="gold-flourish"><span>&#9670;</span></div>
-      </div>
-      <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+  <!-- ── Featured static testimonial — full-width, sets the tone up top ── -->
+  <section class="mx-auto max-w-6xl px-6 pt-16 lg:pt-20 pb-4 lg:pb-6 text-center">
+    <figure class="feat-quote reveal">
+      <blockquote>&ldquo;{featuredTestimonial.quote}&rdquo;</blockquote>
+      <figcaption>
+        &mdash; {featuredTestimonial.name}{featuredTestimonial.title ? `, ${featuredTestimonial.title}` : ''}
+      </figcaption>
+    </figure>
+  </section>
+
+  <!-- ── A Revival of Faith & Culture in Ontario ──────────────── -->
+  <section class="mx-auto max-w-4xl px-6 pt-8 lg:pt-10 pb-8 lg:pb-10 text-center">
+    <h2 class="display-sm reveal">A Revival of Faith &amp; Culture in Ontario</h2>
+    <p class="revival-body reveal">
+      Catholic art has the power to renew culture and share the faith through beauty, but in
+      Ontario, it&rsquo;s too often absent from public life. Theopolis exists to change that.
+      We&rsquo;re empowering a rising generation of Catholic artists and creating a space for
+      encounter between the secular and sacred.
+    </p>
+  </section>
+
+  <!-- ── 02 · What we do — full-bleed image tiles ─────────────── -->
+  <section class="tiles-wrap">
+    <div class="mx-auto max-w-6xl px-6">
+      <p class="label section-kicker reveal">What we do</p>
+      <hr class="rule mt-4" />
+    </div>
+    <div class="mx-auto max-w-6xl px-6">
+      <div class="wwd-grid">
         {whatWeDo.map((item) => (
-          <article class="overflow-hidden rounded-xl border border-[var(--thp-border)] bg-[var(--thp-card)] shadow-sm transition hover:shadow-md">
-            <img src={item.image} alt="" aria-hidden="true" loading="lazy"
-              class="aspect-[16/10] w-full object-cover" />
-            <div class="p-5">
-              <h3 class="text-2xl font-semibold text-[var(--thp-primary)]">{item.title}</h3>
-              <p class="mt-2 leading-relaxed text-[var(--thp-muted-foreground)]">{item.body}</p>
+          <a class="wwd-card reveal" href={item.href} aria-label={item.title}>
+            <img class="wwd-img" src={item.image} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+            <div class="wwd-base">
+              <h3 class="wwd-title--light">{item.title}</h3>
             </div>
-          </article>
+            <div class="wwd-panel">
+              <h3 class="wwd-panel-title">{item.title}</h3>
+              <hr class="wwd-panel-divider" />
+              <p class="wwd-panel-body">{item.body}</p>
+            </div>
+          </a>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- Why It Matters — full-bleed image band -->
+  <!-- ── Why it matters — bright fresco, dark text ────────────── -->
   <section class="why-band">
     <div class="why-overlay">
-      <div class="mx-auto max-w-3xl px-6 py-24 text-center text-white">
-        <p class="eyebrow" style="color: var(--thp-accent);">Why It Matters</p>
-        <blockquote class="mt-4 text-4xl md:text-5xl font-semibold italic leading-tight">
-          &ldquo;Beauty will save the world.&rdquo;
-        </blockquote>
-        <p class="mt-2 text-white/70">&mdash; Fyodor Dostoevsky, 1869</p>
-        <p class="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-white/90">
-          Art shapes how we understand the world. Beauty opens a space for encounter with the
-          Holy Spirit. Catholic art enters into dialogue with contemporary Canadian culture,
-          keeping the Catholic imagination alive in public life.
-        </p>
-        <a href="/about" class="btn btn-on-dark mt-8">Learn More</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Creative Pulse: Artist of the Month -->
-  <section class="mx-auto max-w-6xl px-6 py-16 lg:py-20">
-    <div class="text-center">
-      <p class="eyebrow">Creative Pulse &middot; Artist of the Month</p>
-      <div class="gold-flourish"><span>&#9670;</span></div>
-    </div>
-    <div class="mt-6 grid items-center gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-14">
-      <img src="/images/home/hugh-album-cover.png"
-        alt="Judah — album cover art by Hugh Beresford" loading="lazy"
-        class="mx-auto w-full max-w-sm rounded-xl shadow-lg" />
-      <div>
-        <h2 class="text-3xl font-semibold text-[var(--thp-primary)]">Hugh Beresford</h2>
-        <p class="text-[var(--thp-gold)]">Singer / Songwriter</p>
-        <p class="mt-4 text-lg leading-relaxed text-[var(--thp-muted-foreground)]">
-          A Catholic singer-songwriter based in Ontario with a passion for music, art, and
-          writing. His work seeks to reveal God&rsquo;s goodness through the good, the true, and
-          the beautiful &mdash; rather than through explicit religious themes.
-        </p>
-        <div class="mt-6 flex flex-wrap gap-4">
-          <a href={HUGH_SPOTIFY} target="_blank" rel="noopener" class="btn btn-primary">Listen on Spotify</a>
-          <a href="/artists" class="btn btn-outline">Read Hugh&rsquo;s Bio</a>
+      <div class="mx-auto max-w-5xl px-6 py-28 lg:py-36 reveal">
+        <p class="label section-kicker">Why it matters</p>
+        <hr class="rule mt-4" />
+        <div class="why-text">
+          <p class="why-quote">&ldquo;Beauty will save the world.&rdquo;<br />&mdash; Fyodor Dostoevsky, <em>The Idiot</em> (1869)</p>
+          <p class="why-para">We believe that art plays a vital role in shaping how we understand the world, and that beauty can serve as an avenue for the Holy Spirit&mdash;sparking an encounter with the sacred. By bringing works of Catholic art into dialogue with contemporary Canadian culture, Theopolis ensures that the Catholic imagination remains part of the public conversation, creating spaces where culture and faith meet.</p>
+        </div>
+        <div class="why-actions">
+          <a href="/about" class="btn btn-primary why-btn">Learn more</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Join the Movement -->
-  <section class="bg-[var(--thp-primary)] text-white">
-    <div class="mx-auto max-w-3xl px-6 py-16 text-center">
-      <h2 class="text-4xl font-semibold">Join the Movement</h2>
-      <p class="mt-4 text-lg leading-relaxed text-white/85">
-        Support art that restores culture and lifts the gaze heaven-ward.
-      </p>
-      <a href="/support" class="btn btn-on-dark mt-8">Get Involved</a>
+  <!-- ── 03 · Artist of the month — image bleeds to the left edge ── -->
+  <section class="artist">
+    <div class="mx-auto max-w-6xl px-6">
+      <p class="label section-kicker reveal">Artist of the month</p>
+      <hr class="rule mt-4" />
+      <div class="artist-inner reveal">
+        <figure class="artist-figure">
+          <img src="/images/home/hugh-album-cover.png"
+            alt="Judah — album by Hugh Edmund" loading="lazy" decoding="async" />
+        </figure>
+        <div class="artist-copy">
+          <h3 class="artist-name">Hugh Edmund</h3>
+          <p class="artist-role">Musician</p>
+          <p class="artist-bio">Hugh released his first EP, <em>Judah</em>, in 2025.</p>
+          <p class="artist-bio">Hugh Edmund is a Catholic singer/songwriter living and working in Ontario, Canada.</p>
+          <p class="artist-bio">He has a passion for music, art, and writing. Hugh was introduced to the arts/liberal arts in his late teenage years at school where he was influenced by the idea of sharing the faith by using the good, true, and beautiful. He has since taught, performed and begun writing music as a Catholic artist. Although not explicitly religious, his music focuses on promoting the good, true, and beautiful as a means of revealing the goodness of God in our world.</p>
+          <a href={HUGH_SPOTIFY} target="_blank" rel="noopener" class="link-arrow artist-listen">Listen to Judah <span>&rarr;</span></a>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- Get in touch -->
+  <!-- ── Testimonials — auto-scrolling band (longer quotes) ───── -->
+  <section class="tstm reveal" aria-label="Testimonials" aria-roledescription="carousel">
+    <span class="tstm-mark" aria-hidden="true">&ldquo;</span>
+    <div class="tstm-viewport">
+      <div class="tstm-track" id="tstm-track">
+        {rotatingTestimonials.map((t, i) => (
+          <figure class="tstm-slide" data-index={i} aria-hidden={i === 0 ? 'false' : 'true'}>
+            <blockquote class="tstm-quote">{t.quote}</blockquote>
+            <div class="tstm-flourish" aria-hidden="true"><span>&#9670;</span></div>
+            <figcaption class="tstm-cite">
+              <span class="tstm-name">{t.name}</span>
+              {t.title && <span class="tstm-title">{t.title}</span>}
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+    {rotatingTestimonials.length > 1 && (
+      <div class="tstm-dots" id="tstm-dots" role="tablist" aria-label="Choose testimonial">
+        {rotatingTestimonials.map((_, i) => (
+          <button
+            class:list={['tstm-dot', { 'is-active': i === 0 }]}
+            data-dot={i}
+            type="button"
+            role="tab"
+            aria-label={`Testimonial ${i + 1}`}
+            aria-selected={i === 0 ? 'true' : 'false'}
+          ></button>
+        ))}
+      </div>
+    )}
+  </section>
+
+  <!-- ── Closing — patronage type block ───────────────────────── -->
+  <section class="join-block">
+    <div class="mx-auto max-w-5xl px-6 py-28 lg:py-40 reveal">
+      <p class="label" style="color: rgba(255,255,255,0.6);">Join the movement</p>
+      <h2 class="display mt-6" style="color:#fff;">
+        Support art that<br />restores culture.
+      </h2>
+      <div class="mt-12 flex flex-wrap gap-8">
+        <a href={DONATE_URL} target="_blank" rel="noopener" class="link-arrow on-dark">Donate <span>&rarr;</span></a>
+        <a href="/artists" class="link-arrow on-dark">Meet our artists <span>&rarr;</span></a>
+        <a href="/support" class="link-arrow on-dark">Support our mission <span>&rarr;</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Contact ──────────────────────────────────────────────── -->
   <section class="bg-[var(--thp-muted)]">
-    <div class="mx-auto max-w-5xl px-6 py-16 lg:py-20">
+    <div class="mx-auto max-w-5xl px-6 py-24 reveal">
       <ContactForm
-        heading="Get in Touch"
+        heading="Get in touch"
         intro="Questions, ideas, or want to get involved? Send us a note and we’ll be in touch."
         inquiryLabel="Your inquiry"
       />
@@ -137,30 +205,459 @@ const whatWeDo = [
 </BaseLayout>
 
 <style>
-  .hero-bg {
-    background:
-      radial-gradient(90% 70% at 80% 0%, rgba(176, 140, 79, 0.12), transparent 55%),
-      linear-gradient(to bottom, var(--thp-muted), var(--thp-background));
+  /* ── Full-bleed hero ─────────────────────────────────────── */
+  .hero {
+    position: relative;
+    height: 100svh;
+    min-height: 600px;
+    width: 100%;
+    overflow: hidden;
   }
-  .hero-frame { position: relative; }
-  .hero-frame::before {
-    content: '';
+  .hero-img {
     position: absolute;
-    inset: -0.75rem -0.75rem auto auto;
-    width: 60%;
-    height: 60%;
-    border-top: 2px solid var(--thp-gold);
-    border-right: 2px solid var(--thp-gold);
-    border-top-right-radius: 0.75rem;
-    opacity: 0.6;
-    pointer-events: none;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
   }
+  /* Flat navy wash (#103752 at 50%) over the painting, as on the live site. */
+  .hero-scrim {
+    position: absolute;
+    inset: 0;
+    background: rgba(16, 55, 82, 0.5);
+  }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 1.5rem;
+    color: #fff;
+  }
+  .hero-wordmark-img {
+    width: min(82vw, 780px);
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 2px 26px rgba(0,0,0,0.38));
+  }
+  .hero-tagline {
+    margin-top: 1.35rem;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(1.05rem, 2.4vw, 1.9rem);
+    letter-spacing: 0.01em;
+    color: #f9f4e9;
+    text-shadow: 0 2px 18px rgba(0,0,0,0.45);
+  }
+  .hero-credit {
+    position: absolute;
+    right: clamp(1rem, 4vw, 2.5rem);
+    bottom: 0.7rem;
+    left: clamp(1rem, 4vw, 2.5rem);
+    text-align: right;
+    font-family: var(--font-body);
+    font-size: 0.58rem;
+    letter-spacing: 0.02em;
+    color: rgba(255,255,255,0.55);
+    text-shadow: 0 1px 5px rgba(0,0,0,0.5);
+  }
+
+  /* ── Testimonials carousel — full-width band below the Revival section ── */
+  .tstm {
+    position: relative;
+    background: var(--thp-background);
+    color: var(--thp-foreground);
+    padding: clamp(1rem, 2vw, 1.75rem) 1.5rem clamp(1.25rem, 2.5vw, 1.75rem);
+    overflow: hidden;
+  }
+  .tstm-kicker {
+    text-align: center;
+    font-family: var(--font-body);
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--thp-gold);
+    margin: 0 0 clamp(1.25rem, 3vw, 2rem);
+  }
+  /* Oversized decorative opening quotation mark behind the quote */
+  .tstm-mark {
+    position: absolute;
+    top: clamp(1.75rem, 4vw, 3.25rem);
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-sans);
+    font-size: clamp(6rem, 13vw, 11rem);
+    line-height: 0.6;
+    color: var(--thp-gold);
+    opacity: 0.16;
+    pointer-events: none;
+    user-select: none;
+  }
+  .tstm-viewport { position: relative; overflow: hidden; max-width: 92rem; margin: 0 auto; }
+  .tstm-track { display: flex; align-items: stretch; }
+  .tstm-slide {
+    flex: 0 0 100%;
+    min-width: 100%;
+    margin: 0;
+    padding: 0 clamp(0.5rem, 3vw, 2.5rem);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .tstm-quote {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.4;
+    letter-spacing: -0.005em;
+    font-size: clamp(1.15rem, 1.7vw, 1.55rem);
+    max-width: 92ch;
+    margin: 0;
+    color: var(--thp-foreground);
+  }
+  /* Gold flourish divider between quote and attribution */
+  .tstm-flourish {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin: clamp(1.5rem, 3vw, 2.25rem) 0 clamp(1.1rem, 2vw, 1.5rem);
+    color: var(--thp-gold);
+  }
+  .tstm-flourish::before,
+  .tstm-flourish::after {
+    content: '';
+    height: 1px;
+    width: 2.5rem;
+    background: linear-gradient(to var(--_dir, right), transparent, var(--thp-gold));
+  }
+  .tstm-flourish::before { --_dir: left; }
+  .tstm-flourish span { font-size: 0.5rem; line-height: 1; }
+  .tstm-cite {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .tstm-name {
+    font-family: var(--font-body);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    font-size: 1rem;
+    color: var(--thp-foreground);
+  }
+  .tstm-title {
+    font-family: var(--font-body);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 0.72rem;
+    color: var(--thp-muted-foreground);
+  }
+  .tstm-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-top: clamp(1.75rem, 3.5vw, 2.5rem);
+  }
+  .tstm-dot {
+    width: 9px;
+    height: 9px;
+    padding: 0;
+    border: 1px solid var(--thp-muted-foreground);
+    border-radius: 9999px;
+    background: transparent;
+    cursor: pointer;
+    transition: background 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+  }
+  .tstm-dot:hover { border-color: var(--thp-foreground); }
+  .tstm-dot.is-active { background: var(--thp-gold); border-color: var(--thp-gold); transform: scale(1.15); }
+  .tstm-dot:focus-visible { outline: 2px solid var(--thp-gold); outline-offset: 3px; }
+
+  /* ── Revival section (below hero) ── */
+  .revival-body {
+    margin: 1.75rem auto 0;
+    max-width: none;
+    font-size: 1.2rem;
+    line-height: 1.7;
+    color: var(--thp-foreground);
+  }
+  .revival-actions {
+    margin-top: 2.25rem;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.9rem 1rem;
+  }
+  .revival-btn {
+    padding-top: 0.95rem;
+    padding-bottom: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 0.8rem;
+  }
+  @media (max-width: 480px) {
+    .revival-actions { flex-direction: column; }
+    .revival-btn { width: min(100%, 22rem); }
+  }
+
+  /* Featured static testimonial at the top (italic, trust-building).
+     Fills the page's standard content width (bounded by its max-w-6xl wrapper). */
+  .feat-quote {
+    margin: 0 auto;
+    max-width: 100%;
+  }
+  .feat-quote blockquote {
+    font-family: var(--font-sans);
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.45;
+    font-size: clamp(1rem, 1.5vw, 1.35rem);
+    color: var(--thp-foreground);
+    margin: 0;
+    text-wrap: balance;
+  }
+  .feat-quote figcaption {
+    margin-top: 1.25rem;
+    font-family: var(--font-body);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    font-size: 1rem;
+    color: var(--thp-muted-foreground);
+  }
+
+  /* Section kicker — a bit larger than the default label. */
+  .section-kicker { font-size: 1rem; letter-spacing: 0.2em; }
+
+  /* ── What we do — stacked rows: rectangle image left, text fills right ── */
+  .tiles-wrap { padding: 2.5rem 0 4.5rem; }
+  /* Fade tiles — identical to the Artist Fraternity "What we offer" section. */
+  .wwd-grid {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  @media (min-width: 860px) {
+    .wwd-grid { grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+  }
+  .wwd-card {
+    position: relative;
+    display: block;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    border-radius: 3px;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 16px 38px -22px rgba(15, 55, 82, 0.5);
+  }
+  .wwd-card:focus-visible { outline: 2px solid var(--thp-primary); outline-offset: 4px; }
+  .wwd-img {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .wwd-card:hover .wwd-img,
+  .wwd-card:focus-within .wwd-img { transform: scale(1.04); }
+  .wwd-base {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.5rem;
+    background: linear-gradient(to top, rgba(15, 55, 82, 0.85), rgba(15, 55, 82, 0.12) 55%, transparent);
+    transition: opacity 0.45s ease;
+  }
+  .wwd-card:hover .wwd-base,
+  .wwd-card:focus-within .wwd-base { opacity: 0; }
+  .wwd-title--light {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: clamp(1rem, 1.4vw, 1.2rem);
+    line-height: 1.15;
+    color: #f9f4e9;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.35);
+  }
+  .wwd-panel {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(1.6rem, 3vw, 2.25rem);
+    background: rgba(15, 55, 82, 0.92);
+    color: #f9f4e9;
+    opacity: 0;
+    transition: opacity 0.45s ease;
+  }
+  .wwd-card:hover .wwd-panel,
+  .wwd-card:focus-within .wwd-panel { opacity: 1; }
+  .wwd-panel > * {
+    transform: translateY(8px);
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .wwd-card:hover .wwd-panel > *,
+  .wwd-card:focus-within .wwd-panel > * { transform: none; }
+  .wwd-panel-title {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+    line-height: 1.15;
+    color: #f9f4e9;
+  }
+  .wwd-panel-divider { width: 2.25rem; height: 1px; border: 0; background: var(--thp-marigold); margin: 0.75rem 0; }
+  .wwd-panel-body {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: rgba(249, 244, 233, 0.88);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .wwd-img, .wwd-base, .wwd-panel, .wwd-panel > * { transition: opacity 0.2s ease; transform: none; }
+  }
+
+  /* ── Why it matters — bright fresco, light veil, dark text ── */
   .why-band {
-    background-image: url('/images/home/philip-and-the-eunuch.jpg');
+    background-image: url('/images/home/the-annunciation.jpg');
     background-size: cover;
-    background-position: center 30%;
+    background-position: center 62%;   /* lower crop → the figures, not the dome */
   }
   .why-overlay {
-    background: linear-gradient(rgba(33, 28, 24, 0.72), rgba(110, 43, 52, 0.78));
+    background: rgba(255, 255, 255, 0.62);
   }
+  .why-title {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    text-align: center;
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    line-height: 1.05;
+    color: var(--thp-foreground);
+  }
+  .why-text {
+    margin: 2rem auto 0;
+    max-width: none;
+    color: var(--thp-foreground);
+  }
+  .why-quote { font-size: 1.15rem; line-height: 1.6; }
+  .why-para { margin-top: 1.5rem; font-size: 1.15rem; line-height: 1.75; }
+  .why-actions { margin-top: 2.5rem; text-align: center; }
+  .why-btn {
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.82rem;
+    padding: 1rem 2.4rem;
+  }
+
+  /* ── Artist of the month — album image + Hugh's bio ── */
+  .artist { padding: 4rem 0 4.5rem; }
+  .artist-inner {
+    margin-top: 3rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    align-items: start;
+  }
+  @media (min-width: 900px) {
+    .artist-inner {
+      grid-template-columns: 1fr minmax(0, 280px);
+      gap: clamp(2.5rem, 5vw, 4.5rem);
+    }
+    .artist-figure { grid-column: 2; grid-row: 1; }
+    .artist-copy { grid-column: 1; grid-row: 1; }
+  }
+  .artist-figure { margin: 0; }
+  .artist-figure img {
+    width: 100%;
+    height: auto;
+    display: block;
+    box-shadow: 0 24px 55px -28px rgba(15, 55, 82, 0.5);
+  }
+  .artist-name {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: clamp(1.9rem, 3.5vw, 2.6rem);
+    line-height: 1.05;
+    color: var(--thp-foreground);
+  }
+  .artist-role {
+    margin-top: 0.5rem;
+    font-family: var(--font-body);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--thp-primary);
+  }
+  .artist-bio {
+    max-width: 62ch;
+    margin-top: 1.5rem;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--thp-foreground);
+  }
+  .artist-listen { margin-top: 1.75rem; }
+
+  /* ── Closing patronage block ── */
+  .join-block { background: var(--thp-navy); }
 </style>
+
+<script>
+  // Auto-scrolling testimonials carousel.
+  const track = document.getElementById('tstm-track');
+  if (track) {
+    const slides = Array.from(track.querySelectorAll('.tstm-slide'));
+    const dots = Array.from(document.querySelectorAll('#tstm-dots .tstm-dot'));
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let current = 0;
+    let timer;
+
+    const go = (i) => {
+      current = (i + slides.length) % slides.length;
+      track.style.transform = `translateX(-${current * 100}%)`;
+      slides.forEach((s, n) => s.setAttribute('aria-hidden', n === current ? 'false' : 'true'));
+      dots.forEach((d, n) => {
+        d.classList.toggle('is-active', n === current);
+        d.setAttribute('aria-selected', n === current ? 'true' : 'false');
+      });
+    };
+
+    const start = () => {
+      if (prefersReduced || slides.length < 2) return;
+      stop();
+      timer = window.setInterval(() => go(current + 1), 6000);
+    };
+    const stop = () => { if (timer) window.clearInterval(timer); };
+
+    track.style.transition = 'transform 0.7s cubic-bezier(0.22, 1, 0.36, 1)';
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => { go(i); start(); });
+    });
+
+    // Pause on hover / focus so readers aren't rushed.
+    const section = track.closest('.tstm');
+    section?.addEventListener('mouseenter', stop);
+    section?.addEventListener('mouseleave', start);
+    section?.addEventListener('focusin', stop);
+    section?.addEventListener('focusout', start);
+
+    go(0);
+    start();
+  }
+</script>
