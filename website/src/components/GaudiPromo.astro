@@ -72,10 +72,10 @@ const TICKETS_URL = 'https://www.zeffy.com/en-CA/ticketing/the-christian-imagina
     position: relative;
     z-index: 1;
     width: 100%;
-    max-width: 34rem;
-    max-height: 88vh;
+    max-width: 46rem;
+    max-height: 90vh;
     overflow-y: auto;
-    border-radius: 12px;
+    border-radius: 0;
     box-shadow: 0 50px 110px -20px rgba(8, 27, 41, 0.55);
     opacity: 0;
     transform: translateY(14px) scale(0.98);
@@ -121,30 +121,29 @@ const TICKETS_URL = 'https://www.zeffy.com/en-CA/ticketing/the-christian-imagina
   }
   .gaudi-promo-close:hover { background: rgba(249, 244, 233, 0.26); }
 
-  .gaudi-promo-body { padding: 2.75rem 2.25rem; text-align: center; }
+  .gaudi-promo-body { padding: 3.75rem 3.25rem; text-align: center; }
+  @media (max-width: 640px) { .gaudi-promo-body { padding: 3.25rem 1.75rem; } }
   .gaudi-promo-title {
     font-family: var(--font-sans);
     font-weight: 400;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    font-size: clamp(1.3rem, 3.2vw, 1.7rem);
-    line-height: 1.25;
+    font-size: clamp(1.3rem, 2.8vw, 1.65rem);
+    line-height: 1.3;
     color: var(--thp-marigold);
   }
   .gaudi-promo-text {
-    margin-top: 1.1rem;
+    margin-top: 1.4rem;
     font-family: var(--font-body);
-    font-size: 0.95rem;
-    line-height: 1.6;
+    font-size: 1.08rem;
+    line-height: 1.65;
     color: rgba(249, 244, 233, 0.85);
   }
   .gaudi-promo-text strong { color: #f9f4e9; }
   .gaudi-promo-lecture-title {
-    margin-top: 1.1rem;
+    margin-top: 1.4rem;
     font-family: var(--font-sans);
     font-style: italic;
-    font-size: 1.2rem;
-    line-height: 1.35;
+    font-size: 1.4rem;
+    line-height: 1.4;
     color: #f9f4e9;
   }
   .gaudi-promo-urgency {
@@ -152,20 +151,21 @@ const TICKETS_URL = 'https://www.zeffy.com/en-CA/ticketing/the-christian-imagina
     color: #f9f4e9;
   }
   .gaudi-promo-actions {
-    margin-top: 1.75rem;
+    margin-top: 2.25rem;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 0.75rem;
   }
   .gaudi-promo-btn-primary {
-    background: var(--thp-marigold);
-    color: #081b29;
+    background: rgba(242, 193, 62, 0.12);
+    border: 1px solid var(--thp-marigold);
+    color: var(--thp-marigold);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
-  .gaudi-promo-btn-primary:hover { background: #f2c13e; }
+  .gaudi-promo-btn-primary:hover { background: rgba(242, 193, 62, 0.22); }
 
   @media (prefers-reduced-motion: reduce) {
     .gaudi-promo-tint, .gaudi-promo-card { transition: none; }
@@ -191,7 +191,7 @@ const TICKETS_URL = 'https://www.zeffy.com/en-CA/ticketing/the-christian-imagina
     };
 
     if (!alreadySeen && !onLecturePage) {
-      setTimeout(open, 3500);
+      setTimeout(open, 1000);
       root.addEventListener('click', (e) => {
         if ((e.target as HTMLElement).closest('[data-gaudi-dismiss]')) close();
       });

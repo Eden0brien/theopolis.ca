@@ -38,7 +38,12 @@ const teamMembers = [
     image: '/images/about/samantha-obrien.jpg',
     bio: 'Samantha O’Brien is a Toronto-based Catholic creative specializing in graphic design and hand lettering. She graduated with distinction from OCAD University with a Bachelor of Design. Clarity and functionality guide her work across a variety of media. Her experience includes graphic design for startups and corporate clients, as well as communications work within the Archdiocese of Toronto. She is continually developing new skills and finding ways to apply them to her creative practice. Samantha is also a wife and mother of two and enjoys trying new recipes in her free time.',
   },
-  { name: 'Alejandra Mendoza', role: 'Program Coordinator', image: '/images/about/alejandra-mendoza.jpg' },
+  {
+    name: 'Alejandra Mendoza',
+    role: 'Program Coordinator',
+    image: '/images/about/alejandra-mendoza.jpg',
+    bio: 'Alejandra has a Masters in Museum Studies from The University of Toronto and a Bachelor’s of Art in Visual and Critical Studies from OCAD University. While doing her masters she became interested with museum education as a way of engaging young minds outside of the traditional classroom. Her practice centers around community building within the museum to foster connection and encourage creativity. She is currently working towards building her career in museum education and hopes to inspire more young people to pursue careers in the arts/heritage sector.',
+  },
   {
     name: 'Trevor Anzai',
     role: 'Artist Coordinator',
@@ -284,7 +289,7 @@ const allMembers = [...founders, ...teamMembers];
     text-align: left;
     background: var(--thp-card);
     border: 1px solid var(--thp-border);
-    border-radius: 8px;
+    border-radius: 3px;
     box-shadow: 0 10px 28px -20px rgba(15, 55, 82, 0.4);
     transition: box-shadow 0.25s ease, transform 0.25s ease;
   }
@@ -302,7 +307,7 @@ const allMembers = [...founders, ...teamMembers];
     width: 100%;
     aspect-ratio: 1 / 1;
     overflow: hidden;
-    border-radius: 8px 8px 0 0;
+    border-radius: 3px 3px 0 0;
     background: var(--thp-muted);
   }
   .member-photo {
@@ -361,7 +366,7 @@ const allMembers = [...founders, ...teamMembers];
     backdrop-filter: blur(8px);
     color: var(--thp-foreground);
     border: 1px solid var(--thp-border);
-    border-radius: 10px;
+    border-radius: 3px;
     padding: 1.25rem 1.5rem 1.4rem;
     box-shadow: 0 26px 60px -20px rgba(15, 55, 82, 0.45);
     text-align: left;
