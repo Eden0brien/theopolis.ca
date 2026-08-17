@@ -1,0 +1,203 @@
+---
+// Site-wide promo pop-up for the inaugural Gaudí Lecture. Shows once per
+// browser session, a few seconds after page load, on every page except the
+// lecture's own page. Dismissible via the × button, the tint, or Escape.
+// The page underneath stays scrollable — only a light blue tint covers it;
+// the actual info card (opaque Sagrada Família image + event details) floats
+// fixed in the center of the screen.
+const TICKETS_URL = 'https://www.zeffy.com/en-CA/ticketing/the-christian-imagination-and-the-question-of-autonomous-art';
+---
+<div id="gaudi-promo" class="gaudi-promo" role="dialog" aria-modal="true" aria-labelledby="gaudi-promo-title" hidden>
+  <div class="gaudi-promo-tint" data-gaudi-dismiss></div>
+  <div class="gaudi-promo-card">
+    <img
+      class="gaudi-promo-bg"
+      src="/images/gaudi-lecture/sagrada-familia.jpg"
+      alt=""
+      aria-hidden="true"
+      loading="lazy"
+      decoding="async"
+    />
+    <div class="gaudi-promo-scrim"></div>
+    <button type="button" class="gaudi-promo-close" data-gaudi-dismiss aria-label="Close">&times;</button>
+    <div class="gaudi-promo-body">
+      <h2 id="gaudi-promo-title" class="gaudi-promo-title">Get Your Ticket to the Inaugural Gaudí Lecture</h2>
+      <p class="gaudi-promo-text">
+        On <strong>October 24, 2026</strong>, join Theopolis and Jonathan Pageau at the
+        University of Toronto for the inaugural Gaudí Lecture:
+      </p>
+      <p class="gaudi-promo-lecture-title">The Christian Imagination and the Question of Autonomous Art</p>
+      <p class="gaudi-promo-text">
+        Be part of the launch of a new annual lecture series exploring the enduring power and
+        relevance of the Christian imagination.
+      </p>
+      <p class="gaudi-promo-text gaudi-promo-urgency">Early Bird tickets are limited. Reserve yours today.</p>
+      <div class="gaudi-promo-actions">
+        <a href={TICKETS_URL} target="_blank" rel="noopener" class="btn gaudi-promo-btn-primary">Get Tickets Now</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Root is just a positioning context — it has no fill of its own, so wheel/
+     touch scroll bubbles straight through to the real page underneath. */
+  .gaudi-promo {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+    pointer-events: none;
+  }
+  .gaudi-promo[hidden] { display: none; }
+
+  /* Full-page tint — light and transparent, so the page stays readable and
+     scrollable behind it. */
+  .gaudi-promo-tint {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 55, 82, 0.32);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: auto;
+  }
+  .gaudi-promo.is-open .gaudi-promo-tint { opacity: 1; }
+
+  /* The card itself: opaque Sagrada Família image, fixed centered, its own
+     internal scroll if the content ever runs taller than it. */
+  .gaudi-promo-card {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 46rem;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 0;
+    box-shadow: 0 50px 110px -20px rgba(8, 27, 41, 0.55);
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    pointer-events: auto;
+  }
+  .gaudi-promo.is-open .gaudi-promo-card { opacity: 1; transform: none; }
+
+  .gaudi-promo-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
+  .gaudi-promo-scrim {
+    position: absolute;
+    inset: 0;
+    background: rgba(8, 27, 41, 0.84);
+    z-index: -1;
+  }
+
+  .gaudi-promo-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 2;
+    width: 2.25rem;
+    height: 2.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    background: rgba(249, 244, 233, 0.14);
+    color: #f9f4e9;
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  .gaudi-promo-close:hover { background: rgba(249, 244, 233, 0.26); }
+
+  .gaudi-promo-body { padding: 3.75rem 3.25rem; text-align: center; }
+  @media (max-width: 640px) { .gaudi-promo-body { padding: 3.25rem 1.75rem; } }
+  .gaudi-promo-title {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: clamp(1.3rem, 2.8vw, 1.65rem);
+    line-height: 1.3;
+    color: var(--thp-marigold);
+  }
+  .gaudi-promo-text {
+    margin-top: 1.4rem;
+    font-family: var(--font-body);
+    font-size: 1.08rem;
+    line-height: 1.65;
+    color: rgba(249, 244, 233, 0.85);
+  }
+  .gaudi-promo-text strong { color: #f9f4e9; }
+  .gaudi-promo-lecture-title {
+    margin-top: 1.4rem;
+    font-family: var(--font-sans);
+    font-style: italic;
+    font-size: 1.4rem;
+    line-height: 1.4;
+    color: #f9f4e9;
+  }
+  .gaudi-promo-urgency {
+    font-weight: 600;
+    color: #f9f4e9;
+  }
+  .gaudi-promo-actions {
+    margin-top: 2.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+  .gaudi-promo-btn-primary {
+    background: rgba(242, 193, 62, 0.12);
+    border: 1px solid var(--thp-marigold);
+    color: var(--thp-marigold);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .gaudi-promo-btn-primary:hover { background: rgba(242, 193, 62, 0.22); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gaudi-promo-tint, .gaudi-promo-card { transition: none; }
+  }
+</style>
+
+<script>
+  const root = document.getElementById('gaudi-promo');
+  if (root) {
+    const SESSION_KEY = 'gaudiPromoDismissed';
+    const alreadySeen = sessionStorage.getItem(SESSION_KEY) === '1';
+    const onLecturePage = window.location.pathname.replace(/\/$/, '') === '/gaudi-lecture';
+
+    // The page stays scrollable while the pop-up is open — no body scroll lock.
+    const open = () => {
+      root.hidden = false;
+      requestAnimationFrame(() => root.classList.add('is-open'));
+    };
+    const close = () => {
+      root.classList.remove('is-open');
+      sessionStorage.setItem(SESSION_KEY, '1');
+      setTimeout(() => { root.hidden = true; }, 350);
+    };
+
+    if (!alreadySeen && !onLecturePage) {
+      setTimeout(open, 1000);
+      root.addEventListener('click', (e) => {
+        if ((e.target as HTMLElement).closest('[data-gaudi-dismiss]')) close();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && root.classList.contains('is-open')) close();
+      });
+    }
+  }
+</script>

@@ -3,42 +3,33 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const GAUDI_HREF = '/gaudi-lecture';
 
-// 2 — Upcoming events (chronological). Posters forthcoming.
+// 2 — Upcoming events (chronological).
 const upcomingEvents = [
   {
-    date: 'August 6, 2026',
-    time: '9:30 AM – 3:00 PM',
-    title: 'Your Artistic Vocation as Builder of the Common Good',
-    subtitle: 'A workshop on Catholic Social Teaching & the artistic vocation, with Brendan Steven',
-    location: 'Cardus Ottawa (45 Rideau St) + the National Gallery of Canada',
-    cost: '$45',
-    description:
-      'Brendan Steven leads an exploration of the artistic vocation as an act of public service — drawing on Catholic social teaching, from Gaudium et Spes to John Paul II’s Letter to Artists, to ask why beautiful, truthful art is irreplaceable to the common good.',
-  },
-  {
     date: 'August 28–30, 2026',
-    title: 'Artists’ Retreat at Martyrs’ Shrine',
+    title: 'Artists’ Retreat & Mass for Artists on August 30th',
     location: 'Martyrs’ Shrine, 16163 Highway 12 West, Midland, Ontario',
     description:
-      'A weekend retreat for artists — a time of prayer, rest, fraternity, and vocational renewal for those seeking to deepen the relationship between their creative work, spiritual life, and mission.',
+      'A weekend retreat for artists — a time of prayer, rest, fraternity, and vocational renewal for those seeking to deepen the relationship between their creative work, spiritual life, and mission. All are welcome to join the public Mass for Artists on Sunday, August 30 at 9 AM in the Shrine Church.',
+    poster: '/images/events/retreat-mass-poster.jpg',
   },
   {
     date: 'October 24, 2026',
-    tag: 'Inaugural Annual Lecture',
-    title: 'The Gaudí Lecture',
+    title: 'The Inaugural Gaudí Lecture',
     subtitle: 'Featuring Jonathan Pageau',
-    location: 'Victoria College, University of Toronto',
+    location: 'Northrop Frye Hall, University of Toronto',
     description:
       'Our inaugural Annual Lecture — a public defence of the Christian imagination and its role in shaping culture, delivered by renowned liturgical artist and writer Jonathan Pageau, followed by an audience Q&A and reception.',
     href: '/gaudi-lecture',
     hrefLabel: 'Learn more',
+    poster: '/images/events/gaudi-lecture-poster.jpg',
   },
 ];
 
 // 1 — Our programs (the recurring shape of Theopolis events)
 const programs = [
   {
-    title: 'Annual Lecture Series',
+    title: 'Annual Gaudí Lecture',
     image: '/images/events/program-lecture.jpg',
     body: 'Each year our lecture series invites distinguished creative figures to reflect on the role of the Catholic imagination in a world where it is increasingly rare, yet more vital than ever.',
   },
@@ -58,15 +49,22 @@ const programs = [
 // 3 — Past events (details read from the printed posters)
 const pastEvents = [
   {
-    title: 'The Drama of the Soul',
-    subtitle: 'An exhibition presented by Theopolis',
-    date: 'May 2–3, 9–10 & 16–17, 2026',
-    location: '183 Queen St E, Toronto',
+    title: 'Your Artistic Vocation as Builder of the Common Good',
+    subtitle: 'A workshop on Catholic Social Teaching & the artistic vocation, with Brendan Steven',
+    date: 'Thursday, August 6, 2026 · 9:30 AM – 3:00 PM',
+    location: 'Cardus Ottawa (45 Rideau St) + the National Gallery of Canada · $45',
     description:
-      'Our inaugural exhibition — a group show of Catholic art exploring the existence, nature, and problems of the Soul, across three weekends in downtown Toronto.',
-    poster: '/images/events/drama-of-the-soul-poster.jpg',
-    href: '/exhibition',
-    hrefLabel: 'Explore the archive',
+      'Brendan Steven leads an exploration of the artistic vocation as an act of public service — drawing on Catholic social teaching, from Gaudium et Spes to John Paul II’s Letter to Artists, to ask why beautiful, truthful art is irreplaceable to the common good.',
+    poster: '/images/events/cardus-workshop-poster.jpg',
+  },
+  {
+    title: 'On the Road to Dante',
+    subtitle: 'Timothy Schmalz & the Artist’s Journey — a lecture & sculpture walking tour',
+    date: 'July 11, 2026 · 5–7:30 PM',
+    location: 'Regis College, University of Toronto',
+    description:
+      'A lecture and outdoor sculpture walking tour with Canadian sculptor Timothy Schmalz, following the artist’s journey through Dante’s Divine Comedy.',
+    poster: '/images/events/on-the-road-to-dante-poster.jpg',
   },
   {
     title: 'Pop-Up Shop at Kensington Market',
@@ -78,13 +76,15 @@ const pastEvents = [
     poster: '/images/events/pop-up-shop-poster.jpg',
   },
   {
-    title: 'On the Road to Dante',
-    subtitle: 'Timothy Schmalz & the Artist’s Journey — a lecture & sculpture walking tour',
-    date: 'July 11, 2026 · 5–7:30 PM',
-    location: 'Regis College, University of Toronto',
+    title: 'The Drama of the Soul',
+    subtitle: 'An exhibition presented by Theopolis',
+    date: 'May 2–3, 9–10 & 16–17, 2026',
+    location: '183 Queen St E, Toronto',
     description:
-      'A lecture and outdoor sculpture walking tour with Canadian sculptor Timothy Schmalz, following the artist’s journey through Dante’s Divine Comedy.',
-    poster: '/images/events/on-the-road-to-dante-poster.jpg',
+      'Our inaugural exhibition — a group show of Catholic art exploring the existence, nature, and problems of the Soul, across three weekends in downtown Toronto.',
+    poster: '/images/events/drama-of-the-soul-poster.jpg',
+    href: '/exhibition',
+    hrefLabel: 'Explore the archive',
   },
 ];
 ---
@@ -150,19 +150,19 @@ const pastEvents = [
   </section>
 
   <!-- ── 2 · Upcoming events ──────────────────────────────────── -->
-  <section class="mx-auto max-w-5xl px-6 py-10">
+  <section class="mx-auto max-w-6xl px-6 py-10">
     <p class="label section-kicker">Upcoming Events</p>
     <hr class="rule mt-4" />
     <div class="up-list">
       {upcomingEvents.map((e) => (
         <article class="up-event">
-          <div class="up-when">
-            <p class="up-date">{e.date}</p>
-            {e.time && <p class="up-time">{e.time}</p>}
+          <div class="up-poster">
+            {e.poster && <img src={e.poster} alt={`${e.title} — event poster`} loading="lazy" decoding="async" />}
           </div>
           <div class="up-body">
             {e.tag && <p class="up-tag">{e.tag}</p>}
             <h3 class="up-title">{e.title}</h3>
+            <p class="up-date">{e.date}{e.time ? ` · ${e.time}` : ''}</p>
             {e.subtitle && <p class="up-subtitle">{e.subtitle}</p>}
             <p class="up-loc">{e.location}{e.cost ? ` · ${e.cost}` : ''}</p>
             <p class="up-desc">{e.description}</p>
@@ -176,7 +176,7 @@ const pastEvents = [
   </section>
 
   <!-- ── 3 · Past events ──────────────────────────────────────── -->
-  <section class="mx-auto max-w-5xl px-6 pt-10 pb-20 lg:pb-24">
+  <section class="mx-auto max-w-6xl px-6 pt-10 pb-20 lg:pb-24">
     <p class="label section-kicker">Past Events</p>
     <hr class="rule mt-4" />
     <div class="mt-12 flex flex-col gap-16">
@@ -246,17 +246,17 @@ const pastEvents = [
   .ev-hero-title {
     font-family: var(--font-sans);
     font-weight: 400;
-    line-height: 1;
+    line-height: 1.02;
     letter-spacing: -0.01em;
-    font-size: clamp(3rem, 8vw, 6rem);
+    font-size: clamp(2.5rem, 6.5vw, 5rem);
     color: var(--thp-foreground);
   }
   .ev-hero-lead {
     margin-top: 1.5rem;
-    max-width: 34ch;
+    max-width: 38ch;
     font-family: var(--font-body);
-    font-size: clamp(1.2rem, 1.8vw, 1.5rem);
-    line-height: 1.5;
+    font-size: clamp(1.15rem, 1.7vw, 1.4rem);
+    line-height: 1.55;
     color: var(--thp-foreground);
   }
   .ev-hero-credit {
@@ -359,31 +359,33 @@ const pastEvents = [
     .prog-inner { transition: none; }
   }
 
-  /* 2 · Upcoming — a dated list */
+  /* 2 · Upcoming — a dated list, with a poster thumbnail */
   .up-list { margin-top: 2.5rem; }
   .up-event {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1rem 2.5rem;
+    gap: 1.5rem 2.75rem;
     padding: 2.25rem 0;
     border-top: 1px solid var(--thp-border);
+    align-items: start;
   }
   .up-event:first-child { border-top: 0; padding-top: 0; }
-  @media (min-width: 768px) {
-    .up-event { grid-template-columns: 13rem 1fr; }
+  @media (min-width: 720px) {
+    .up-event { grid-template-columns: 240px 1fr; }
+  }
+  .up-poster img {
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+    box-shadow: 0 18px 40px -20px rgba(15, 55, 82, 0.55);
   }
   .up-date {
-    font-family: var(--font-sans);
-    font-weight: 400;
-    font-size: clamp(1.3rem, 2vw, 1.6rem);
-    line-height: 1.15;
-    color: var(--thp-gold);
-  }
-  .up-time {
-    margin-top: 0.4rem;
+    margin-top: 0.5rem;
     font-family: var(--font-body);
-    font-size: 0.9rem;
-    color: var(--thp-muted-foreground);
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.01em;
+    color: var(--thp-gold);
   }
   .up-tag {
     display: inline-block;
