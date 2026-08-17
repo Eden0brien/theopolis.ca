@@ -70,8 +70,8 @@ const allMembers = [...founders, ...teamMembers];
     <div class="about-hero-veil"></div>
     <div class="about-hero-inner mx-auto max-w-6xl px-6">
       <div class="about-hero-content">
-        <h1 class="about-hero-title">About Us</h1>
-        <p class="label section-kicker about-hero-kicker">Our Mission</p>
+        <p class="label section-kicker about-hero-kicker">About</p>
+        <h1 class="about-hero-title">The Mission</h1>
         <p class="about-hero-mission">
           Theopolis is equipping a rising generation of Catholic artists and creating a space of
           encounter between the Secular and Sacred.
@@ -81,7 +81,7 @@ const allMembers = [...founders, ...teamMembers];
   </section>
 
   <!-- Our Story — plain section on cream -->
-  <section class="mx-auto max-w-5xl px-6 py-24 lg:py-28">
+  <section class="mx-auto max-w-6xl px-6 py-24 lg:py-28">
     <p class="label section-kicker">Our Story</p>
     <hr class="rule mt-4" />
     <div class="mt-8 space-y-6 text-[1.15rem] leading-[1.75] text-[var(--thp-foreground)]">
@@ -110,24 +110,24 @@ const allMembers = [...founders, ...teamMembers];
   <!-- What is Catholic Art — the Cuyp painting sits behind a cream veil -->
   <section class="cathart-band">
     <div class="cathart-overlay">
-      <div class="mx-auto max-w-5xl px-6 py-20 lg:py-28">
-        <div class="text-center">
-          <p class="label section-kicker">What is Catholic Art?</p>
-          <hr class="rule mt-4" />
-          <p class="mx-auto max-w-3xl text-lg leading-relaxed text-[var(--thp-foreground)]">
+      <div class="mx-auto max-w-6xl px-6 py-20 lg:py-28">
+        <p class="label section-kicker">What is Catholic Art?</p>
+        <hr class="rule mt-4" />
+        <div class="mt-8 space-y-6 text-[1.15rem] leading-[1.75] text-[var(--thp-foreground)]">
+          <p>
             In our use of the term, Catholic art encompasses more than traditional religious
             imagery. It includes any creative expressions&mdash;painting, sculpture, music,
             literature, film, photography, and more&mdash;that are made within the spirit of the
             Faith.
           </p>
-          <p class="mx-auto mt-4 max-w-3xl text-lg leading-relaxed text-[var(--thp-foreground)]">
+          <p>
             We prize creative excellence and welcome a range of themes, styles, and subjects.
           </p>
-          <p class="mx-auto mt-4 max-w-3xl text-lg leading-relaxed text-[var(--thp-foreground)]">
+          <p>
             We value works that:
           </p>
         </div>
-      <ul class="mx-auto mt-8 grid max-w-3xl gap-3 sm:grid-cols-2">
+      <ul class="mt-8 grid gap-3 sm:grid-cols-2">
         {catholicArt.map((item) => (
           <li class="flex items-start gap-3 rounded-lg border border-[var(--thp-border)] bg-[var(--thp-card)] px-4 py-3">
             <span class="mt-1 text-[var(--thp-gold)]">&#9670;</span>
@@ -135,7 +135,7 @@ const allMembers = [...founders, ...teamMembers];
           </li>
         ))}
       </ul>
-      <blockquote class="mx-auto mt-10 max-w-2xl text-center text-2xl italic leading-snug text-[var(--thp-foreground)]">
+      <blockquote class="mt-10 text-2xl italic leading-snug text-[var(--thp-foreground)]">
         &ldquo;Catholic art, in our reckoning, engages the world through imagination, beauty,
         and truth.&rdquo;
       </blockquote>
@@ -221,13 +221,13 @@ const allMembers = [...founders, ...teamMembers];
     inset: 0;
     background: linear-gradient(
       to right,
-      rgba(249, 245, 236, 0.82),
-      rgba(249, 245, 236, 0.42) 52%,
+      rgba(249, 245, 236, 0.55),
+      rgba(249, 245, 236, 0.28) 52%,
       rgba(249, 245, 236, 0) 86%
     );
   }
   @media (max-width: 640px) {
-    .about-hero-veil { background: rgba(249, 245, 236, 0.78); }
+    .about-hero-veil { background: rgba(249, 245, 236, 0.55); }
   }
   .about-hero-inner {
     position: relative;
@@ -240,18 +240,18 @@ const allMembers = [...founders, ...teamMembers];
   .about-hero-title {
     font-family: var(--font-sans);
     font-weight: 400;
-    line-height: 1;
+    line-height: 1.02;
     letter-spacing: -0.01em;
-    font-size: clamp(3rem, 8vw, 6rem);
+    font-size: clamp(2.5rem, 6.5vw, 5rem);
     color: var(--thp-foreground);
   }
-  .about-hero-kicker { margin-top: 3.25rem; }
+  .about-hero-kicker { margin-bottom: 1.25rem; }
   .about-hero-mission {
-    margin-top: 0.85rem;
-    max-width: 34ch;
+    margin-top: 1.5rem;
+    max-width: 38ch;
     font-family: var(--font-body);
-    font-size: clamp(1.2rem, 1.8vw, 1.5rem);
-    line-height: 1.5;
+    font-size: clamp(1.15rem, 1.7vw, 1.4rem);
+    line-height: 1.55;
     color: var(--thp-foreground);
   }
 

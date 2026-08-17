@@ -13,6 +13,21 @@ import ContactForm from '../components/ContactForm.astro';
     lead="Questions about our mission, our events, or how to get involved? We’d love to hear from you."
   />
 
+  <section class="mx-auto max-w-3xl px-6 pt-2 pb-4 text-center">
+    <p class="text-[1.05rem] text-[var(--thp-muted-foreground)]">
+      Email us at{' '}
+      <a href="mailto:founder@theopolis.ca" class="text-[var(--thp-primary)] underline underline-offset-2">founder@theopolis.ca</a>
+    </p>
+    <a
+      href="https://www.instagram.com/theopolis.project/?hl=en"
+      target="_blank"
+      rel="noopener"
+      class="link-arrow mt-4 inline-flex"
+    >
+      Follow us on Instagram <span aria-hidden="true">&rarr;</span>
+    </a>
+  </section>
+
   <section class="mx-auto max-w-5xl px-6 py-16 lg:py-20">
     <ContactForm heading="" inquiryLabel="How can we help?" />
   </section>

@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import GaudiPromo from '../components/GaudiPromo.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -68,11 +69,12 @@ const orgSchema = {
     <!-- Warm up the Google Fonts connections before the stylesheet requests them -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Brand fonts: Libre Caslon (display + text serif — free, faithful to the brand's
-         Adobe Caslon) + Inter (body/UI, stands in for Alliance No.2) + Caveat (handwritten). -->
+    <!-- Brand fonts: Libre Caslon Text (headings + serif accents — free, faithful to the
+         brand's Adobe Caslon) + Montserrat (body/UI — free geometric sans, stands in for
+         Avenir Light) + Caveat (handwritten). -->
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Caveat:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&family=Caveat:wght@400;500;600;700&display=swap"
     />
     <!-- Security meta (GitHub Pages can't set HTTP headers) -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
@@ -125,6 +127,7 @@ const orgSchema = {
       </main>
     )}
     <Footer />
+    <GaudiPromo />
 
     <!-- Back-to-top: appears after scrolling, for long pages -->
     <button id="back-to-top" class="back-to-top" aria-label="Back to top">
