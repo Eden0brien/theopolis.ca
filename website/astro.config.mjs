@@ -37,6 +37,7 @@ export default defineConfig({
   // meta-refresh redirects + canonical (true 301s aren't possible without a server).
   // Fill in as pages are migrated from the _migrations/ snapshot.
   redirects: {
+    // ── The ten real Wix pages (see _migrations/wix-snapshot.md) ──
     '/home': '/',
     '/about-us': '/about',
     '/2026-exhibition': '/exhibition',
@@ -45,9 +46,35 @@ export default defineConfig({
     '/exhibition/gallery': '/archive',
     '/events-2': '/events',
     '/artist-fraternity': '/artists',
-    // Journal ("The Tempest") is not published yet — send legacy blog links home.
+    // Journal ("The Tempest") is not published yet — send legacy links home.
     '/blog': '/',
     '/english-privacy-policy': '/privacy',
     '/accessibility-statement': '/accessibility',
+
+    // Capitalised variants (/Support, /About-Us…) are NOT listed here: they
+    // collide with the lowercase route at build time, because the build writes
+    // to a case-insensitive filesystem. The 404 page handles case client-side.
+
+    // ── Guessable URLs people type or that appeared in old material. ──
+    // Only mapped where the destination genuinely carries the same content.
+    '/journal': '/',              // route removed; matches /blog above
+    '/the-tempest': '/',          // the journal's public name
+    '/gallery': '/archive',       // the exhibition catalogue
+    '/exhibition-2026': '/exhibition',
+    '/drama-of-the-soul': '/exhibition',   // the exhibition's title
+    '/team': '/about',            // team cards live on About
+    '/contact-us': '/contact',
+    '/artist': '/artists',
+    '/membership': '/artists',    // memberships are described there
+    '/donate': '/support',        // Support is the donation page
+    '/sponsor': '/support',
+    '/tickets': '/gaudi-lecture', // ticket details live on the lecture page
+    '/lecture': '/gaudi-lecture',
+    '/gaudi': '/gaudi-lecture',
+
+    // Deliberately NOT redirected — no equivalent page exists, so these fall
+    // through to the branded 404 rather than to a page that can't help:
+    //   /shop, /buy  — the Archive is a record, not a shop; nothing is for sale
+    //   /volunteer   — not mentioned anywhere on the site
   },
 });

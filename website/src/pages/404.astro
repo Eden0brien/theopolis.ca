@@ -1,0 +1,74 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+
+// Served by GitHub Pages for any unmatched path. Astro emits this as /404.html,
+// which Pages uses as the site-wide not-found page automatically.
+//
+// Old Wix links are still circulating, so the likeliest visitor here followed a
+// stale link rather than mistyping. Known Wix slugs are redirected in
+// astro.config.mjs; this page catches everything else and offers the same
+// destinations by hand instead of dead-ending.
+const destinations = [
+  { href: '/', label: 'Home', blurb: 'Who we are and what we do.' },
+  { href: '/exhibition', label: 'The Drama of the Soul', blurb: 'Our 2026 exhibition.' },
+  { href: '/archive', label: 'Exhibition Archive', blurb: 'The works our artists brought together.' },
+  { href: '/artists', label: 'Artist Fraternity', blurb: 'A community for Catholic creators.' },
+  { href: '/events', label: 'Events', blurb: 'Gatherings, lectures, and programs.' },
+  { href: '/support', label: 'Support', blurb: 'Donate or partner with us.' },
+];
+
+// Wix URLs were case-insensitive; GitHub Pages is not, so /Support 404s where
+// /support works. These can't be redirects in astro.config.mjs — the build
+// writes to a case-insensitive filesystem, so /Support and /support collide.
+// Instead: if the lowercased path is a route we actually have, bounce there.
+// Matching against a known list (rather than lowercasing blindly) means a
+// genuinely missing page still lands here instead of looping.
+const knownRoutes = [
+  '/', '/about', '/exhibition', '/archive', '/artists', '/events',
+  '/support', '/gaudi-lecture', '/contact', '/privacy', '/accessibility',
+];
+---
+<BaseLayout
+  title="Page Not Found — Theopolis"
+  description="That page doesn’t exist on theopolis.ca. Find the exhibition, the artist fraternity, events, and ways to support our work."
+>
+  <PageHero
+    eyebrow="404"
+    title="This page isn’t here"
+    lead="The page you asked for doesn’t exist — it may have moved when we rebuilt the site. Everything below is one click away."
+  />
+
+  <section class="mx-auto max-w-5xl px-6 pb-20">
+    <ul class="grid gap-4 sm:grid-cols-2" role="list">
+      {destinations.map((d) => (
+        <li>
+          <a
+            href={d.href}
+            class="group block h-full rounded-lg border border-[var(--thp-border)] bg-[var(--thp-card)] px-6 py-5 transition-colors hover:border-[var(--thp-gold)]"
+          >
+            <span class="block text-lg font-semibold text-[var(--thp-foreground)] group-hover:text-[var(--thp-primary)]">
+              {d.label} <span aria-hidden="true" class="opacity-0 transition-opacity group-hover:opacity-100">&rarr;</span>
+            </span>
+            <span class="mt-1 block text-[0.95rem] text-[var(--thp-muted-foreground)]">{d.blurb}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <p class="mt-10 text-center text-[1.05rem] text-[var(--thp-muted-foreground)]">
+      Still can’t find it?{' '}
+      <a href="/contact" class="text-[var(--thp-primary)] underline underline-offset-2">Get in touch</a>
+      {' '}— we’ll point you the right way.
+    </p>
+  </section>
+
+  <script is:inline define:vars={{ knownRoutes }}>
+    // Runs only on the 404 page, so the cost is paid by nobody else.
+    const path = window.location.pathname.replace(/\/+$/, '') || '/';
+    const lower = path.toLowerCase();
+    if (lower !== path && knownRoutes.includes(lower)) {
+      window.location.replace(lower + window.location.search + window.location.hash);
+    }
+  </script>
+</BaseLayout>
