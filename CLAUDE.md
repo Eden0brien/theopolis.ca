@@ -125,6 +125,12 @@ to be false — a scary confirmation that isn't accurate teaches people to click
 Don't trust the green checkmark. Check the live domain: every page returns 200, HTTPS is valid,
 and the legacy Wix URLs still redirect. GitHub can report success while the domain serves a 404.
 
+### The domain is wired up outside this repo
+`www.theopolis.ca` is GitHub Pages; the bare `theopolis.ca` is a **GoDaddy forward** that 301s
+to it. DNS is GoDaddy (`ns29`/`ns30.domaincontrol.com`), in Eden's account. If the domain ever
+misbehaves, **republishing won't help** — look there, not here. Details in
+[`_memory/session-state.md`](_memory/session-state.md).
+
 ### CNAME must always be present
 `website/public/CNAME` contains the custom domain (`www.theopolis.ca`). **Never delete or
 overwrite it.** It's what tells GitHub Pages which domain to serve; without it the custom domain

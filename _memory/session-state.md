@@ -29,6 +29,23 @@ runs safety checks (non-empty homepage, `.nojekyll`, correct branch, CNAME survi
 commits and pushes. `--no-cname` publishes a preview without claiming the domain.
 `public/CNAME` (`www.theopolis.ca`) must never be deleted.
 
+## 🌐 Domain wiring — lives OUTSIDE this repo
+
+Two different systems serve the two hostnames. Nothing in the codebase controls either, so if
+the domain breaks, **republishing will not fix it** — the fix is in the DNS/registrar account.
+
+| Hostname | Handled by | How |
+|---|---|---|
+| `www.theopolis.ca` | **GitHub Pages** | CNAME → `eden0brien.github.io`; `public/CNAME` claims the domain |
+| `theopolis.ca` (apex) | **GoDaddy domain forwarding** | A → `3.33.251.168` / `15.197.225.128` (AWS Global Accelerator); issues a real `301` to `https://www.theopolis.ca` |
+
+- **DNS is GoDaddy** — nameservers `ns29`/`ns30.domaincontrol.com`. Eden's account.
+- The apex forward is a **leftover from the Wix era that happens to still be correct**: it
+  always pointed at the `www` hostname, and only the `www` record needed changing at migration.
+  It works (a true 301, over both http and https) — leave it alone, but know where it lives.
+- **DNS moved off Wix on 2026-08-17.** Before that, `www` pointed at `pointing.wixdns.net`.
+  Verified as of 2026-08-18.
+
 ## ✅ Resolved since the last handoff
 
 - **Full migration + Eden's redesign** are live: Artist Fraternity, Events, Support, Gaudí
