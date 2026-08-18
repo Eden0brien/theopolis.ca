@@ -10,6 +10,10 @@ for them and report back in human terms.
 
 > **Read [`_memory/MEMORY.md`](_memory/MEMORY.md) and [`_memory/session-state.md`](_memory/session-state.md)
 > early in every session** to pick up current state and the next task.
+>
+> **If Eden is the user, raise the "Needs Eden" items** in `session-state.md` early — they are
+> blocked on her specifically (admin access, or knowing where an image came from). Mention
+> them once, plainly; don't nag if she sets them aside.
 
 ---
 
