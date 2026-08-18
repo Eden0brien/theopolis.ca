@@ -1,7 +1,8 @@
 # Theopolis — Website workspace
 
-This repository holds the rebuild of [theopolis.ca](https://www.theopolis.ca). The site is
-migrating off **Wix** to a static **Astro** site published on **GitHub Pages**.
+This repository holds [theopolis.ca](https://www.theopolis.ca) — a static **Astro** site
+published on **GitHub Pages**. The migration off **Wix** is complete: the site went live on
+**2026-08-17** and the domain now serves this repo, not Wix.
 
 **Audience:** this workspace is operated by **non-developers**. When you (Claude) speak to
 them, use plain language. Don't make them learn git, branches, or build tools — do that work
@@ -18,43 +19,56 @@ Run these checks **before** doing the user's task. Take the steps yourself; ask 
 English only when there's a real decision.
 
 ### 1. Identify the user
-The machine login (`whoami`) is the user's identity. Use it verbatim as the branch suffix:
-`perki` → branch `work/perki`.
+The machine login (`whoami`) is the user's identity.
+
+- **`edenobrien` → Eden O'Brien, the site owner.** She works **directly on `main`** and may
+  publish. See "Eden works on main" below.
+- **Anyone else** works on `work/<whoami>` (login used verbatim as the suffix:
+  `perki` → `work/perki`).
 
 ### 2. Make sure their branch is current
-a. They should be on `work/<whoami>` (create it from `main` if missing).
+a. Put them on the right branch for who they are — `main` for Eden, `work/<whoami>` otherwise
+   (create it from `main` if missing).
 b. Switch to it if not already there.
-c. `git fetch`; if `work/<whoami>` is behind `main`, bring it up to date automatically and say
-   so in one sentence ("I brought your branch up to date with the latest changes.").
+c. `git fetch`; if their branch is behind its remote (or behind `main`), bring it up to date
+   automatically and say so in one sentence ("I brought your branch up to date.").
 d. If that conflicts, stop and surface it. Never resolve silently.
 
 ### 3. Then start the user's task.
 
 ---
 
-## ⭐ Pending: a design "refresh" is proposed and awaiting Eden's decision
+## ⚠ Stale: the "Chiaroscuro" design proposal (decide once, then delete this)
 
-A complete alternative visual direction — **"Chiaroscuro"** — has been built and is waiting
-on a branch. The live design on `main` is untouched.
+Branch `redesign/chiaroscuro-refresh` holds an alternative visual direction proposed in June
+2026, with screenshots at [`_plans/proposal-chiaroscuro/`](_plans/proposal-chiaroscuro/).
 
-- **Where:** branch `redesign/chiaroscuro-refresh`. Rationale + screenshots are on `main` at
-  [`_plans/proposal-chiaroscuro/`](_plans/proposal-chiaroscuro/) (see its `README.md`).
-- **Who decides:** **Eden O'Brien** (the site owner). perki (the operator) has already seen it.
-- **What to do:** When **Eden** is in a session — or any time the owner hasn't yet been shown
-  this — **proactively bring it up once, early.** Briefly explain *why* it was proposed (the
-  current site reads as a safe template; this gives it gallery-catalogue drama fit for *The
-  Drama of the Soul*), then offer to preview it. To show it: `git switch
-  redesign/chiaroscuro-refresh`, `cd website && npm run dev`, and walk her through — or show the
-  screenshots in `_plans/proposal-chiaroscuro/`.
-- **If she likes it:** merge `redesign/chiaroscuro-refresh` into `work/<her-whoami>` for her, in
-  plain language. **If not:** delete the branch; nothing on `main` changes either way.
-- Once she has decided, remove this section.
+**It has been overtaken by events.** It was built against the *old* pages; Eden has since
+redesigned home, about, artists, events, support and exhibition herself, and that work is live.
+Test-merging it produces **9 conflicts**, including a page Chiaroscuro edits but which no longer
+exists. Adopting it now would mean re-applying its styling on top of Eden's design by hand —
+not a merge.
+
+**What to do:** mention it to Eden **once**, framed honestly — it was proposed when the site
+read as a safe template, a concern her own redesign has largely answered, so it is probably
+moot. Then act on her answer and **delete this section**: either she wants it rebuilt (a real
+piece of work, not a merge), or the branch gets deleted. Don't pitch it as ready to adopt.
 
 ---
 
+## Eden works on main
+
+**Eden O'Brien (`edenobrien`) is the site owner.** She works **directly on `main`**, commits
+and pushes there, and **may publish the site whenever she wants**. Don't route her through a
+`work/...` branch and don't ask her to open a pull request — for her, `main` *is* the workflow.
+She still gets the publish confirmation below; that guard is about going live, not about git.
+
 ## Unless the user explicitly asks otherwise
-- **Always work on `work/<whoami>`.** Never commit to `main` directly.
-- **Never push, force-push, rebase, or rewrite history on `main`.**
+- **Everyone except Eden works on `work/<whoami>`** and never commits to `main` directly.
+- **Never force-push, rebase, or rewrite history on `main`** — for anyone, Eden included.
+  Ordinary commits and pushes to `main` are fine for Eden; rewriting shared history is not.
+  If history genuinely must be rewritten, stop and get explicit agreement first: the repo is
+  public and other people's clones break.
 - **Never modify another user's `work/...` branch.**
 
 ---
@@ -79,7 +93,7 @@ The Astro project nests under `website/` to mirror the HDS reference workspace
 cd website
 npm install        # first time only
 npm run dev        # local preview at http://localhost:4321
-npm run build      # production build → website/_build/
+npm run build      # production build → website/dist/ (the gh-pages worktree)
 ```
 
 - **Design system:** forked locally into `website/src/styles/theme.css` + `palette.css`
@@ -92,17 +106,36 @@ npm run build      # production build → website/_build/
 
 ---
 
-## Publishing the site (going live) — set up on first request
+## Publishing the site (going live)
 
-The site deploys to GitHub Pages. The deploy infrastructure (a `gh-pages` branch checked out as
-a `website/dist/` worktree + `website/scripts/publish.sh`) is **not set up yet** — create it
-silently the first time the user asks to publish. See `_memory/session-state.md`.
+**This is set up and working.** `website/dist/` is a git worktree on the `gh-pages` branch,
+Astro builds straight into it, and GitHub Pages serves that branch at **www.theopolis.ca**.
+
+```bash
+cd website
+npm run deploy      # build -> safety checks -> commit + push gh-pages
+```
+
+`scripts/publish.sh` refuses to publish if the homepage is empty, `.nojekyll` is missing,
+`dist/` isn't on `gh-pages`, or the CNAME didn't survive the build. It prompts for confirmation
+when run from a terminal; `CONFIRM=yes` skips that prompt for non-interactive runs, and
+`--no-cname` deliberately publishes without claiming the custom domain (preview only).
+
+**Who may publish:** Eden, any time. Anyone else — confirm with her first.
 
 ### Publishing is destructive — confirm TWICE
 1. *"You're about to publish the current site to the public at theopolis.ca. The whole world
    will see it. Are you sure?"*
 2. If yes — then: *"Last check: still want to publish? This overwrites what's live now."*
 3. Only after the second yes, run the publish and report the outcome.
+
+Say what is actually true at the time. If something means the change *won't* reach the public
+(Pages disabled, DNS pointed elsewhere), say so plainly instead of reciting a warning you know
+to be false — a scary confirmation that isn't accurate teaches people to click through them.
+
+### After publishing, verify from the outside
+Don't trust the green checkmark. Check the live domain: every page returns 200, HTTPS is valid,
+and the legacy Wix URLs still redirect. GitHub can report success while the domain serves a 404.
 
 ### CNAME must always be present
 `website/public/CNAME` contains the custom domain (`www.theopolis.ca`). **Never delete or
@@ -125,5 +158,6 @@ Wix transform params — keep only up to `~mv2.<ext>`), never the downscaled ver
 ## Mindset
 - **Plain language, always.** Most users aren't developers.
 - **Take the boring steps yourself** (branches, builds, lockfiles) — silently.
-- **Confirm before writing to `main` or publishing**, no exceptions.
+- **Confirm before publishing**, no exceptions — and before writing to `main` for anyone
+  other than Eden (for her, `main` is the normal place to work).
 - **One question at a time** when there's a decision tree.

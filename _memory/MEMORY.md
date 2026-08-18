@@ -7,8 +7,9 @@ One line per memory. Read the linked file for detail.
 - [Wix snapshot](../_migrations/wix-snapshot.md) — content of all 10 old Wix pages + image/link inventory (source of truth).
 
 ## Quick facts
-- **Project:** rebuild theopolis.ca (Catholic-arts foundation, Toronto) off Wix → Astro 5 + Tailwind v4, English only, GitHub Pages.
+- **Project:** theopolis.ca (Catholic-arts foundation, Toronto). Astro 5 + Tailwind v4, English only, GitHub Pages. **Live since 2026-08-17** — the Wix migration is done.
 - **Astro project lives in** `website/`. Run npm from there.
 - **Design system:** forked locally ("theopolis-style"), CSS-variable tokens `--thp-*`. Palette "Sanctuary" (parchment / ink / burgundy / gold). Fonts: Cormorant Garamond + EB Garamond.
-- **Operator workflow:** non-coders; work on `work/<whoami>`, never `main`; double-confirm before publishing. See [../CLAUDE.md](../CLAUDE.md).
+- **Operator workflow:** non-coders. **Eden (`edenobrien`) works on `main` and publishes**; everyone else uses `work/<whoami>`. Double-confirm before publishing; never rewrite `main` history. See [../CLAUDE.md](../CLAUDE.md).
+- **Publish:** `cd website && npm run deploy`.
 - **Domain:** www.theopolis.ca (in `website/public/CNAME` — never delete).
