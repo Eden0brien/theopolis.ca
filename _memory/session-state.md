@@ -57,9 +57,7 @@ commits and pushes. `--no-cname` publishes a preview without claiming the domain
    Suffering Christ — was a Stripe `test_` link). Both show "Enquire" instead. Need the real
    links from the artist.
 4. **Oskirko #15/#16** — image-vs-title may be swapped. Verify (notes in the two `.md` files).
-5. **Chiaroscuro proposal is stale** — see `CLAUDE.md`. Conflicts with Eden's redesign; decide
-   and delete.
-6. **Repo is ~210 MB** (mostly image history). Cloning is slow. Pruning means rewriting shared
+5. **Repo is ~210 MB** (mostly image history). Cloning is slow. Pruning means rewriting shared
    history on a public repo — needs explicit agreement from everyone, Eden included.
 
 ## How to resume

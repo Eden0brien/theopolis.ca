@@ -38,30 +38,14 @@ d. If that conflicts, stop and surface it. Never resolve silently.
 
 ---
 
-## ⚠ Stale: the "Chiaroscuro" design proposal (decide once, then delete this)
-
-Branch `redesign/chiaroscuro-refresh` holds an alternative visual direction proposed in June
-2026, with screenshots at [`_plans/proposal-chiaroscuro/`](_plans/proposal-chiaroscuro/).
-
-**It has been overtaken by events.** It was built against the *old* pages; Eden has since
-redesigned home, about, artists, events, support and exhibition herself, and that work is live.
-Test-merging it produces **9 conflicts**, including a page Chiaroscuro edits but which no longer
-exists. Adopting it now would mean re-applying its styling on top of Eden's design by hand —
-not a merge.
-
-**What to do:** mention it to Eden **once**, framed honestly — it was proposed when the site
-read as a safe template, a concern her own redesign has largely answered, so it is probably
-moot. Then act on her answer and **delete this section**: either she wants it rebuilt (a real
-piece of work, not a merge), or the branch gets deleted. Don't pitch it as ready to adopt.
-
----
-
 ## Eden works on main
 
 **Eden O'Brien (`edenobrien`) is the site owner.** She works **directly on `main`**, commits
 and pushes there, and **may publish the site whenever she wants**. Don't route her through a
 `work/...` branch and don't ask her to open a pull request — for her, `main` *is* the workflow.
 She still gets the publish confirmation below; that guard is about going live, not about git.
+
+---
 
 ## Unless the user explicitly asks otherwise
 - **Everyone except Eden works on `work/<whoami>`** and never commits to `main` directly.
