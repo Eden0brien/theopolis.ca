@@ -6,6 +6,12 @@ const SPONSORSHIP_PDF = '/documents/gaudi-lecture-sponsorship-package.pdf';
 const MAPS_URL = 'https://www.google.com/maps/search/?api=1&query=' +
   encodeURIComponent("Northrop Frye Hall, 73 Queen's Park Crescent East, Toronto, ON");
 const EVENT_ISO = '2026-10-24T14:00:00-04:00';
+
+// Sponsor logos — more incoming.
+const sponsors = [
+  { name: 'St. Francis Herb Farm', url: 'https://stfrancisherbfarm.com/', logo: '/images/logos/sponsor-st-francis-herb-farm.png' },
+  { name: 'St Joseph Realty', url: 'https://ante.kw.com/', logo: '/images/logos/sponsor-st-joseph-realty.png' },
+];
 ---
 <BaseLayout
   title="The Inaugural Gaudí Lecture — Jonathan Pageau"
@@ -166,13 +172,40 @@ const EVENT_ISO = '2026-10-24T14:00:00-04:00';
     </div>
   </section>
 
+  <!-- Get Tickets -->
+  <section class="mx-auto max-w-3xl px-6 pt-6 pb-16 lg:pb-24 text-center">
+    <a href={TICKETS_URL} target="_blank" rel="noopener" class="btn btn-primary">Get Tickets</a>
+  </section>
+
+  <!-- Sponsors — a distinct full-bleed band, set apart from the surrounding dark page -->
+  <section class="gl-sponsors-band">
+    <div class="mx-auto max-w-5xl px-6 pt-16 pb-24 lg:pt-20 lg:pb-32 text-center">
+      <p class="gl-sponsors-kicker">Our Sponsors</p>
+      <div class="gold-flourish"><span>&#9670;</span></div>
+      <div class="gl-sponsors mt-4">
+        {sponsors.map((s) => (
+          s.url ? (
+            <a href={s.url} target="_blank" rel="noopener" class="gl-sponsor-cell" aria-label={s.name} title={s.name}>
+              <img src={s.logo} alt={s.name} loading="lazy" class="gl-sponsor-logo" />
+              <span class="gl-sponsor-name">{s.name}</span>
+            </a>
+          ) : (
+            <span class="gl-sponsor-cell" aria-label={s.name} title={s.name}>
+              <img src={s.logo} alt={s.name} loading="lazy" class="gl-sponsor-logo" />
+              <span class="gl-sponsor-name">{s.name}</span>
+            </span>
+          )
+        ))}
+      </div>
+    </div>
+  </section>
+
   <!-- CTA -->
   <section class="mx-auto max-w-3xl px-6 py-16 lg:py-20 text-center">
     <p class="gl-cta-text">
       Interested in sponsoring or supporting the inaugural lecture?
     </p>
     <div class="mt-8 flex flex-wrap justify-center gap-4">
-      <a href={TICKETS_URL} target="_blank" rel="noopener" class="btn btn-primary">Get Tickets</a>
       <a href={SPONSORSHIP_PDF} target="_blank" rel="noopener" class="btn btn-ghost">Support the lecture</a>
       <a href="/events" class="btn btn-ghost">Back to events</a>
     </div>
@@ -436,6 +469,55 @@ const EVENT_ISO = '2026-10-24T14:00:00-04:00';
     font-size: 1.25rem;
     line-height: 1.5;
     color: var(--thp-primary);
+  }
+
+  /* Sponsors band — a light, full-bleed pause between two dark sections, echoing
+     the cream sections elsewhere on the site (e.g. Support's "Why It Matters").
+     Set apart in tone from the surrounding .gl-dark page, not just a shade of navy. */
+  .gl-sponsors-band {
+    background: var(--thp-background);
+    color: var(--thp-foreground);
+  }
+  .gl-sponsors-kicker {
+    font-family: var(--font-body);
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--thp-gold);
+  }
+
+  /* Sponsor logos — same grid/spacing as the Exhibition page's "Our Sponsors" row. */
+  .gl-sponsors {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5rem 3rem;
+  }
+  .gl-sponsor-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    opacity: 0.85;
+    transition: opacity 0.2s ease;
+  }
+  .gl-sponsor-cell:hover { opacity: 1; }
+  .gl-sponsor-logo {
+    height: 6.5rem;
+    width: auto;
+    object-fit: contain;
+  }
+  @media (min-width: 640px) { .gl-sponsor-logo { height: 7.5rem; } }
+  .gl-sponsor-name {
+    font-family: var(--font-body);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.72rem;
+    color: var(--thp-muted-foreground);
   }
 </style>
 
