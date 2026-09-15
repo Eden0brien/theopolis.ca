@@ -179,7 +179,7 @@ const sponsors = [
 
   <!-- Sponsors — a distinct full-bleed band, set apart from the surrounding dark page -->
   <section class="gl-sponsors-band">
-    <div class="mx-auto max-w-5xl px-6 pt-16 pb-24 lg:pt-20 lg:pb-32 text-center">
+    <div class="mx-auto max-w-5xl px-6 pt-16 pb-16 lg:pt-20 lg:pb-20 text-center">
       <p class="gl-sponsors-kicker">Our Sponsors</p>
       <div class="gold-flourish"><span>&#9670;</span></div>
       <div class="gl-sponsors mt-4">
@@ -199,18 +199,18 @@ const sponsors = [
       </div>
     </div>
   </section>
+  </div>
 
-  <!-- CTA -->
-  <section class="mx-auto max-w-3xl px-6 py-16 lg:py-20 text-center">
+  <!-- CTA — stays in the same cream band as the sponsors above -->
+  <section class="gl-sponsors-band mx-auto max-w-3xl px-6 pt-6 pb-16 lg:pt-10 lg:pb-20 text-center">
     <p class="gl-cta-text">
       Interested in sponsoring or supporting the inaugural lecture?
     </p>
     <div class="mt-8 flex flex-wrap justify-center gap-4">
-      <a href={SPONSORSHIP_PDF} target="_blank" rel="noopener" class="btn btn-ghost">Support the lecture</a>
+      <a href={SPONSORSHIP_PDF} target="_blank" rel="noopener" class="btn btn-primary">Support the lecture</a>
       <a href="/events" class="btn btn-ghost">Back to events</a>
     </div>
   </section>
-  </div>
 </BaseLayout>
 
 <style>
@@ -468,7 +468,7 @@ const sponsors = [
     font-style: italic;
     font-size: 1.25rem;
     line-height: 1.5;
-    color: var(--thp-primary);
+    color: var(--thp-foreground);
   }
 
   /* Sponsors band — a light, full-bleed pause between two dark sections, echoing
