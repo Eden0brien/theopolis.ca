@@ -133,6 +133,7 @@ const pastEvents = [
               <div class="prog-front-overlay">
                 <span class="prog-num prog-num--light">{String(i + 1).padStart(2, '0')}</span>
                 <h2 class="prog-title prog-title--light">{p.title}</h2>
+                <span class="prog-tap-hint" aria-hidden="true">Tap to learn more</span>
               </div>
             </div>
             <div class="prog-back">
@@ -263,6 +264,8 @@ const pastEvents = [
     position: absolute;
     right: clamp(1rem, 4vw, 2.5rem);
     bottom: 0.7rem;
+    left: clamp(1rem, 4vw, 2.5rem);
+    text-align: right;
     z-index: 3;
     font-family: var(--font-body);
     font-size: 0.58rem;
@@ -291,7 +294,8 @@ const pastEvents = [
   }
   .prog-card:hover .prog-inner,
   .prog-card:focus .prog-inner,
-  .prog-card:focus-within .prog-inner { transform: rotateY(180deg); }
+  .prog-card:focus-within .prog-inner,
+  .prog-card.is-open .prog-inner { transform: rotateY(180deg); }
   .prog-front,
   .prog-back {
     position: absolute;
@@ -339,6 +343,19 @@ const pastEvents = [
     color: var(--thp-foreground);
   }
   .prog-title--light { color: #f9f4e9; text-shadow: 0 1px 10px rgba(0, 0, 0, 0.35); }
+  /* Touch devices have no hover, so nothing hints the card flips — show a tap cue there instead. */
+  .prog-tap-hint { display: none; }
+  @media (hover: none) {
+    .prog-tap-hint {
+      display: block;
+      margin-top: 0.6rem;
+      font-family: var(--font-body);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.66rem;
+      color: rgba(249, 244, 233, 0.85);
+    }
+  }
   .prog-back-title {
     margin-top: 0.4rem;
     font-family: var(--font-sans);
@@ -474,3 +491,24 @@ const pastEvents = [
   }
   .past-link { margin-top: 1.1rem; font-size: 0.95rem; }
 </style>
+
+<script>
+  // Tapping a card focuses it (flipping it via :focus already), but on many mobile
+  // browsers tapping elsewhere afterwards doesn't reliably blur it, leaving the
+  // card stuck flipped. Track an explicit open state so a second tap — on the
+  // card, another card, or anywhere else — always flips it back.
+  const cards = Array.from(document.querySelectorAll('.prog-card'));
+  const close = (card) => { card.classList.remove('is-open'); card.blur(); };
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      const wasOpen = card.classList.contains('is-open');
+      cards.forEach((c) => { if (c !== card) close(c); });
+      if (wasOpen) close(card);
+      else card.classList.add('is-open');
+    });
+  });
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.prog-card')) cards.forEach(close);
+  });
+</script>

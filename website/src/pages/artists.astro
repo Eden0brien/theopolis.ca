@@ -68,6 +68,18 @@ const artistMembers = [
     bio: `Joshua Terpstra is a Catholic visual artist and teacher based in Ottawa. Inspired by the traditions of iconography and Art Nouveau, his work explores the beauty of Christ and the saints, sacred symbolism, and, more recently, narrative scenes drawn from popular stories. Although he works primarily in digital media, Joshua also enjoys pastels and other traditional media.`,
     link: { label: 'Follow Joshua on Instagram', url: 'https://www.instagram.com/arssacra_' },
   },
+  {
+    name: 'Adele Pierce',
+    role: 'Visual Artist',
+    image: '/images/artists/adele-pierce-portrait.jpg',
+    artwork: null,
+    bio: `Adele Pierce, a Catholic visual artist living in Ottawa, has four decades of experience painting on commission as well as for galleries and other spaces. She has worked with acrylics, oils, watercolours and mixed media and is self-taught, though she credits her artist-mother and widely-read father with permitting her to be creative with absolute freedom, from a young age. Always aware at some level, even prior to her conversion in her 20’s, that she was privileged to be co-creating with God when painting, she seeks till today to convey the miracle that is Beauty, to others, through her art.
+
+Adele began to paint portraits on commission in the mid-1980’s and then spent many years painting urban landscapes, landscapes and other subject matter, always seeking to find Beauty and God’s hand in the unexpected and incidental moments of a scene. She taught art for six years and also worked as an interior designer, which led her to numerous projects including for Catholic organisations and for parishes in Ottawa.
+
+In 2022 Fr. Rob Arseneault of Annunciation of the Lord Parish in Ottawa commissioned her to renovate the Sanctuary of the church and to create paintings of the Annunciation. This remarkable and prayer-filled experience inspired her to return to portraiture through the writing of ICONS, which is what you’ll find her doing now, in her studio. She continues to paint and depict other subjects as well.`,
+    link: null,
+  },
 ];
 
 const offerings = [
@@ -118,6 +130,7 @@ const offerings = [
           <img class="offer-img" src={o.image} alt="" aria-hidden="true" loading="lazy" decoding="async" />
           <div class="offer-base">
             <h3 class="offer-title--light">{o.title}</h3>
+            <span class="offer-tap-hint" aria-hidden="true">Tap for details</span>
           </div>
           <div class="offer-reveal">
             <h3 class="offer-back-title">{o.title}</h3>
@@ -253,6 +266,8 @@ const offerings = [
     position: absolute;
     right: clamp(1rem, 4vw, 2.5rem);
     bottom: 0.7rem;
+    left: clamp(1rem, 4vw, 2.5rem);
+    text-align: right;
     z-index: 3;
     font-family: var(--font-body);
     font-size: 0.58rem;
@@ -410,7 +425,8 @@ const offerings = [
     transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .offer-card:hover .offer-img,
-  .offer-card:focus-within .offer-img { transform: scale(1.04); }
+  .offer-card:focus-within .offer-img,
+  .offer-card.is-open .offer-img { transform: scale(1.04); }
 
   /* Resting state: title over a bottom gradient */
   .offer-base {
@@ -423,8 +439,16 @@ const offerings = [
     background: linear-gradient(to top, rgba(15, 55, 82, 0.85), rgba(15, 55, 82, 0.12) 55%, transparent);
     transition: opacity 0.45s ease;
   }
+  /* Below the 4-column breakpoint, tiles are only half-width — give long words
+     (e.g. "Professional", "Intellectual") more room so they wrap instead of
+     overflowing past the card edge. */
+  @media (max-width: 859px) {
+    .offer-base { padding: 1.1rem; }
+    .offer-title--light { letter-spacing: 0.02em; font-size: 0.95rem; }
+  }
   .offer-card:hover .offer-base,
-  .offer-card:focus-within .offer-base { opacity: 0; }
+  .offer-card:focus-within .offer-base,
+  .offer-card.is-open .offer-base { opacity: 0; }
   .offer-title--light {
     margin: 0;
     font-family: var(--font-sans);
@@ -434,7 +458,21 @@ const offerings = [
     font-size: clamp(1rem, 1.4vw, 1.2rem);
     line-height: 1.15;
     color: #f9f4e9;
+    overflow-wrap: break-word;
     text-shadow: 0 1px 10px rgba(0, 0, 0, 0.35);
+  }
+  /* Touch devices have no hover, so nothing hints the tile flips — show a tap cue there instead. */
+  .offer-tap-hint { display: none; }
+  @media (hover: none) {
+    .offer-tap-hint {
+      display: block;
+      margin-top: 0.4rem;
+      font-family: var(--font-body);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.6rem;
+      color: rgba(249, 244, 233, 0.85);
+    }
   }
 
   /* Hover/focus state: full description fades in */
@@ -451,13 +489,15 @@ const offerings = [
     transition: opacity 0.45s ease;
   }
   .offer-card:hover .offer-reveal,
-  .offer-card:focus-within .offer-reveal { opacity: 1; }
+  .offer-card:focus-within .offer-reveal,
+  .offer-card.is-open .offer-reveal { opacity: 1; }
   .offer-reveal > * {
     transform: translateY(8px);
     transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .offer-card:hover .offer-reveal > *,
-  .offer-card:focus-within .offer-reveal > * { transform: none; }
+  .offer-card:focus-within .offer-reveal > *,
+  .offer-card.is-open .offer-reveal > * { transform: none; }
   .offer-back-title {
     margin: 0;
     font-family: var(--font-sans);
@@ -534,5 +574,24 @@ const offerings = [
 
     show(0);
     start();
+  });
+
+  // "What we offer" tiles: tapping a tile focuses it (revealing the back via
+  // :focus-within already), but on many mobile browsers tapping elsewhere
+  // afterwards doesn't reliably blur it, leaving the tile stuck flipped. Track
+  // an explicit open state so a second tap — on the tile, another tile, or
+  // anywhere else — always flips it back.
+  const offerCards = Array.from(document.querySelectorAll('.offer-card'));
+  const closeOffer = (card) => { card.classList.remove('is-open'); card.blur(); };
+  offerCards.forEach((card) => {
+    card.addEventListener('click', () => {
+      const wasOpen = card.classList.contains('is-open');
+      offerCards.forEach((c) => { if (c !== card) closeOffer(c); });
+      if (wasOpen) closeOffer(card);
+      else card.classList.add('is-open');
+    });
+  });
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.offer-card')) offerCards.forEach(closeOffer);
   });
 </script>

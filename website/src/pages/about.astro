@@ -168,6 +168,7 @@ const allMembers = [...founders, ...teamMembers];
             <div class="member-info">
               <h3 class="member-name">{member.name}</h3>
               <p class="member-role">{member.role}</p>
+              {member.bio && <p class="member-tap-hint" aria-hidden="true">Tap to read bio</p>}
             </div>
             {member.bio && (
               <div class="member-bio" role="tooltip">
@@ -275,6 +276,8 @@ const allMembers = [...founders, ...teamMembers];
     position: absolute;
     right: clamp(1rem, 4vw, 2.5rem);
     bottom: 0.7rem;
+    left: clamp(1rem, 4vw, 2.5rem);
+    text-align: right;
     font-family: var(--font-body);
     font-size: 0.62rem;
     letter-spacing: 0.02em;
@@ -294,7 +297,8 @@ const allMembers = [...founders, ...teamMembers];
     transition: box-shadow 0.25s ease, transform 0.25s ease;
   }
   .member-card.has-bio:hover,
-  .member-card.has-bio:focus-within {
+  .member-card.has-bio:focus-within,
+  .member-card.has-bio.is-open {
     box-shadow: 0 20px 44px -20px rgba(15, 55, 82, 0.5);
     transform: translateY(-2px);
     z-index: 20;
@@ -350,6 +354,20 @@ const allMembers = [...founders, ...teamMembers];
     min-height: 2.7em;
     color: var(--thp-muted-foreground);
   }
+  /* Touch devices have no hover, so nothing hints that a card opens a bio —
+     show an explicit tap cue there instead. */
+  .member-tap-hint { display: none; }
+  @media (hover: none) {
+    .member-tap-hint {
+      display: block;
+      margin-top: 0.5rem;
+      font-family: var(--font-body);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.66rem;
+      color: var(--thp-primary);
+    }
+  }
 
   /* ── Bio popover — opens on hover/focus (light, matches the card) ── */
   .member-bio {
@@ -376,7 +394,8 @@ const allMembers = [...founders, ...teamMembers];
     transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s ease;
   }
   .member-card:hover .member-bio,
-  .member-card:focus-within .member-bio {
+  .member-card:focus-within .member-bio,
+  .member-card.is-open .member-bio {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
@@ -418,3 +437,24 @@ const allMembers = [...founders, ...teamMembers];
     .member-photo, .member-card, .member-bio { transition: none; }
   }
 </style>
+
+<script>
+  // Tapping a card focuses it (opening the bio via :focus-within already), but on
+  // many mobile browsers tapping elsewhere afterwards doesn't reliably blur it —
+  // the popover is left stuck open. Track an explicit open state so a second tap
+  // (on the card, another card, or anywhere else) always closes it again.
+  const cards = Array.from(document.querySelectorAll('.member-card.has-bio'));
+  const close = (card) => { card.classList.remove('is-open'); card.blur(); };
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      const wasOpen = card.classList.contains('is-open');
+      cards.forEach((c) => { if (c !== card) close(c); });
+      if (wasOpen) close(card);
+      else card.classList.add('is-open');
+    });
+  });
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.member-card')) cards.forEach(close);
+  });
+</script>
